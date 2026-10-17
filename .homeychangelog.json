@@ -19,5 +19,8 @@
   },
   "1.0.7": {
     "en": "Global timeline is optional in the settings "
+  },
+  "1.0.8": {
+    "en": "Small fix to the tokens setup values"
   }
 }
