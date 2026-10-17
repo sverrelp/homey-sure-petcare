@@ -16,5 +16,8 @@
   },
   "1.0.6": {
     "en": "Fixed a bug that failed to trigger flowcards"
+  },
+  "1.0.7": {
+    "en": "Global timeline is optional in the settings "
   }
 }

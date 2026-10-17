@@ -1,6 +1,6 @@
 {
   "id": "com.sverre.surepet",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "compatibility": ">=12.3.0",
   "sdk": 3,
   "platforms": [
