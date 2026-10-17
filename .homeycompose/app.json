@@ -1,0 +1,91 @@
+{
+  "id": "com.sverre.surepet",
+  "version": "1.0.6",
+  "compatibility": ">=12.3.0",
+  "sdk": 3,
+  "platforms": [
+    "local"
+  ],
+  "name": {
+    "en": "Sure Pet Flap & Feeder",
+    "nl": "Sure Pet Flap & Feeder",
+    "no": "Sure Pet Flap & Feeder"
+  },
+  "description": {
+    "en": "Know where your pets are, and keep them safe and fed",
+    "nl": "Weet waar je huisdieren zijn en houd ze veilig en goed gevoed",
+    "no": "Vit hvor kjæledyrene dine er, og hold dem trygge og mette"
+  },
+  "tags": {
+    "en": [
+      "pet",
+      "cat",
+      "dog",
+      "pet door",
+      "cat flap",
+      "feeder",
+      "water fountain"
+    ],
+    "nl": [
+      "huisdier",
+      "kat",
+      "hond",
+      "kattenluik",
+      "huisdierdeur",
+      "voerbak",
+      "drinkfontein"
+    ],
+    "no": [
+      "kjæledyr",
+      "katt",
+      "hund",
+      "kattelem",
+      "kjæledyrdør",
+      "foringsautomat",
+      "drikkefontene"
+    ]
+  },
+  "category": [
+    "appliances"
+  ],
+  "permissions": [],
+  "brandColor": "#E4003A",
+  "images": {
+    "small": "/assets/images/small.png",
+    "large": "/assets/images/large.png",
+    "xlarge": "/assets/images/xlarge.png"
+  },
+  "author": {
+    "name": "Sverre"
+  },
+  "api": {
+    "login": {
+      "method": "POST",
+      "path": "/login"
+    },
+    "getStatus": {
+      "method": "GET",
+      "path": "/status"
+    },
+    "logout": {
+      "method": "POST",
+      "path": "/logout"
+    },
+    "getHousehold": {
+      "method": "GET",
+      "path": "/household"
+    },
+    "sync": {
+      "method": "POST",
+      "path": "/sync"
+    },
+    "setLockMode": {
+      "method": "POST",
+      "path": "/lock-mode"
+    },
+    "saveSettings": {
+      "method": "POST",
+      "path": "/settings"
+    }
+  }
+}

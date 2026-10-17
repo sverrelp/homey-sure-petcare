@@ -1,0 +1,167 @@
+{
+  "device": {
+    "not_found": "Dit apparaat bestaat niet meer in je Sure Petcare-account",
+    "login_required": "Log in bij Sure Petcare via de app-instellingen",
+    "connection_lost": "Sure Petcare is niet bereikbaar",
+    "command_failed": "Sure Petcare heeft het commando niet geaccepteerd: {{reason}}"
+  },
+  "pair": {
+    "login_required": "Log eerst in bij Sure Petcare via de app-instellingen",
+    "no_data": "Nog geen gegevens ontvangen van Sure Petcare, probeer het zo opnieuw"
+  },
+  "settings": {
+    "title": "Sure Petcare-huishouden",
+    "back": "Terug"
+  },
+  "account": {
+    "title": "Account en configuratie",
+    "email": "E-mailadres",
+    "password": "Wachtwoord",
+    "interval": "Update-interval",
+    "minutes": "{{count}} min",
+    "seconds": "{{count}} sec",
+    "login": "Inloggen",
+    "update": "Inloggegevens bijwerken",
+    "logout": "Uitloggen",
+    "section": "Account"
+  },
+  "health": {
+    "title": "Systeemstatus",
+    "status": "Verbinding",
+    "last_sync": "Laatste succesvolle synchronisatie",
+    "never": "Nooit",
+    "sync": "Nu synchroniseren",
+    "syncing": "Synchroniseren..."
+  },
+  "feeder": {
+    "bowl_left": "Linkerbak",
+    "bowl_right": "Rechterbak",
+    "bowl_both": "Bak"
+  },
+  "state": {
+    "no_credentials": "Niet ingelogd",
+    "connecting": "Verbinden...",
+    "connected": "Verbonden",
+    "auth_error": "Fout: inloggen mislukt",
+    "rate_limited": "Beperkt door Sure Petcare, later opnieuw proberen",
+    "network_error": "Fout: Sure Petcare niet bereikbaar"
+  },
+  "pets": {
+    "title": "Huisdieren",
+    "empty": "Nog geen huisdieren gevonden.",
+    "inside": "Binnen",
+    "outside": "Buiten",
+    "unknown": "Onbekend",
+    "last_seen": "Laatst gezien",
+    "since": "Sinds",
+    "food_today": "Voer vandaag",
+    "water_today": "Water vandaag",
+    "meals_today": "Maaltijden vandaag",
+    "drinks_today": "Keer gedronken vandaag",
+    "trips_today": "Keer buiten vandaag",
+    "outside_today": "Vandaag buiten",
+    "last_door": "Laatste deur",
+    "profile": "Profiel",
+    "species": "Soort",
+    "gender": "Geslacht",
+    "age": "Leeftijd",
+    "weight": "Gewicht",
+    "food_type": "Voedingstype",
+    "spayed": "Gesteriliseerd",
+    "chip": "Microchip",
+    "species_cat": "Kat",
+    "species_dog": "Hond",
+    "gender_male": "Mannelijk",
+    "gender_female": "Vrouwelijk",
+    "food_wet": "Natvoer",
+    "food_dry": "Droogvoer",
+    "food_both": "Nat- en droogvoer",
+    "yes": "Ja",
+    "no": "Nee",
+    "hours_minutes": "{{hours}} u {{minutes}} min",
+    "minutes": "{{minutes}} min",
+    "age_years": "{{years}} jr {{months}} mnd",
+    "age_months": "{{months}} mnd",
+    "invalid_weight": "Voer een gewicht in tussen 0,1 en 100 kg.",
+    "invalid_birth_date": "Voer de geboortedatum in als JJJJ-MM-DD (bijvoorbeeld 2020-03-15), of laat het leeg.",
+    "save_failed": "Opslaan in Sure Petcare is mislukt: {{reason}}",
+    "today": "Vandaag"
+  },
+  "devices": {
+    "title": "Apparaten en snelle acties",
+    "empty": "Nog geen apparaten gevonden.",
+    "battery": "Batterij",
+    "flap": "Huisdierdeur",
+    "feeder": "Voerbak",
+    "felaqua": "Drinkfontein",
+    "left_bowl": "Linker bak",
+    "right_bowl": "Rechter bak",
+    "water_level": "Waterniveau",
+    "water_volume": "Water",
+    "offline": "Offline",
+    "section": "Apparaten",
+    "lock_mode": "Vergrendelmodus"
+  },
+  "mode": {
+    "normal": "Normaal",
+    "keep_in": "Binnen houden",
+    "keep_out": "Buiten houden",
+    "locked": "Vergrendeld",
+    "curfew": "Avondklok"
+  },
+  "msg": {
+    "logging_in": "Inloggen...",
+    "logged_in": "Succesvol ingelogd",
+    "saved": "Opgeslagen",
+    "mode_set": "Vergrendelmodus ingesteld op {{mode}}"
+  },
+  "error": {
+    "auth": "Inloggen mislukt, controleer je e-mailadres en wachtwoord",
+    "rate_limited": "Sure Petcare beperkt het aantal verzoeken, probeer het over een paar minuten opnieuw",
+    "network": "Sure Petcare is niet bereikbaar",
+    "missing": "Vul je e-mailadres en wachtwoord in",
+    "unknown": "Er ging iets mis"
+  },
+  "system": {
+    "title": "Systeem"
+  },
+  "overview": {
+    "synced": "gesynchroniseerd {{ago}}"
+  },
+  "mode_hint": {
+    "normal": "Huisdieren kunnen in en uit",
+    "keep_in": "Huisdieren kunnen naar binnen, maar niet naar buiten",
+    "keep_out": "Huisdieren kunnen naar buiten, maar niet naar binnen",
+    "locked": "Niemand komt erdoor",
+    "curfew": "Volgt de avondklok-tijden uit de Sure Petcare-app"
+  },
+  "widget": {
+    "login_required": "Log in bij Sure Petcare in de app-instellingen",
+    "connecting": "Verbinden...",
+    "unavailable": "Sure Petcare is niet bereikbaar",
+    "empty": "Nog niets om te tonen",
+    "section_pets": "Huisdieren",
+    "section_doors": "Huisdierdeuren",
+    "section_devices": "Voerbakken en water",
+    "mark_inside": "Markeer als binnen",
+    "mark_outside": "Markeer als buiten",
+    "used_by": "Laatst gebruikt door {{name}}",
+    "last_used": "Laatst gebruikt",
+    "just_now": "zojuist",
+    "minutes_ago": "{{count}} min geleden",
+    "hours_ago": "{{count}} u geleden",
+    "days_ago": "{{count}} d geleden",
+    "low_battery": "Batterij bijna leeg",
+    "command_failed": "Het commando kon niet worden verzonden",
+    "bowl": "Bak",
+    "title": "Sure Pet Flap & Feeder",
+    "last_seen": "Laatst gezien {{time}}"
+  },
+  "mode_short": {
+    "normal": "Open",
+    "keep_in": "Alleen in",
+    "keep_out": "Alleen uit",
+    "locked": "Dicht",
+    "curfew": "Avondklok"
+  }
+}

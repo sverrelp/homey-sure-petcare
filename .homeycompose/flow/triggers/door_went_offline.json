@@ -1,0 +1,7 @@
+{
+  "title": { "en": "Door went offline", "nl": "Deur is offline gegaan", "no": "Døren gikk offline" },
+  "args": [ { "type": "device", "name": "door", "filter": "driver_id=flap", "placeholder": { "en": "Door", "nl": "Deur", "no": "Dør" } } ],
+  "tokens": [
+    { "name": "door", "type": "string", "title": { "en": "Door", "nl": "Deur", "no": "Dør" }, "example": { "en": "Back door" } }
+  ]
+}

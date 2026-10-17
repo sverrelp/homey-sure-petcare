@@ -1,0 +1,8 @@
+node_modules/
+.homeybuild/
+env.json
+*.log
+.cursor/
+.vscode/
+.DS_Store
+Thumbs.db

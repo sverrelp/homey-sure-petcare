@@ -1,0 +1,9 @@
+{
+  "title": { "en": "A bowl was refilled", "nl": "Een bak is bijgevuld", "no": "En skål ble fylt på" },
+  "args": [ { "type": "device", "name": "device", "filter": "driver_id=feeder", "placeholder": { "en": "Feeder", "nl": "Voerbak", "no": "Foringsautomat" } } ],
+  "tokens": [
+    { "name": "name", "type": "string", "title": { "en": "Feeder", "nl": "Voerbak", "no": "Foringsautomat" }, "example": { "en": "Kitchen" } },
+    { "name": "bowl", "type": "string", "title": { "en": "Bowl", "nl": "Bak", "no": "Skål" }, "example": { "en": "Left bowl" } },
+    { "name": "amount", "type": "number", "title": { "en": "Added in grams", "nl": "Toegevoegd in gram", "no": "Tilført i gram" }, "example": 50 }
+  ]
+}

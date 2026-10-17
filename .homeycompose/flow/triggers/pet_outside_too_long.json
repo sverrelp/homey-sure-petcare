@@ -1,0 +1,48 @@
+{
+  "title": {
+    "en": "Has been outside too long",
+    "nl": "Is te lang buiten",
+    "no": "Har vært ute for lenge"
+  },
+  "hint": {
+    "en": "Triggers once per stay outside when the pet has been outside longer than the \"Maximum hours outside\" in the pet device settings.",
+    "nl": "Wordt één keer per buitenverblijf geactiveerd als het huisdier langer buiten is dan de \"Maximaal aantal uren buiten\" in de apparaatinstellingen van het huisdier.",
+    "no": "Utløses én gang per opphold ute når kjæledyret har vært ute lenger enn «Maksimalt antall timer ute» i enhetsinnstillingene for kjæledyret."
+  },
+  "args": [
+    {
+      "type": "device",
+      "name": "pet",
+      "filter": "driver_id=pet",
+      "placeholder": {
+        "en": "Pet",
+        "nl": "Huisdier",
+        "no": "Kjæledyr"
+      }
+    }
+  ],
+  "tokens": [
+    {
+      "name": "name",
+      "type": "string",
+      "title": {
+        "en": "Name",
+        "nl": "Naam",
+        "no": "Navn"
+      },
+      "example": {
+        "en": "Whiskers"
+      }
+    },
+    {
+      "name": "hours",
+      "type": "number",
+      "title": {
+        "en": "Hours outside",
+        "nl": "Uren buiten",
+        "no": "Timer ute"
+      },
+      "example": 6
+    }
+  ]
+}

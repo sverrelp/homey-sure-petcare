@@ -1,0 +1,20 @@
+{
+  "1.0.1": {
+    "en": "Beta test"
+  },
+  "1.0.2": {
+    "en": "Public test"
+  },
+  "1.0.3": {
+    "en": "Device tuning"
+  },
+  "1.0.4": {
+    "en": "The app now supports widgets"
+  },
+  "1.0.5": {
+    "en": "Widgets are now showing all households"
+  },
+  "1.0.6": {
+    "en": "Fixed a bug that failed to trigger flowcards"
+  }
+}

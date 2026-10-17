@@ -1,0 +1,14 @@
+{
+  "icon": "/assets/capabilities/measure_trips_today.svg",
+  "type": "number",
+  "title": {
+    "en": "Trips outside today",
+    "nl": "Keer buiten vandaag",
+    "no": "Turer ut i dag"
+  },
+  "decimals": 0,
+  "insights": true,
+  "getable": true,
+  "setable": false,
+  "uiComponent": "sensor"
+}

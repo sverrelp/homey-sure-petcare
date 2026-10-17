@@ -1,0 +1,48 @@
+{
+  "title": {
+    "en": "Reached daily water goal",
+    "nl": "Heeft het dagelijkse waterdoel bereikt",
+    "no": "Har nådd det daglige vannmålet"
+  },
+  "hint": {
+    "en": "Triggers once a day when the pet has drunk at least the \"Daily water goal\" from the pet device settings.",
+    "nl": "Wordt één keer per dag geactiveerd als het huisdier minstens het \"Dagelijks waterdoel\" uit de apparaatinstellingen van het huisdier heeft gedronken.",
+    "no": "Utløses én gang om dagen når kjæledyret har drukket minst «Daglig vannmål» fra enhetsinnstillingene for kjæledyret."
+  },
+  "args": [
+    {
+      "type": "device",
+      "name": "pet",
+      "filter": "driver_id=pet",
+      "placeholder": {
+        "en": "Pet",
+        "nl": "Huisdier",
+        "no": "Kjæledyr"
+      }
+    }
+  ],
+  "tokens": [
+    {
+      "name": "name",
+      "type": "string",
+      "title": {
+        "en": "Name",
+        "nl": "Naam",
+        "no": "Navn"
+      },
+      "example": {
+        "en": "Whiskers"
+      }
+    },
+    {
+      "name": "amount",
+      "type": "number",
+      "title": {
+        "en": "Drunk today in ml",
+        "nl": "Vandaag gedronken in ml",
+        "no": "Drukket i dag i ml"
+      },
+      "example": 150
+    }
+  ]
+}

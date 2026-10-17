@@ -1,0 +1,18 @@
+{
+  "title": { "en": "Mode !{{is|isn't}} set to", "nl": "Modus staat !{{wel|niet}} op", "no": "Modus !{{er|er ikke}} satt til" },
+  "titleFormatted": {
+    "en": "Mode !{{is|isn't}} set to [[mode]]",
+    "nl": "Modus staat !{{wel|niet}} op [[mode]]",
+    "no": "Modus !{{er|er ikke}} satt til [[mode]]"
+  },
+  "args": [
+    { "type": "device", "name": "door", "filter": "driver_id=flap", "placeholder": { "en": "Door", "nl": "Deur", "no": "Dør" } },
+    { "type": "dropdown", "name": "mode", "values": [
+        { "id": "normal", "title": { "en": "Normal", "nl": "Normaal", "no": "Normal" }, "label": { "en": "Normal", "nl": "Normaal", "no": "Normal" } },
+        { "id": "keep_in", "title": { "en": "Keep in", "nl": "Binnen houden", "no": "Hold inne" }, "label": { "en": "Keep in", "nl": "Binnen houden", "no": "Hold inne" } },
+        { "id": "keep_out", "title": { "en": "Keep out", "nl": "Buiten houden", "no": "Hold ute" }, "label": { "en": "Keep out", "nl": "Buiten houden", "no": "Hold ute" } },
+        { "id": "locked", "title": { "en": "Locked", "nl": "Vergrendeld", "no": "Låst" }, "label": { "en": "Locked", "nl": "Vergrendeld", "no": "Låst" } },
+        { "id": "curfew", "title": { "en": "Curfew", "nl": "Avondklok", "no": "Utegangsforbud" }, "label": { "en": "Curfew", "nl": "Avondklok", "no": "Utegangsforbud" } }
+      ] }
+  ]
+}

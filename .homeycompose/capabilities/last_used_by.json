@@ -1,0 +1,12 @@
+{
+  "icon": "/assets/capabilities/last_used_by.svg",
+  "type": "string",
+  "title": {
+    "en": "Last used by",
+    "nl": "Laatst gebruikt door",
+    "no": "Sist brukt av"
+  },
+  "getable": true,
+  "setable": false,
+  "uiComponent": "sensor"
+}

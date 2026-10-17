@@ -1,0 +1,14 @@
+{
+  "icon": "/assets/capabilities/measure_drinks_today.svg",
+  "type": "number",
+  "title": {
+    "en": "Drinks today",
+    "nl": "Keer gedronken vandaag",
+    "no": "Drikkerunder i dag"
+  },
+  "decimals": 0,
+  "insights": true,
+  "getable": true,
+  "setable": false,
+  "uiComponent": "sensor"
+}

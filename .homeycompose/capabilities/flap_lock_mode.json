@@ -1,0 +1,19 @@
+{
+  "icon": "/assets/capabilities/flap_lock_mode.svg",
+  "type": "enum",
+  "title": {
+    "en": "Lock mode",
+    "nl": "Vergrendelmodus",
+    "no": "Låsemodus"
+  },
+  "getable": true,
+  "setable": true,
+  "uiComponent": "picker",
+  "values": [
+    { "id": "normal", "title": { "en": "Normal", "nl": "Normaal", "no": "Normal" } },
+    { "id": "keep_in", "title": { "en": "Keep in", "nl": "Binnen houden", "no": "Hold inne" } },
+    { "id": "keep_out", "title": { "en": "Keep out", "nl": "Buiten houden", "no": "Hold ute" } },
+    { "id": "locked", "title": { "en": "Locked", "nl": "Vergrendeld", "no": "Låst" } },
+    { "id": "curfew", "title": { "en": "Curfew", "nl": "Avondklok", "no": "Utegangsforbud" } }
+  ]
+}

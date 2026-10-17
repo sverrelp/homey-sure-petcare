@@ -1,0 +1,32 @@
+{
+  "icon": "/assets/capabilities/alarm_offline.svg",
+  "type": "boolean",
+  "title": {
+    "en": "Offline",
+    "nl": "Offline",
+    "no": "Frakoblet"
+  },
+  "titleTrue": {
+    "en": "Offline",
+    "nl": "Offline",
+    "no": "Frakoblet"
+  },
+  "titleFalse": {
+    "en": "Online",
+    "nl": "Online",
+    "no": "Tilkoblet"
+  },
+  "insightsTitleTrue": {
+    "en": "Device went offline",
+    "nl": "Apparaat is offline gegaan",
+    "no": "Enheten gikk offline"
+  },
+  "insightsTitleFalse": {
+    "en": "Device came online",
+    "nl": "Apparaat is online gekomen",
+    "no": "Enheten kom online"
+  },
+  "getable": true,
+  "setable": false,
+  "uiComponent": "sensor"
+}

@@ -1,0 +1,15 @@
+{
+  "icon": "/assets/capabilities/measure_food_eaten_today.svg",
+  "type": "number",
+  "title": {
+    "en": "Food eaten today",
+    "nl": "Vandaag gegeten",
+    "no": "Spist i dag"
+  },
+  "units": { "en": "g" },
+  "decimals": 0,
+  "insights": true,
+  "getable": true,
+  "setable": false,
+  "uiComponent": "sensor"
+}

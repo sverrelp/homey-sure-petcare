@@ -1,0 +1,12 @@
+{
+  "icon": "/assets/capabilities/last_door.svg",
+  "type": "string",
+  "title": {
+    "en": "Last door",
+    "nl": "Laatste deur",
+    "no": "Siste dør"
+  },
+  "getable": true,
+  "setable": false,
+  "uiComponent": "sensor"
+}

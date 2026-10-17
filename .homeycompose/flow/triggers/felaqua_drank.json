@@ -1,0 +1,8 @@
+{
+  "title": { "en": "A pet drank from the fountain", "nl": "Een huisdier dronk van de fontein", "no": "Et kjæledyr drakk fra fontenen" },
+  "args": [ { "type": "device", "name": "device", "filter": "driver_id=felaqua", "placeholder": { "en": "Water fountain", "nl": "Drinkfontein", "no": "Drikkefontene" } } ],
+  "tokens": [
+    { "name": "name", "type": "string", "title": { "en": "Pet", "nl": "Huisdier", "no": "Kjæledyr" }, "example": { "en": "Whiskers" } },
+    { "name": "amount", "type": "number", "title": { "en": "Amount in ml", "nl": "Hoeveelheid in ml", "no": "Mengde i ml" }, "example": 40 }
+  ]
+}

@@ -1,0 +1,156 @@
+{
+  "name": { "en": "Pet", "nl": "Huisdier", "no": "Kjæledyr" },
+  "class": "sensor",
+  "platforms": ["local"],
+  "connectivity": ["cloud"],
+  "capabilities": [
+    "pet_presence",
+    "last_seen",
+    "last_door",
+    "measure_food_eaten_today",
+    "measure_meals_today",
+    "measure_water_drunk_today",
+    "measure_drinks_today",
+    "measure_trips_today",
+    "measure_outside_minutes_today"
+  ],
+  "images": {
+    "small": "{{driverAssetsPath}}/images/small.png",
+    "large": "{{driverAssetsPath}}/images/large.png",
+    "xlarge": "{{driverAssetsPath}}/images/xlarge.png"
+  },
+  "settings": [
+    {
+      "type": "group",
+      "label": { "en": "Profile", "nl": "Profiel", "no": "Profil" },
+      "children": [
+        {
+          "id": "species",
+          "type": "label",
+          "label": { "en": "Species", "nl": "Soort", "no": "Art" },
+          "value": "-"
+        },
+        {
+          "id": "gender",
+          "type": "label",
+          "label": { "en": "Gender", "nl": "Geslacht", "no": "Kjønn" },
+          "value": "-"
+        },
+        {
+          "id": "weight_kg",
+          "type": "number",
+          "label": { "en": "Weight (kg)", "nl": "Gewicht (kg)", "no": "Vekt (kg)" },
+          "hint": {
+            "en": "Saved to Sure Petcare. Shows 0 while no weight is set.",
+            "nl": "Wordt opgeslagen in Sure Petcare. Toont 0 zolang er geen gewicht is ingesteld.",
+            "no": "Lagres i Sure Petcare. Viser 0 så lenge vekt ikke er satt."
+          },
+          "value": 0,
+          "min": 0,
+          "max": 100,
+          "step": 0.1
+        },
+        {
+          "id": "birth_date",
+          "type": "text",
+          "label": { "en": "Date of birth (YYYY-MM-DD)", "nl": "Geboortedatum (JJJJ-MM-DD)", "no": "Fødselsdato (ÅÅÅÅ-MM-DD)" },
+          "hint": {
+            "en": "Saved to Sure Petcare. Leave empty if unknown.",
+            "nl": "Wordt opgeslagen in Sure Petcare. Laat leeg als onbekend.",
+            "no": "Lagres i Sure Petcare. La stå tom hvis ukjent."
+          },
+          "value": ""
+        },
+        {
+          "id": "age",
+          "type": "label",
+          "label": { "en": "Age", "nl": "Leeftijd", "no": "Alder" },
+          "value": "-"
+        },
+        {
+          "id": "food_type",
+          "type": "dropdown",
+          "label": { "en": "Food type", "nl": "Voedingstype", "no": "Fôrtype" },
+          "value": "0",
+          "values": [
+            { "id": "0", "label": { "en": "Not set", "nl": "Niet ingesteld", "no": "Ikke satt" } },
+            { "id": "wet", "label": { "en": "Wet food", "nl": "Natvoer", "no": "Våtfôr" } },
+            { "id": "dry", "label": { "en": "Dry food", "nl": "Droogvoer", "no": "Tørrfôr" } },
+            { "id": "both", "label": { "en": "Wet and dry", "nl": "Nat en droog", "no": "Våt og tørr" } }
+          ]
+        },
+        {
+          "id": "spayed",
+          "type": "checkbox",
+          "label": { "en": "Neutered", "nl": "Gesteriliseerd", "no": "Kastrert eller sterilisert" },
+          "value": false
+        },
+        {
+          "id": "chip",
+          "type": "label",
+          "label": { "en": "Microchip", "nl": "Microchip", "no": "Mikrochip" },
+          "value": "-"
+        }
+      ]
+    },
+    {
+      "type": "group",
+      "label": { "en": "Alerts and goals", "nl": "Meldingen en doelen", "no": "Varsler og mål" },
+      "children": [
+        {
+          "id": "max_outside_hours",
+          "type": "number",
+          "label": { "en": "Maximum hours outside", "nl": "Maximaal aantal uren buiten", "no": "Maksimalt antall timer ute" },
+          "hint": {
+            "en": "Use this in a Flow with the trigger \"Has been outside too long\". 0 turns it off.",
+            "nl": "Gebruik dit in een Flow met de trigger \"Is te lang buiten\". 0 schakelt het uit.",
+            "no": "Bruk dette i en Flow med utløseren «Har vært ute for lenge». 0 slår det av."
+          },
+          "value": 0,
+          "min": 0,
+          "max": 72,
+          "step": 0.5
+        },
+        {
+          "id": "food_goal",
+          "type": "number",
+          "label": { "en": "Daily food goal (g)", "nl": "Dagelijks voerdoel (g)", "no": "Daglig matmål (g)" },
+          "hint": {
+            "en": "Triggers \"Reached daily food goal\" once a day. 0 turns it off.",
+            "nl": "Activeert \"Heeft het dagelijkse voerdoel bereikt\" één keer per dag. 0 schakelt het uit.",
+            "no": "Utløser «Har nådd det daglige matmålet» én gang om dagen. 0 slår det av."
+          },
+          "value": 0,
+          "min": 0,
+          "max": 2000,
+          "step": 5
+        },
+        {
+          "id": "water_goal",
+          "type": "number",
+          "label": { "en": "Daily water goal (ml)", "nl": "Dagelijks waterdoel (ml)", "no": "Daglig vannmål (ml)" },
+          "hint": {
+            "en": "Triggers \"Reached daily water goal\" once a day. 0 turns it off.",
+            "nl": "Activeert \"Heeft het dagelijkse waterdoel bereikt\" één keer per dag. 0 schakelt het uit.",
+            "no": "Utløser «Har nådd det daglige vannmålet» én gang om dagen. 0 slår det av."
+          },
+          "value": 0,
+          "min": 0,
+          "max": 3000,
+          "step": 5
+        }
+      ]
+    }
+  ],
+  "pair": [
+    {
+      "id": "list_devices",
+      "template": "list_devices",
+      "navigation": { "next": "add_devices" }
+    },
+    {
+      "id": "add_devices",
+      "template": "add_devices"
+    }
+  ]
+}

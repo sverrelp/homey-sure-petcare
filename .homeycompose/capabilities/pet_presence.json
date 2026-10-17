@@ -1,0 +1,17 @@
+{
+  "icon": "/assets/capabilities/pet_presence.svg",
+  "type": "enum",
+  "title": {
+    "en": "Presence",
+    "nl": "Aanwezigheid",
+    "no": "Tilstedeværelse"
+  },
+  "getable": true,
+  "setable": false,
+  "uiComponent": "sensor",
+  "values": [
+    { "id": "inside", "title": { "en": "Inside", "nl": "Binnen", "no": "Inne" } },
+    { "id": "outside", "title": { "en": "Outside", "nl": "Buiten", "no": "Ute" } },
+    { "id": "unknown", "title": { "en": "Unknown", "nl": "Onbekend", "no": "Ukjent" } }
+  ]
+}

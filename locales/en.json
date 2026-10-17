@@ -1,0 +1,167 @@
+{
+  "device": {
+    "not_found": "This device no longer exists in your Sure Petcare account",
+    "login_required": "Log in to Sure Petcare in the app settings",
+    "connection_lost": "Cannot reach Sure Petcare",
+    "command_failed": "Sure Petcare did not accept the command: {{reason}}"
+  },
+  "pair": {
+    "login_required": "Log in to Sure Petcare in the app settings first",
+    "no_data": "No data received from Sure Petcare yet, try again in a moment"
+  },
+  "settings": {
+    "title": "Sure Petcare household",
+    "back": "Back"
+  },
+  "account": {
+    "title": "Account and configuration",
+    "email": "Email address",
+    "password": "Password",
+    "interval": "Polling interval",
+    "minutes": "{{count}} min",
+    "seconds": "{{count}} sec",
+    "login": "Log in",
+    "update": "Update login",
+    "logout": "Log out",
+    "section": "Account"
+  },
+  "health": {
+    "title": "System health",
+    "status": "Connection",
+    "last_sync": "Last successful sync",
+    "never": "Never",
+    "sync": "Force sync",
+    "syncing": "Syncing..."
+  },
+  "feeder": {
+    "bowl_left": "Left bowl",
+    "bowl_right": "Right bowl",
+    "bowl_both": "Bowl"
+  },
+  "state": {
+    "no_credentials": "Not logged in",
+    "connecting": "Connecting...",
+    "connected": "Connected",
+    "auth_error": "Error: login failed",
+    "rate_limited": "Rate limited, retrying later",
+    "network_error": "Error: cannot reach Sure Petcare"
+  },
+  "pets": {
+    "title": "Pets",
+    "empty": "No pets found yet.",
+    "inside": "Inside",
+    "outside": "Outside",
+    "unknown": "Unknown",
+    "last_seen": "Last seen",
+    "since": "Since",
+    "food_today": "Food today",
+    "water_today": "Water today",
+    "meals_today": "Meals today",
+    "drinks_today": "Drinks today",
+    "trips_today": "Trips outside today",
+    "outside_today": "Outside today",
+    "last_door": "Last door",
+    "profile": "Profile",
+    "species": "Species",
+    "gender": "Gender",
+    "age": "Age",
+    "weight": "Weight",
+    "food_type": "Food type",
+    "spayed": "Neutered",
+    "chip": "Microchip",
+    "species_cat": "Cat",
+    "species_dog": "Dog",
+    "gender_male": "Male",
+    "gender_female": "Female",
+    "food_wet": "Wet food",
+    "food_dry": "Dry food",
+    "food_both": "Wet and dry food",
+    "yes": "Yes",
+    "no": "No",
+    "hours_minutes": "{{hours}} h {{minutes}} min",
+    "minutes": "{{minutes}} min",
+    "age_years": "{{years}} yr {{months}} mo",
+    "age_months": "{{months}} mo",
+    "invalid_weight": "Enter a weight between 0.1 and 100 kg.",
+    "invalid_birth_date": "Enter the date of birth as YYYY-MM-DD (for example 2020-03-15), or leave it empty.",
+    "save_failed": "Could not save to Sure Petcare: {{reason}}",
+    "today": "Today"
+  },
+  "devices": {
+    "title": "Devices and quick actions",
+    "empty": "No devices found yet.",
+    "battery": "Battery",
+    "flap": "Pet door",
+    "feeder": "Feeder",
+    "felaqua": "Water fountain",
+    "left_bowl": "Left bowl",
+    "right_bowl": "Right bowl",
+    "water_level": "Water level",
+    "water_volume": "Water",
+    "offline": "Offline",
+    "section": "Devices",
+    "lock_mode": "Lock mode"
+  },
+  "mode": {
+    "normal": "Normal",
+    "keep_in": "Keep in",
+    "keep_out": "Keep out",
+    "locked": "Locked",
+    "curfew": "Curfew"
+  },
+  "msg": {
+    "logging_in": "Logging in...",
+    "logged_in": "Logged in successfully",
+    "saved": "Saved",
+    "mode_set": "Lock mode set to {{mode}}"
+  },
+  "error": {
+    "auth": "Login failed, check your email and password",
+    "rate_limited": "Sure Petcare is rate limiting requests, try again in a few minutes",
+    "network": "Cannot reach Sure Petcare",
+    "missing": "Enter your email address and password",
+    "unknown": "Something went wrong"
+  },
+  "system": {
+    "title": "System"
+  },
+  "overview": {
+    "synced": "synced {{ago}}"
+  },
+  "mode_hint": {
+    "normal": "Pets can go in and out",
+    "keep_in": "Pets can come in, but not go out",
+    "keep_out": "Pets can go out, but not come in",
+    "locked": "Nobody gets through",
+    "curfew": "Follows the curfew times set in the Sure Petcare app"
+  },
+  "widget": {
+    "login_required": "Log in to Sure Petcare in the app settings",
+    "connecting": "Connecting...",
+    "unavailable": "Cannot reach Sure Petcare",
+    "empty": "Nothing to show yet",
+    "section_pets": "Pets",
+    "section_doors": "Pet doors",
+    "section_devices": "Feeders and water",
+    "mark_inside": "Mark as inside",
+    "mark_outside": "Mark as outside",
+    "used_by": "Last used by {{name}}",
+    "last_used": "Last used",
+    "just_now": "just now",
+    "minutes_ago": "{{count}} min ago",
+    "hours_ago": "{{count}} h ago",
+    "days_ago": "{{count}} d ago",
+    "low_battery": "Low battery",
+    "command_failed": "Could not send the command",
+    "bowl": "Bowl",
+    "title": "Sure Pet Flap & Feeder",
+    "last_seen": "Last seen {{time}}"
+  },
+  "mode_short": {
+    "normal": "Unlocked",
+    "keep_in": "In only",
+    "keep_out": "Out only",
+    "locked": "Locked",
+    "curfew": "Curfew"
+  }
+}

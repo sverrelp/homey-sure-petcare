@@ -1,0 +1,7 @@
+/.cursor/
+/*.md
+/tsconfig.json
+/.eslintrc.json
+/env.json
+/mockups/
+/tools/

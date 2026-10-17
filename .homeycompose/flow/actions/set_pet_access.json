@@ -1,0 +1,35 @@
+{
+  "title": { "en": "Set pet access on a door", "nl": "Stel toegang van huisdier op een deur in", "no": "Sett kjæledyrets tilgang på en dør" },
+  "titleFormatted": {
+    "en": "Set access on [[door]] to [[access]]",
+    "nl": "Stel toegang op [[door]] in op [[access]]",
+    "no": "Sett tilgang på [[door]] til [[access]]"
+  },
+  "hint": {
+    "en": "Changes whether this pet may use the door or must stay inside. Other pets are not affected. The door updates within a short time.",
+    "nl": "Bepaalt of dit huisdier de deur mag gebruiken of binnen moet blijven. Andere huisdieren worden niet beïnvloed. De deur wordt binnen korte tijd bijgewerkt.",
+    "no": "Bestemmer om dette kjæledyret kan bruke døren eller må holde seg inne. Andre kjæledyr påvirkes ikke. Døren oppdateres etter kort tid."
+  },
+  "args": [
+    {
+      "type": "device",
+      "name": "pet",
+      "filter": "driver_id=pet",
+      "placeholder": { "en": "Pet", "nl": "Huisdier", "no": "Kjæledyr" }
+    },
+    {
+      "type": "device",
+      "name": "door",
+      "filter": "driver_id=flap",
+      "placeholder": { "en": "Door", "nl": "Deur", "no": "Dør" }
+    },
+    {
+      "type": "dropdown",
+      "name": "access",
+      "values": [
+        { "id": "free", "title": { "en": "Free in and out", "nl": "Vrij in en uit", "no": "Fri inn og ut" }, "label": { "en": "Free in and out", "nl": "Vrij in en uit", "no": "Fri inn og ut" } },
+        { "id": "indoor_only", "title": { "en": "Stay inside", "nl": "Binnen blijven", "no": "Hold inne" }, "label": { "en": "Stay inside", "nl": "Binnen blijven", "no": "Hold inne" } }
+      ]
+    }
+  ]
+}

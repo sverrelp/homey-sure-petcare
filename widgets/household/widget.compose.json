@@ -1,0 +1,73 @@
+{
+  "name": {
+    "en": "Household",
+    "nl": "Huishouden",
+    "no": "Husholdning"
+  },
+  "transparent": false,
+  "settings": [
+    {
+      "id": "showPets",
+      "type": "checkbox",
+      "value": true,
+      "title": {
+        "en": "Show pets",
+        "nl": "Toon huisdieren",
+        "no": "Vis kjæledyr"
+      },
+      "hint": {
+        "en": "Who is inside or outside.",
+        "nl": "Wie er binnen of buiten is.",
+        "no": "Hvem som er inne eller ute."
+      }
+    },
+    {
+      "id": "showDoors",
+      "type": "checkbox",
+      "value": true,
+      "title": {
+        "en": "Show pet doors",
+        "nl": "Toon huisdierdeuren",
+        "no": "Vis kjæledyrdører"
+      },
+      "hint": {
+        "en": "Lock mode and quick controls for each pet door.",
+        "nl": "Vergrendelmodus en snelle bediening voor elke huisdierdeur.",
+        "no": "Låsemodus og hurtigkontroller for hver kjæledyrdør."
+      }
+    },
+    {
+      "id": "showDevices",
+      "type": "checkbox",
+      "value": true,
+      "title": {
+        "en": "Show feeders and water",
+        "nl": "Toon voerbakken en water",
+        "no": "Vis foringsautomater og vann"
+      },
+      "hint": {
+        "en": "Food in the bowls and the water level.",
+        "nl": "Voer in de bakken en het waterniveau.",
+        "no": "Fôr i skålene og vannivået."
+      }
+    }
+  ],
+  "api": {
+    "getOverview": {
+      "method": "GET",
+      "path": "/overview"
+    },
+    "setLockMode": {
+      "method": "POST",
+      "path": "/lock-mode"
+    },
+    "getPetPhoto": {
+      "method": "POST",
+      "path": "/pet-photo"
+    },
+    "setPetPosition": {
+      "method": "POST",
+      "path": "/pet-position"
+    }
+  }
+}

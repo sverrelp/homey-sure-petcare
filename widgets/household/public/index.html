@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <style>
+    /* Everything below uses Homey widget variables, so light and dark mode follow the dashboard. */
+    * { box-sizing: border-box; }
+    body.homey-widget { margin: 0; overflow-x: hidden; }
+    button { font: inherit; color: inherit; background: none; border: 0; padding: 0; margin: 0; text-align: left; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+    button:disabled { cursor: default; }
+
+    .stack { display: flex; flex-direction: column; gap: var(--homey-su-3); width: 100%; }
+    .section-title { margin: 0 0 var(--homey-su-1); }
+    /* Cards flow side by side as soon as the minimum width (--min) fits. */
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(var(--min, 200px), 100%), 1fr)); gap: var(--homey-su-2); align-items: start; }
+
+    .topbar { display: flex; align-items: center; gap: var(--homey-su-2); min-width: 0; }
+    .paw { flex: none; width: calc(var(--homey-su-1) * 7); height: calc(var(--homey-su-1) * 7); fill: var(--homey-color-blue); }
+    .dot { flex: none; width: 10px; height: 10px; border-radius: 50%; background: var(--tone, var(--homey-text-color-light)); }
+
+    .card { border-radius: var(--homey-border-radius-default); background: color-mix(in srgb, var(--homey-text-color) 7%, transparent); overflow: hidden; min-width: 0; }
+    .card.wide { grid-column: 1 / -1; }
+    .card-head { display: flex; align-items: center; gap: var(--homey-su-2); width: 100%; padding: var(--homey-su-2) var(--homey-su-3); }
+    .card-head:active:not(:disabled) { background: color-mix(in srgb, var(--homey-text-color) 6%, transparent); }
+    .card-body { padding: 0 var(--homey-su-3) var(--homey-su-3); display: flex; flex-direction: column; gap: var(--homey-su-3); }
+    .pad { padding: var(--homey-su-3); display: flex; flex-direction: column; gap: var(--homey-su-2); }
+    .grow { flex: 1; min-width: 0; }
+    .ellipsis { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .row { display: flex; align-items: center; gap: var(--homey-su-2); flex-wrap: wrap; }
+    .row.nowrap { flex-wrap: nowrap; }
+    .bowls { display: flex; flex-wrap: wrap; gap: var(--homey-su-1) var(--homey-su-4); }
+
+    /* Pet cards are tall and centred, so two or more fit side by side even on a phone. */
+    .card-head.pet-head { flex-direction: column; justify-content: flex-start; gap: var(--homey-su-1); padding: var(--homey-su-3) var(--homey-su-2); text-align: center; }
+    .pet-head .name { max-width: 100%; }
+    .pet-head .seen { max-width: 100%; line-height: 1.25; }
+
+    .avatar-wrap { position: relative; flex: none; margin-bottom: var(--homey-su-2); }
+    /* The status sits on the lower edge of the photo. */
+    .pill.status-on-photo { position: absolute; left: 50%; bottom: calc(var(--homey-su-2) * -1); transform: translateX(-50%); background: var(--tone, var(--homey-text-color-light)); color: var(--homey-text-color-white, #fff); box-shadow: 0 1px 4px rgba(0, 0, 0, .35); }
+    .avatar { flex: none; width: calc(var(--homey-su-1) * 20); height: calc(var(--homey-su-1) * 20); border-radius: 50%; border: 2px solid var(--tone, var(--homey-line-color, var(--homey-text-color-light))); display: flex; align-items: center; justify-content: center; overflow: hidden; background: color-mix(in srgb, var(--homey-text-color) 8%, transparent); }
+    .avatar img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+    .pill { display: inline-flex; align-items: center; gap: var(--homey-su-1); padding: 0 var(--homey-su-2); min-height: calc(var(--homey-su-1) * 5); border-radius: 999px; font-size: var(--homey-font-size-small, 14px); line-height: var(--homey-line-height-small, 20px); font-weight: var(--homey-font-weight-regular, 400); color: var(--tone-text, var(--homey-text-color-light)); background: color-mix(in srgb, var(--tone, var(--homey-text-color-light)) 16%, transparent); white-space: nowrap; flex: none; }
+    [data-tone="green"] { --tone: var(--homey-color-green); --tone-text: var(--homey-text-color-green, var(--homey-color-green)); }
+    [data-tone="blue"] { --tone: var(--homey-color-blue); --tone-text: var(--homey-text-color-blue, var(--homey-color-blue)); }
+    [data-tone="orange"] { --tone: var(--homey-color-orange); --tone-text: var(--homey-text-color-orange, var(--homey-color-orange)); }
+    [data-tone="red"] { --tone: var(--homey-color-red); --tone-text: var(--homey-text-color-danger, var(--homey-color-red)); }
+    [data-tone="gray"] { --tone: var(--homey-text-color-light); --tone-text: var(--homey-text-color-light); }
+
+    .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); gap: var(--homey-su-2) var(--homey-su-3); }
+    .segmented { display: grid; grid-template-columns: repeat(auto-fit, minmax(84px, 1fr)); gap: var(--homey-su-2); }
+    .seg { display: flex; align-items: center; justify-content: center; text-align: center; min-height: calc(var(--homey-su-1) * 10); padding: var(--homey-su-1) var(--homey-su-2); border: 0; background: color-mix(in srgb, var(--homey-text-color) 9%, transparent); border-radius: var(--homey-border-radius-default); }
+    .seg:active:not(:disabled) { background: color-mix(in srgb, var(--homey-text-color) 6%, transparent); }
+    .seg:disabled { opacity: .55; }
+    .seg[aria-pressed="true"] { opacity: 1; background: var(--homey-color-blue); border-color: var(--homey-color-blue); color: var(--homey-text-color-white, #fff); }
+
+    /* Lock mode control: icon above a short label, all modes visible at once. */
+    /* One continuous bar: the selected mode fills its whole slot, edge to edge. */
+    .modes { display: grid; grid-template-columns: repeat(var(--n, 5), minmax(0, 1fr)); }
+    .mode { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: var(--homey-su-1); min-height: calc(var(--homey-su-1) * 16); padding: var(--homey-su-2) var(--homey-su-1); text-align: center; min-width: 0; }
+    .mode + .mode { box-shadow: inset 1px 0 0 color-mix(in srgb, var(--homey-text-color) 14%, transparent); }
+    .mode[aria-pressed="true"], .mode[aria-pressed="true"] + .mode { box-shadow: none; }
+    .mode:active:not(:disabled) { background: color-mix(in srgb, var(--homey-text-color) 6%, transparent); }
+    .mode:disabled { opacity: .6; }
+    .mode[aria-pressed="true"] { opacity: 1; background: var(--homey-color-blue); color: var(--homey-text-color-white, #fff); }
+    .mode .ico { width: calc(var(--homey-su-1) * 6); height: calc(var(--homey-su-1) * 6); fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+    .mode-label { max-width: 100%; font-size: calc(var(--homey-font-size-small, 14px) * .86); line-height: 1.2; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .bar { height: var(--homey-su-2); border-radius: 999px; background: color-mix(in srgb, var(--homey-text-color) 14%, transparent); overflow: hidden; }
+    .bar > span { display: block; height: 100%; border-radius: 999px; background: var(--homey-color-blue); transition: width .3s ease; }
+    .bar.low > span { background: var(--homey-color-orange); }
+
+    .battery { display: inline-flex; align-items: center; gap: var(--homey-su-1); flex: none; }
+    .battery svg { width: var(--homey-icon-size-regular); height: var(--homey-icon-size-regular); fill: currentColor; }
+    .battery.low { color: var(--homey-text-color-danger, var(--homey-color-red)); }
+    .chev { flex: none; width: var(--homey-icon-size-regular); height: var(--homey-icon-size-regular); fill: none; stroke: var(--homey-icon-color-light, var(--homey-text-color-light)); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; transition: transform .15s ease; }
+    [aria-expanded="true"] .chev { transform: rotate(180deg); }
+
+    .notice { padding: var(--homey-su-3); border-radius: var(--homey-border-radius-default); background: color-mix(in srgb, var(--homey-color-orange) 14%, transparent); }
+    .notice.error { background: color-mix(in srgb, var(--homey-color-red) 14%, transparent); }
+    .empty { padding: var(--homey-su-6) 0; text-align: center; }
+
+    .sk { background: color-mix(in srgb, var(--homey-text-color) 10%, transparent); border-radius: var(--homey-border-radius-small); animation: pulse 1.4s ease-in-out infinite; }
+    @keyframes pulse { 50% { opacity: .5; } }
+    @media (prefers-reduced-motion: reduce) { .sk { animation: none; } .bar > span, .chev { transition: none; } }
+  </style>
+</head>
+<body class="homey-widget">
+  <div id="root" class="stack" aria-live="polite"></div>
+
+  <script type="text/javascript">
+    function onHomeyReady(Homey) {
+      var CACHE_KEY = 'sure-petcare-household';
+      var PHOTO_KEY = 'sure-petcare-photo-';
+      var REFRESH_MS = 60 * 1000;
+      var TICK_MS = 30 * 1000;
+      var LOW_BATTERY = 20;
+
+      var root = document.getElementById('root');
+      var settings = Homey.getSettings() || {};
+      var show = {
+        pets: settings.showPets !== false,
+        doors: settings.showDoors !== false,
+        devices: settings.showDevices !== false,
+      };
+
+      var overview = null;
+      var open = null; // { kind: 'pet', id }
+      var busy = false;
+      var message = null; // { text, error }
+      var photos = {}; // pet id -> { url, uri, done }
+      var readySent = false;
+      var lastHeight = 0;
+
+      // ---- helpers ---------------------------------------------------------
+
+      function t(key, tokens) {
+        var text;
+        try { text = Homey.__(key, tokens); } catch (e) { text = key; }
+        if (typeof text !== 'string') text = key;
+        // Fill tokens the translation layer left in place.
+        return text.replace(/\{\{\s*(\w+)\s*\}\}/g, function (m, name) {
+          return tokens && tokens[name] !== undefined ? tokens[name] : '';
+        });
+      }
+
+      function el(tag, props, children) {
+        var node = document.createElement(tag);
+        var key;
+        props = props || {};
+        for (key in props) {
+          if (key === 'class') node.className = props[key];
+          else if (key === 'text') node.textContent = props[key];
+          else if (key === 'on') node.addEventListener(props.on[0], props.on[1]);
+          else if (props[key] !== null && props[key] !== undefined && props[key] !== false) node.setAttribute(key, props[key] === true ? '' : props[key]);
+        }
+        (children || []).forEach(function (child) { if (child) node.appendChild(child); });
+        return node;
+      }
+
+      // Only used with the static markup below, never with data from the account.
+      function svg(markup, className) {
+        var wrapper = document.createElement('div');
+        wrapper.innerHTML = markup;
+        var node = wrapper.firstChild;
+        if (className) node.setAttribute('class', className);
+        return node;
+      }
+
+      function text(content, cls) { return el('span', { class: cls || 'homey-text-regular', text: content }); }
+
+      function ago(iso) {
+        var minutes = Math.max(0, Math.round((Date.now() - new Date(iso).getTime()) / 60000));
+        if (isNaN(minutes)) return '';
+        if (minutes < 1) return t('widget.just_now');
+        if (minutes < 60) return t('widget.minutes_ago', { count: minutes });
+        if (minutes < 1440) return t('widget.hours_ago', { count: Math.floor(minutes / 60) });
+        return t('widget.days_ago', { count: Math.floor(minutes / 1440) });
+      }
+
+      function duration(minutes) {
+        if (minutes === null || minutes === undefined) return '-';
+        return minutes >= 60
+          ? t('pets.hours_minutes', { hours: Math.floor(minutes / 60), minutes: minutes % 60 })
+          : t('pets.minutes', { minutes: minutes });
+      }
+
+      function number(value) { return value === null || value === undefined ? '-' : String(value); }
+
+      function haptic() { try { Homey.hapticFeedback(); } catch (e) { /* not available */ } }
+
+      function errorText(err) {
+        var code = err && err.message;
+        if (code === 'AUTH_FAILED') return t('widget.login_required');
+        if (code === 'RATE_LIMITED') return t('error.rate_limited');
+        if (code === 'NETWORK_ERROR') return t('widget.unavailable');
+        return t('widget.command_failed');
+      }
+
+      // ---- height ------------------------------------------------------------
+
+      // The widget has no fixed height: it reports what its content needs.
+      function contentHeight() {
+        var style = window.getComputedStyle(document.body);
+        var padding = (parseFloat(style.paddingTop) || 0) + (parseFloat(style.paddingBottom) || 0);
+        return Math.ceil(root.getBoundingClientRect().height + padding);
+      }
+
+      function reportHeight() {
+        if (!readySent) return;
+        var height = contentHeight();
+        if (!height || height === lastHeight) return;
+        lastHeight = height;
+        try { Homey.setHeight(height); } catch (e) { /* not available */ }
+      }
+
+      // ---- pet photos --------------------------------------------------------
+
+      function storedPhoto(pet) {
+        try {
+          var stored = JSON.parse(localStorage.getItem(PHOTO_KEY + pet.id) || 'null');
+          if (stored && stored.url === pet.photoUrl && typeof stored.uri === 'string') return stored.uri;
+        } catch (e) { /* storage unavailable */ }
+        return null;
+      }
+
+      function requestPhoto(pet) {
+        var entry = { url: pet.photoUrl, uri: storedPhoto(pet), done: false };
+        photos[pet.id] = entry;
+        if (entry.uri) { entry.done = true; return; }
+
+        Homey.api('POST', '/pet-photo', { petId: pet.id }).then(function (result) {
+          entry.uri = result && typeof result.dataUri === 'string' ? result.dataUri : null;
+          if (entry.uri) {
+            try { localStorage.setItem(PHOTO_KEY + pet.id, JSON.stringify({ url: entry.url, uri: entry.uri })); } catch (e) { /* storage full */ }
+          }
+        }).catch(function () { /* fall back to the direct link */ }).then(function () {
+          entry.done = true;
+          render();
+        });
+      }
+
+      // The picture to show, or null to show the initial of the pet.
+      function photoSource(pet) {
+        if (!pet.photoUrl) return null;
+        var entry = photos[pet.id];
+        if (!entry || entry.url !== pet.photoUrl) {
+          requestPhoto(pet);
+          entry = photos[pet.id];
+        }
+        if (entry.uri) return entry.uri;
+        // The app could not hand over the picture: try the public link, the initial is the fallback.
+        return entry.done && !entry.broken ? pet.photoUrl : null;
+      }
+
+      // ---- building blocks ---------------------------------------------------
+
+      var ICONS = {
+        normal: '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 7.6-1.7"/></svg>',
+        locked: '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>',
+        keep_in: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12h12M11 7l5 5-5 5M20 5v14"/></svg>',
+        keep_out: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5v14M9 12h12M17 7l5 5-5 5"/></svg>',
+        curfew: '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg>',
+      };
+
+      var PAW = '<svg viewBox="0 0 24 24" aria-hidden="true"><ellipse cx="5.5" cy="11.5" rx="2.1" ry="2.7"/><ellipse cx="9.5" cy="6.5" rx="2.1" ry="2.9"/><ellipse cx="14.5" cy="6.5" rx="2.1" ry="2.9"/><ellipse cx="18.5" cy="11.5" rx="2.1" ry="2.7"/><path d="M12 11.5c-3 0-6 3-6 5.6 0 2 1.7 2.6 3.2 2.2 1-.3 1.8-.6 2.8-.6s1.8.3 2.8.6c1.5.4 3.2-.2 3.2-2.2 0-2.6-3-5.6-6-5.6z"/></svg>';
+
+      function batteryBadge(percent, title) {
+        if (percent === null || percent === undefined) return null;
+        var low = percent <= LOW_BATTERY;
+        var fill = Math.max(2, Math.round(percent / 100 * 14));
+        var icon = svg('<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 8a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v1h1.5a.5.5 0 0 1 .5.5v5a.5.5 0 0 1-.5.5H20v1a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V8zm2 0v8h14V8H4z" fill-rule="evenodd"/><rect x="5" y="9.5" width="' + fill + '" height="5" rx="1"/></svg>');
+        return el('span', { class: 'battery homey-text-small' + (low ? ' low' : ''), title: title || (low ? t('widget.low_battery') : null) }, [icon, document.createTextNode(percent + '%')]);
+      }
+
+      // Individual batteries are only shown when they are low; the header shows the lowest one.
+      function lowBattery(percent) {
+        return percent !== null && percent !== undefined && percent <= LOW_BATTERY ? batteryBadge(percent) : null;
+      }
+
+      function pill(label, tone) { return el('span', { class: 'pill', 'data-tone': tone, text: label }); }
+
+      function chevron() {
+        return svg('<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>', 'chev');
+      }
+
+      function isOpen(kind, id) { return open && open.kind === kind && open.id === id; }
+
+      function toggle(kind, id) {
+        haptic();
+        open = isOpen(kind, id) ? null : { kind: kind, id: id };
+        message = null;
+        render();
+      }
+
+      // The groups have no headings: the cards speak for themselves.
+      function section(content) {
+        return el('section', {}, [content]);
+      }
+
+      // ---- header ------------------------------------------------------------
+
+      function allDevices() {
+        return overview.doors.concat(overview.feeders, overview.fountains);
+      }
+
+      function lowestBattery() {
+        var lowest = null;
+        allDevices().forEach(function (device) {
+          if (device.batteryPercent === null || device.batteryPercent === undefined) return;
+          if (!lowest || device.batteryPercent < lowest.batteryPercent) lowest = device;
+        });
+        return lowest;
+      }
+
+      function statusTone() {
+        var state = overview.state;
+        if (state === 'no_credentials' || state === 'auth_error' || state === 'network_error') return 'red';
+        if (state !== 'connected') return 'orange';
+        return allDevices().some(function (device) { return device.online === false; }) ? 'orange' : 'green';
+      }
+
+      function header() {
+        var lowest = lowestBattery();
+        return el('div', { class: 'topbar' }, [
+          svg(PAW, 'paw'),
+          el('span', { class: 'grow' }),
+          lowest ? batteryBadge(lowest.batteryPercent, lowest.name) : null,
+          el('span', { class: 'dot', 'data-tone': statusTone(), role: 'img', title: t('state.' + overview.state), 'aria-label': t('state.' + overview.state) }),
+        ]);
+      }
+
+      // ---- pets --------------------------------------------------------------
+
+      function positionTone(position) { return position === 'inside' ? 'green' : position === 'outside' ? 'blue' : 'gray'; }
+
+      function avatar(pet, tone) {
+        var node = el('span', { class: 'avatar', 'data-tone': tone });
+        var source = photoSource(pet);
+        var initial = text((pet.name || '?').trim().charAt(0).toUpperCase(), 'homey-text-medium');
+        if (source) {
+          var img = el('img', { src: source, alt: '', decoding: 'async' });
+          img.addEventListener('error', function () {
+            if (photos[pet.id]) photos[pet.id].broken = true;
+            if (img.parentNode) img.parentNode.removeChild(img);
+            node.appendChild(initial);
+          });
+          node.appendChild(img);
+        } else {
+          node.appendChild(initial);
+        }
+        return el('span', { class: 'avatar-wrap', 'data-tone': tone }, [
+          node,
+          el('span', { class: 'pill status-on-photo', text: t('pets.' + pet.position) }),
+        ]);
+      }
+
+      function petCard(pet) {
+        var expanded = isOpen('pet', pet.id);
+        var tone = positionTone(pet.position);
+        var seen = pet.lastSeen || pet.since;
+
+        var head = el('button', {
+          class: 'card-head pet-head', type: 'button', 'aria-expanded': expanded ? 'true' : 'false', 'data-tone': tone,
+          on: ['click', function () { toggle('pet', pet.id); }],
+        }, [
+          avatar(pet, tone),
+          el('div', { class: 'homey-text-medium ellipsis name', text: pet.name }),
+          seen ? el('div', { class: 'homey-text-small-light seen', text: t('widget.last_seen', { time: ago(seen) }) }) : null,
+        ]);
+
+        var card = el('div', { class: 'card' + (expanded ? ' wide' : '') }, [head]);
+        if (!expanded) return card;
+
+        function stat(label, value) {
+          return el('div', {}, [
+            el('div', { class: 'homey-text-small-light', text: label }),
+            el('div', { class: 'homey-text-medium', text: value }),
+          ]);
+        }
+
+        var stats = el('div', { class: 'stats' }, [
+          stat(t('pets.meals_today'), number(pet.mealsToday)),
+          stat(t('pets.drinks_today'), number(pet.drinksToday)),
+          stat(t('pets.trips_today'), number(pet.tripsToday)),
+          stat(t('pets.outside_today'), duration(pet.outsideMinutesToday)),
+          pet.lastDoor ? stat(t('pets.last_door'), pet.lastDoor) : null,
+        ]);
+
+        function positionButton(position, label) {
+          return el('button', {
+            class: 'seg homey-text-regular', type: 'button', disabled: busy || pet.position === position,
+            'aria-pressed': pet.position === position ? 'true' : 'false',
+            on: ['click', function () { setPosition(pet, position); }],
+          }, [text(label)]);
+        }
+
+        card.appendChild(el('div', { class: 'card-body' }, [
+          stats,
+          el('div', { class: 'segmented' }, [
+            positionButton('inside', t('widget.mark_inside')),
+            positionButton('outside', t('widget.mark_outside')),
+          ]),
+        ]));
+        return card;
+      }
+
+      // ---- doors -------------------------------------------------------------
+
+      function doorCard(door, modes) {
+        var buttons = modes.map(function (mode) {
+          return el('button', {
+            class: 'mode', type: 'button', disabled: busy, 'aria-pressed': door.mode === mode ? 'true' : 'false', 'aria-label': t('mode.' + mode),
+            on: ['click', function () { if (door.mode !== mode) setMode(door, mode); }],
+          }, [
+            svg(ICONS[mode] || ICONS.normal, 'ico'),
+            el('span', { class: 'mode-label', text: t('mode_short.' + mode) }),
+          ]);
+        });
+
+        // A door is just a bar of controls. Name, status and battery are left out on purpose;
+        // the header shows the lowest battery and the overall connection status.
+        return el('div', { class: 'card' }, [
+          el('div', { class: 'modes', style: '--n:' + modes.length, role: 'group', 'aria-label': door.name }, buttons),
+        ]);
+      }
+
+      // ---- feeders and fountains --------------------------------------------
+
+      function bowlLabel(bowl) {
+        return bowl === 'left' ? t('devices.left_bowl') : bowl === 'right' ? t('devices.right_bowl') : t('widget.bowl');
+      }
+
+      function feederCard(feeder) {
+        var bowls = el('div', { class: 'bowls' }, feeder.bowls.map(function (bowl) {
+          return el('div', {}, [
+            el('div', { class: 'homey-text-small-light', text: bowlLabel(bowl.bowl) }),
+            el('div', { class: 'homey-text-medium', text: bowl.grams === null ? '-' : bowl.grams + ' g' }),
+          ]);
+        }));
+        return el('div', { class: 'card' }, [el('div', { class: 'pad' }, [
+          el('div', { class: 'row nowrap', style: 'justify-content:space-between' }, [
+            el('span', { class: 'homey-text-medium ellipsis grow', text: feeder.name }),
+            feeder.online === false ? pill(t('devices.offline'), 'orange') : null,
+            lowBattery(feeder.batteryPercent),
+          ]),
+          bowls,
+        ])]);
+      }
+
+      function fountainCard(fountain) {
+        var level = fountain.fillPercent;
+        var bar = el('div', { class: 'bar' + (level !== null && level <= LOW_BATTERY ? ' low' : ''), role: 'img', 'aria-label': level === null ? '' : level + '%' }, [
+          el('span', { style: 'width:' + (level === null ? 0 : Math.max(0, Math.min(100, level))) + '%' }),
+        ]);
+        var detail = [];
+        if (level !== null) detail.push(level + '%');
+        if (fountain.waterMl !== null) detail.push(fountain.waterMl + ' ml');
+        return el('div', { class: 'card' }, [el('div', { class: 'pad' }, [
+          el('div', { class: 'row nowrap', style: 'justify-content:space-between' }, [
+            el('span', { class: 'homey-text-medium ellipsis grow', text: fountain.name }),
+            fountain.online === false ? pill(t('devices.offline'), 'orange') : null,
+            lowBattery(fountain.batteryPercent),
+          ]),
+          bar,
+          el('div', { class: 'homey-text-small-light', text: detail.join(' \u00b7 ') || t('devices.water_level') }),
+        ])]);
+      }
+
+      // ---- render ------------------------------------------------------------
+
+      function skeleton() {
+        function bar(width, height) { return el('div', { class: 'sk', style: 'width:' + width + ';height:' + height }); }
+        var rows = [bar('60%', '24px')];
+        if (show.pets) rows.push(el('div', { class: 'grid', style: '--min:130px' }, [bar('100%', '128px'), bar('100%', '128px')]));
+        if (show.doors) rows.push(bar('100%', '112px'));
+        if (show.devices) rows.push(bar('100%', '72px'));
+        return rows;
+      }
+
+      function render() {
+        var nodes = [];
+
+        if (!overview) {
+          nodes = skeleton();
+        } else {
+          var state = overview.state;
+          nodes.push(header());
+
+          if (state === 'no_credentials' || state === 'auth_error') {
+            nodes.push(el('div', { class: 'notice homey-text-regular', text: t('widget.login_required') }));
+          } else if (state === 'connecting' && overview.updatedAt === null) {
+            nodes.push(el('div', { class: 'notice homey-text-regular', text: t('widget.connecting') }));
+          } else if ((state === 'network_error' || state === 'rate_limited') && overview.updatedAt === null) {
+            nodes.push(el('div', { class: 'notice error homey-text-regular', text: state === 'rate_limited' ? t('state.rate_limited') : t('widget.unavailable') }));
+          }
+
+          if (message) nodes.push(el('div', { class: 'notice' + (message.error ? ' error' : '') + ' homey-text-regular', role: 'status', text: message.text }));
+
+          var hasContent = false;
+          if (show.pets && overview.pets.length) {
+            hasContent = true;
+            nodes.push(section(el('div', { class: 'grid', style: '--min:130px' }, overview.pets.map(petCard))));
+          }
+          if (show.doors && overview.doors.length) {
+            hasContent = true;
+            nodes.push(section(el('div', { class: 'grid', style: '--min:300px' }, overview.doors.map(function (door) { return doorCard(door, overview.lockModes); }))));
+          }
+          if (show.devices && (overview.feeders.length || overview.fountains.length)) {
+            hasContent = true;
+            nodes.push(section(el('div', { class: 'grid', style: '--min:160px' },
+              overview.feeders.map(feederCard).concat(overview.fountains.map(fountainCard)))));
+          }
+
+          if (!hasContent && nodes.length === 1) {
+            nodes.push(el('div', { class: 'empty homey-text-regular homey-text-align-center', text: t('widget.empty') }));
+          }
+        }
+
+        while (root.firstChild) root.removeChild(root.firstChild);
+        nodes.forEach(function (node) { root.appendChild(node); });
+        reportHeight();
+      }
+
+      // ---- data --------------------------------------------------------------
+
+      function apply(data) {
+        if (!data || !Array.isArray(data.pets)) return;
+        overview = data;
+        try { localStorage.setItem(CACHE_KEY, JSON.stringify(data)); } catch (e) { /* storage unavailable */ }
+        render();
+      }
+
+      function load() {
+        return Homey.api('GET', '/overview', {}).then(apply).catch(function () {
+          if (!overview) {
+            overview = { state: 'network_error', updatedAt: null, lockModes: [], pets: [], doors: [], feeders: [], fountains: [] };
+            render();
+          }
+        });
+      }
+
+      function command(path, body, optimistic) {
+        if (busy) return Promise.resolve();
+        busy = true;
+        message = null;
+        haptic();
+        optimistic();
+        render();
+        return Homey.api('POST', path, body).then(apply).catch(function (err) {
+          message = { text: errorText(err), error: true };
+          return load();
+        }).then(function () {
+          busy = false;
+          render();
+        });
+      }
+
+      function setMode(door, mode) {
+        return command('/lock-mode', { deviceId: door.id, mode: mode }, function () { door.mode = mode; });
+      }
+
+      function setPosition(pet, position) {
+        return command('/pet-position', { petId: pet.id, position: position }, function () {
+          pet.position = position;
+          pet.since = new Date().toISOString();
+        });
+      }
+
+      // ---- start -------------------------------------------------------------
+
+      try {
+        var cached = JSON.parse(localStorage.getItem(CACHE_KEY) || 'null');
+        if (cached && Array.isArray(cached.pets)) overview = cached;
+      } catch (e) { /* ignore a broken cache */ }
+
+      render();
+      lastHeight = contentHeight();
+      readySent = true;
+      Homey.ready({ height: lastHeight });
+
+      if (typeof ResizeObserver === 'function') new ResizeObserver(reportHeight).observe(root);
+
+      Homey.on('snapshot', function (data) { if (!busy) apply(data); });
+      load();
+      setInterval(function () { if (!document.hidden && !busy) load(); }, REFRESH_MS);
+      setInterval(function () { if (!document.hidden && !busy) render(); }, TICK_MS);
+    }
+  </script>
+</body>
+</html>

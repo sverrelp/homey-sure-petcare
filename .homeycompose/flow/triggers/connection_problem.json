@@ -1,0 +1,11 @@
+{
+  "title": { "en": "Connection problem", "nl": "Verbindingsprobleem", "no": "Tilkoblingsproblem" },
+  "hint": {
+    "en": "Triggers when logging in fails or Sure Petcare cannot be reached.",
+    "nl": "Wordt geactiveerd als inloggen mislukt of Sure Petcare niet bereikbaar is.",
+    "no": "Utløses når innlogging mislykkes eller Sure Petcare ikke kan nås."
+  },
+  "tokens": [
+    { "name": "reason", "type": "string", "title": { "en": "Reason", "nl": "Reden", "no": "Årsak" }, "example": { "en": "Error: cannot reach Sure Petcare" } }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "CommonJS",
+    "moduleResolution": "Node",
+    "lib": ["ES2022"],
+    "allowJs": true,
+    "outDir": ".homeybuild/",
+    "rootDir": ".",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "sourceMap": false
+  },
+  "include": ["app.ts", "api.ts", "lib/**/*.ts", "drivers/**/*.ts"],
+  "exclude": ["node_modules", ".homeybuild"]
+}

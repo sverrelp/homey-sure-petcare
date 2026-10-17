@@ -1,0 +1,15 @@
+{
+  "icon": "/assets/capabilities/measure_food_left.svg",
+  "type": "number",
+  "title": {
+    "en": "Food in left bowl",
+    "nl": "Voer in linker bak",
+    "no": "Mat i venstre skål"
+  },
+  "units": { "en": "g" },
+  "decimals": 0,
+  "insights": true,
+  "getable": true,
+  "setable": false,
+  "uiComponent": "sensor"
+}

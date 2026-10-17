@@ -1,0 +1,17 @@
+{
+  "icon": "/assets/capabilities/measure_outside_minutes_today.svg",
+  "type": "number",
+  "title": {
+    "en": "Time outside today",
+    "nl": "Tijd buiten vandaag",
+    "no": "Tid ute i dag"
+  },
+  "units": {
+    "en": "min"
+  },
+  "decimals": 0,
+  "insights": true,
+  "getable": true,
+  "setable": false,
+  "uiComponent": "sensor"
+}

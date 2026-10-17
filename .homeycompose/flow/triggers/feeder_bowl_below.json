@@ -1,0 +1,22 @@
+{
+  "title": { "en": "A bowl drops below", "nl": "Een bak komt onder", "no": "En skål faller under" },
+  "titleFormatted": {
+    "en": "A bowl drops below [[grams]] g",
+    "nl": "Een bak komt onder [[grams]] g",
+    "no": "En skål faller under [[grams]] g"
+  },
+  "hint": {
+    "en": "Triggers once when a bowl passes the limit on its way down, for example to warn that it is nearly empty.",
+    "nl": "Wordt één keer geactiveerd als een bak de grens passeert op weg naar beneden, bijvoorbeeld als waarschuwing dat hij bijna leeg is.",
+    "no": "Utløses én gang når en skål passerer grensen på vei nedover, for eksempel som varsel om at den nesten er tom."
+  },
+  "args": [
+    { "type": "device", "name": "device", "filter": "driver_id=feeder", "placeholder": { "en": "Feeder", "nl": "Voerbak", "no": "Foringsautomat" } },
+    { "type": "number", "name": "grams", "min": 1, "max": 1000, "step": 1, "placeholder": { "en": "20", "nl": "20", "no": "20" } }
+  ],
+  "tokens": [
+    { "name": "name", "type": "string", "title": { "en": "Feeder", "nl": "Voerbak", "no": "Foringsautomat" }, "example": { "en": "Kitchen" } },
+    { "name": "bowl", "type": "string", "title": { "en": "Bowl", "nl": "Bak", "no": "Skål" }, "example": { "en": "Left bowl" } },
+    { "name": "amount", "type": "number", "title": { "en": "Weight in grams", "nl": "Gewicht in gram", "no": "Vekt i gram" }, "example": 15 }
+  ]
+}

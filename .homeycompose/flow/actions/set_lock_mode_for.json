@@ -1,0 +1,24 @@
+{
+  "title": { "en": "Set lock mode for a while", "nl": "Stel vergrendelmodus tijdelijk in", "no": "Sett låsemodus midlertidig" },
+  "titleFormatted": {
+    "en": "Set lock mode to [[mode]] for [[minutes]] minutes",
+    "nl": "Stel vergrendelmodus in op [[mode]] gedurende [[minutes]] minuten",
+    "no": "Sett låsemodus til [[mode]] i [[minutes]] minutter"
+  },
+  "hint": {
+    "en": "After this time the door goes back to the mode it had before, unless the mode was changed in the meantime.",
+    "nl": "Na deze tijd gaat de deur terug naar de modus die het daarvoor had, tenzij de modus tussentijds is gewijzigd.",
+    "no": "Etter dette går døren tilbake til modusen den hadde før, med mindre modusen ble endret i mellomtiden."
+  },
+  "args": [
+    { "type": "device", "name": "door", "filter": "driver_id=flap", "placeholder": { "en": "Door", "nl": "Deur", "no": "Dør" } },
+    { "type": "dropdown", "name": "mode", "values": [
+        { "id": "normal", "title": { "en": "Normal", "nl": "Normaal", "no": "Normal" }, "label": { "en": "Normal", "nl": "Normaal", "no": "Normal" } },
+        { "id": "keep_in", "title": { "en": "Keep in", "nl": "Binnen houden", "no": "Hold inne" }, "label": { "en": "Keep in", "nl": "Binnen houden", "no": "Hold inne" } },
+        { "id": "keep_out", "title": { "en": "Keep out", "nl": "Buiten houden", "no": "Hold ute" }, "label": { "en": "Keep out", "nl": "Buiten houden", "no": "Hold ute" } },
+        { "id": "locked", "title": { "en": "Locked", "nl": "Vergrendeld", "no": "Låst" }, "label": { "en": "Locked", "nl": "Vergrendeld", "no": "Låst" } },
+        { "id": "curfew", "title": { "en": "Curfew", "nl": "Avondklok", "no": "Utegangsforbud" }, "label": { "en": "Curfew", "nl": "Avondklok", "no": "Utegangsforbud" } }
+      ] },
+    { "type": "number", "name": "minutes", "min": 1, "max": 1440, "step": 1, "placeholder": { "en": "30", "nl": "30", "no": "30" } }
+  ]
+}

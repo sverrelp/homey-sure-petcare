@@ -1,0 +1,5 @@
+{
+  "title": { "en": "Came inside", "nl": "Kwam binnen", "no": "Kom inn" },
+  "args": [ { "type": "device", "name": "pet", "filter": "driver_id=pet", "placeholder": { "en": "Pet", "nl": "Huisdier", "no": "Kjæledyr" } } ],
+  "tokens": [ { "name": "name", "type": "string", "title": { "en": "Name", "nl": "Naam", "no": "Navn" }, "example": { "en": "Whiskers" } } ]
+}

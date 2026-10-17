@@ -1,0 +1,8 @@
+{
+  "title": { "en": "Ate food", "nl": "Heeft gegeten", "no": "Har spist" },
+  "args": [ { "type": "device", "name": "pet", "filter": "driver_id=pet", "placeholder": { "en": "Pet", "nl": "Huisdier", "no": "Kjæledyr" } } ],
+  "tokens": [
+    { "name": "name", "type": "string", "title": { "en": "Name", "nl": "Naam", "no": "Navn" }, "example": { "en": "Whiskers" } },
+    { "name": "amount", "type": "number", "title": { "en": "Amount in grams", "nl": "Hoeveelheid in gram", "no": "Mengde i gram" }, "example": 25 }
+  ]
+}

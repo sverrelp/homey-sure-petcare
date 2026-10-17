@@ -1,0 +1,8 @@
+{
+  "title": { "en": "Intruder attempt", "nl": "Indringer gedetecteerd", "no": "Inntrengerforsøk" },
+  "hint": { "en": "Triggers when a microchip that is not registered in your household is detected at a pet door.", "nl": "Wordt geactiveerd als een microchip die niet in je huishouden is geregistreerd bij een huisdierdeur wordt gedetecteerd.", "no": "Utløses når en mikrochip som ikke er registrert i husholdningen din oppdages ved en kjæledyrdør." },
+  "tokens": [
+    { "name": "door", "type": "string", "title": { "en": "Door", "nl": "Deur", "no": "Dør" }, "example": { "en": "Back door" } },
+    { "name": "time", "type": "string", "title": { "en": "Time", "nl": "Tijd", "no": "Tid" }, "example": { "en": "2026-10-10T17:30:00Z" } }
+  ]
+}

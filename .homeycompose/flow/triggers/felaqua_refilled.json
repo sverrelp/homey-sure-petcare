@@ -1,0 +1,8 @@
+{
+  "title": { "en": "Reservoir was refilled", "nl": "Reservoir is bijgevuld", "no": "Reservoaret ble fylt på" },
+  "args": [ { "type": "device", "name": "device", "filter": "driver_id=felaqua", "placeholder": { "en": "Water fountain", "nl": "Drinkfontein", "no": "Drikkefontene" } } ],
+  "tokens": [
+    { "name": "name", "type": "string", "title": { "en": "Water fountain", "nl": "Drinkfontein", "no": "Drikkefontene" }, "example": { "en": "Kitchen" } },
+    { "name": "level", "type": "number", "title": { "en": "Fill level in percent", "nl": "Vulniveau in procent", "no": "Fyllnivå i prosent" }, "example": 100 }
+  ]
+}

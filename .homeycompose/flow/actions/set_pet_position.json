@@ -1,0 +1,29 @@
+{
+  "title": { "en": "Set pet position", "nl": "Stel positie van huisdier in", "no": "Sett kjæledyrets posisjon" },
+  "titleFormatted": {
+    "en": "Set position to [[position]]",
+    "nl": "Stel positie in op [[position]]",
+    "no": "Sett posisjon til [[position]]"
+  },
+  "hint": {
+    "en": "Tells Sure Petcare that the pet is inside or outside, for example when it came in through a door without a chip reader.",
+    "nl": "Geeft aan Sure Petcare door dat het huisdier binnen of buiten is, bijvoorbeeld als het via een deur zonder chiplezer binnenkwam.",
+    "no": "Forteller Sure Petcare at kjæledyret er inne eller ute, for eksempel når det kom inn gjennom en dør uten brikkeleser."
+  },
+  "args": [
+    {
+      "type": "device",
+      "name": "pet",
+      "filter": "driver_id=pet",
+      "placeholder": { "en": "Pet", "nl": "Huisdier", "no": "Kjæledyr" }
+    },
+    {
+      "type": "dropdown",
+      "name": "position",
+      "values": [
+        { "id": "inside", "title": { "en": "Inside", "nl": "Binnen", "no": "Inne" }, "label": { "en": "Inside", "nl": "Binnen", "no": "Inne" } },
+        { "id": "outside", "title": { "en": "Outside", "nl": "Buiten", "no": "Ute" }, "label": { "en": "Outside", "nl": "Buiten", "no": "Ute" } }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "title": { "en": "Lock mode changed", "nl": "Vergrendelmodus gewijzigd", "no": "Låsemodus endret" },
+  "titleFormatted": {
+    "en": "Lock mode changed to [[mode]]",
+    "nl": "Vergrendelmodus gewijzigd naar [[mode]]",
+    "no": "Låsemodus endret til [[mode]]"
+  },
+  "args": [
+    { "type": "device", "name": "door", "filter": "driver_id=flap", "placeholder": { "en": "Door", "nl": "Deur", "no": "Dør" } },
+    { "type": "dropdown", "name": "mode", "values": [
+        { "id": "any", "title": { "en": "Any mode", "nl": "Elke modus", "no": "Hvilken som helst modus" }, "label": { "en": "Any mode", "nl": "Elke modus", "no": "Hvilken som helst modus" } },
+        { "id": "normal", "title": { "en": "Normal", "nl": "Normaal", "no": "Normal" }, "label": { "en": "Normal", "nl": "Normaal", "no": "Normal" } },
+        { "id": "keep_in", "title": { "en": "Keep in", "nl": "Binnen houden", "no": "Hold inne" }, "label": { "en": "Keep in", "nl": "Binnen houden", "no": "Hold inne" } },
+        { "id": "keep_out", "title": { "en": "Keep out", "nl": "Buiten houden", "no": "Hold ute" }, "label": { "en": "Keep out", "nl": "Buiten houden", "no": "Hold ute" } },
+        { "id": "locked", "title": { "en": "Locked", "nl": "Vergrendeld", "no": "Låst" }, "label": { "en": "Locked", "nl": "Vergrendeld", "no": "Låst" } },
+        { "id": "curfew", "title": { "en": "Curfew", "nl": "Avondklok", "no": "Utegangsforbud" }, "label": { "en": "Curfew", "nl": "Avondklok", "no": "Utegangsforbud" } }
+      ] }
+  ],
+  "tokens": [
+    { "name": "door", "type": "string", "title": { "en": "Door", "nl": "Deur", "no": "Dør" }, "example": { "en": "Back door" } },
+    { "name": "mode", "type": "string", "title": { "en": "New mode", "nl": "Nieuwe modus", "no": "Ny modus" }, "example": { "en": "locked" } }
+  ]
+}

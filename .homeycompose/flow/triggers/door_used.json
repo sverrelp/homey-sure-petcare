@@ -1,0 +1,14 @@
+{
+  "title": { "en": "A pet used the door", "nl": "Een huisdier gebruikte de deur", "no": "Et kjæledyr brukte døren" },
+  "hint": {
+    "en": "Triggers when the pet door registers a pet moving through. The pet name is empty when the pet is not known.",
+    "nl": "Wordt geactiveerd als de huisdierdeur een huisdier registreert dat erdoorheen gaat. De naam is leeg als het huisdier niet bekend is.",
+    "no": "Utløses når kjæledyrdøren registrerer at et kjæledyr går gjennom. Navnet er tomt hvis kjæledyret ikke er kjent."
+  },
+  "args": [ { "type": "device", "name": "door", "filter": "driver_id=flap", "placeholder": { "en": "Door", "nl": "Deur", "no": "Dør" } } ],
+  "tokens": [
+    { "name": "name", "type": "string", "title": { "en": "Pet", "nl": "Huisdier", "no": "Kjæledyr" }, "example": { "en": "Whiskers" } },
+    { "name": "door", "type": "string", "title": { "en": "Door", "nl": "Deur", "no": "Dør" }, "example": { "en": "Back door" } },
+    { "name": "time", "type": "string", "title": { "en": "Time", "nl": "Tijd", "no": "Tidspunkt" }, "example": { "en": "2026-10-11T08:15:00Z" } }
+  ]
+}

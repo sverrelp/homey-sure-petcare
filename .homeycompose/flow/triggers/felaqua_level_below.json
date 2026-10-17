@@ -1,0 +1,21 @@
+{
+  "title": { "en": "Fill level drops below", "nl": "Vulniveau komt onder", "no": "Fyllnivået faller under" },
+  "titleFormatted": {
+    "en": "Fill level drops below [[level]]%",
+    "nl": "Vulniveau komt onder [[level]]%",
+    "no": "Fyllnivået faller under [[level]] %"
+  },
+  "hint": {
+    "en": "Triggers once when the water level passes the limit on its way down.",
+    "nl": "Wordt één keer geactiveerd als het waterniveau de grens passeert op weg naar beneden.",
+    "no": "Utløses én gang når vannivået passerer grensen på vei nedover."
+  },
+  "args": [
+    { "type": "device", "name": "device", "filter": "driver_id=felaqua", "placeholder": { "en": "Water fountain", "nl": "Drinkfontein", "no": "Drikkefontene" } },
+    { "type": "number", "name": "level", "min": 1, "max": 100, "step": 1, "placeholder": { "en": "20", "nl": "20", "no": "20" } }
+  ],
+  "tokens": [
+    { "name": "name", "type": "string", "title": { "en": "Water fountain", "nl": "Drinkfontein", "no": "Drikkefontene" }, "example": { "en": "Kitchen" } },
+    { "name": "level", "type": "number", "title": { "en": "Fill level in percent", "nl": "Vulniveau in procent", "no": "Fyllnivå i prosent" }, "example": 18 }
+  ]
+}

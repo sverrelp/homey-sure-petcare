@@ -1,0 +1,167 @@
+{
+  "device": {
+    "not_found": "Denne enheten finnes ikke lenger i Sure Petcare-kontoen din",
+    "login_required": "Logg inn på Sure Petcare i appinnstillingene",
+    "connection_lost": "Får ikke kontakt med Sure Petcare",
+    "command_failed": "Sure Petcare godtok ikke kommandoen: {{reason}}"
+  },
+  "pair": {
+    "login_required": "Logg først inn på Sure Petcare i appinnstillingene",
+    "no_data": "Har ikke mottatt data fra Sure Petcare ennå, prøv igjen om et øyeblikk"
+  },
+  "settings": {
+    "title": "Sure Petcare-husholdning",
+    "back": "Tilbake"
+  },
+  "account": {
+    "title": "Konto og konfigurasjon",
+    "email": "E-postadresse",
+    "password": "Passord",
+    "interval": "Oppdateringsintervall",
+    "minutes": "{{count}} min",
+    "seconds": "{{count}} sek",
+    "login": "Logg inn",
+    "update": "Oppdater innlogging",
+    "logout": "Logg ut",
+    "section": "Konto"
+  },
+  "health": {
+    "title": "Systemstatus",
+    "status": "Tilkobling",
+    "last_sync": "Siste vellykkede synkronisering",
+    "never": "Aldri",
+    "sync": "Tving synkronisering",
+    "syncing": "Synkroniserer..."
+  },
+  "feeder": {
+    "bowl_left": "Venstre skål",
+    "bowl_right": "Høyre skål",
+    "bowl_both": "Skål"
+  },
+  "state": {
+    "no_credentials": "Ikke innlogget",
+    "connecting": "Kobler til...",
+    "connected": "Tilkoblet",
+    "auth_error": "Feil: innlogging mislyktes",
+    "rate_limited": "Begrenset av Sure Petcare, prøver igjen senere",
+    "network_error": "Feil: får ikke kontakt med Sure Petcare"
+  },
+  "pets": {
+    "title": "Kjæledyr",
+    "empty": "Ingen kjæledyr funnet ennå.",
+    "inside": "Inne",
+    "outside": "Ute",
+    "unknown": "Ukjent",
+    "last_seen": "Sist sett",
+    "since": "Siden",
+    "food_today": "Mat i dag",
+    "water_today": "Vann i dag",
+    "meals_today": "Måltider i dag",
+    "drinks_today": "Drikkerunder i dag",
+    "trips_today": "Turer ut i dag",
+    "outside_today": "Ute i dag",
+    "last_door": "Siste dør",
+    "profile": "Profil",
+    "species": "Art",
+    "gender": "Kjønn",
+    "age": "Alder",
+    "weight": "Vekt",
+    "food_type": "Fôrtype",
+    "spayed": "Kastrert eller sterilisert",
+    "chip": "Mikrochip",
+    "species_cat": "Katt",
+    "species_dog": "Hund",
+    "gender_male": "Hann",
+    "gender_female": "Hunn",
+    "food_wet": "Våtfôr",
+    "food_dry": "Tørrfôr",
+    "food_both": "Våt- og tørrfôr",
+    "yes": "Ja",
+    "no": "Nei",
+    "hours_minutes": "{{hours}} t {{minutes}} min",
+    "minutes": "{{minutes}} min",
+    "age_years": "{{years}} år {{months}} md",
+    "age_months": "{{months}} md",
+    "invalid_weight": "Skriv inn en vekt mellom 0,1 og 100 kg.",
+    "invalid_birth_date": "Skriv inn fødselsdatoen som ÅÅÅÅ-MM-DD (for eksempel 2020-03-15), eller la feltet stå tomt.",
+    "save_failed": "Kunne ikke lagre i Sure Petcare: {{reason}}",
+    "today": "I dag"
+  },
+  "devices": {
+    "title": "Enheter og hurtigvalg",
+    "empty": "Ingen enheter funnet ennå.",
+    "battery": "Batteri",
+    "flap": "Kjæledyrdør",
+    "feeder": "Foringsautomat",
+    "felaqua": "Drikkefontene",
+    "left_bowl": "Venstre skål",
+    "right_bowl": "Høyre skål",
+    "water_level": "Vannivå",
+    "water_volume": "Vann",
+    "offline": "Frakoblet",
+    "section": "Enheter",
+    "lock_mode": "Låsemodus"
+  },
+  "mode": {
+    "normal": "Normal",
+    "keep_in": "Hold inne",
+    "keep_out": "Hold ute",
+    "locked": "Låst",
+    "curfew": "Utegangsforbud"
+  },
+  "msg": {
+    "logging_in": "Logger inn...",
+    "logged_in": "Innlogging vellykket",
+    "saved": "Lagret",
+    "mode_set": "Låsemodus satt til {{mode}}"
+  },
+  "error": {
+    "auth": "Innlogging mislyktes, kontroller e-postadressen og passordet",
+    "rate_limited": "Sure Petcare begrenser antall forespørsler, prøv igjen om noen minutter",
+    "network": "Får ikke kontakt med Sure Petcare",
+    "missing": "Skriv inn e-postadressen og passordet ditt",
+    "unknown": "Noe gikk galt"
+  },
+  "system": {
+    "title": "System"
+  },
+  "overview": {
+    "synced": "synkronisert {{ago}}"
+  },
+  "mode_hint": {
+    "normal": "Kjæledyr kan gå inn og ut",
+    "keep_in": "Kjæledyr kan komme inn, men ikke gå ut",
+    "keep_out": "Kjæledyr kan gå ut, men ikke komme inn",
+    "locked": "Ingen kommer gjennom",
+    "curfew": "Følger tidene for utegangsforbud som er satt i Sure Petcare-appen"
+  },
+  "widget": {
+    "login_required": "Logg inn på Sure Petcare i appinnstillingene",
+    "connecting": "Kobler til...",
+    "unavailable": "Kan ikke nå Sure Petcare",
+    "empty": "Ingenting å vise ennå",
+    "section_pets": "Kjæledyr",
+    "section_doors": "Kjæledyrdører",
+    "section_devices": "Foringsautomater og vann",
+    "mark_inside": "Merk som inne",
+    "mark_outside": "Merk som ute",
+    "used_by": "Sist brukt av {{name}}",
+    "last_used": "Sist brukt",
+    "just_now": "nå nettopp",
+    "minutes_ago": "{{count}} min siden",
+    "hours_ago": "{{count}} t siden",
+    "days_ago": "{{count}} d siden",
+    "low_battery": "Lavt batteri",
+    "command_failed": "Kunne ikke sende kommandoen",
+    "bowl": "Skål",
+    "title": "Sure Pet Flap & Feeder",
+    "last_seen": "Sist sett for {{time}}"
+  },
+  "mode_short": {
+    "normal": "Åpen",
+    "keep_in": "Kun inn",
+    "keep_out": "Kun ut",
+    "locked": "Låst",
+    "curfew": "Utegang"
+  }
+}

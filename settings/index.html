@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script type="text/javascript" src="/homey.js" data-origin="settings"></script>
+    <style>
+      :root {
+        --sp-bg: #f2f3f5;
+        --sp-card: #ffffff;
+        --sp-text: #15171a;
+        --sp-muted: #7d838c;
+        --sp-line: #ececef;
+        --sp-chevron: #b5b9c0;
+        --sp-accent: #1b82b8;
+        --sp-accent-soft: #5cc6f2;
+        --sp-ok: #159b61;
+        --sp-warn: #d99a00;
+        --sp-bad: #d64545;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --sp-bg: #17191c;
+          --sp-card: #25282d;
+          --sp-text: #f1f3f5;
+          --sp-muted: #9aa1ab;
+          --sp-line: #343840;
+          --sp-chevron: #6b727c;
+          --sp-accent: #4fb4e6;
+          --sp-accent-soft: #4fb4e6;
+        }
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0; padding: 0; color: var(--sp-text); background: var(--sp-bg);
+        font-family: var(--homey-font-family, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif);
+        line-height: 1.4; -webkit-tap-highlight-color: transparent;
+      }
+      .app { max-width: 560px; margin: 0 auto; padding: 8px 16px 40px; min-height: 100vh; }
+
+      /* Navigation bar */
+      .nav { display: flex; align-items: center; justify-content: center; position: relative; min-height: 44px; margin: 6px 0 14px; }
+      .nav h1 { margin: 0; font-size: 1.2em; font-weight: 650; letter-spacing: -.01em; text-align: center; padding: 0 44px; }
+      .nav .back {
+        position: absolute; left: -6px; top: 50%; transform: translateY(-50%);
+        width: 44px; height: 44px; padding: 0; border: 0; background: transparent; color: var(--sp-text);
+        display: flex; align-items: center; justify-content: center; cursor: pointer; border-radius: 50%;
+      }
+      .nav .back:hover { background: var(--sp-line); }
+      .nav .back svg { width: 24px; height: 24px; }
+
+      h2 { font-size: 1.28em; font-weight: 650; letter-spacing: -.01em; margin: 26px 4px 10px; }
+      h2:first-child { margin-top: 4px; }
+
+      /* Groups of rows */
+      .group { background: var(--sp-card); border-radius: 18px; padding: 2px 16px; overflow: hidden; }
+      .row { display: flex; align-items: center; gap: 14px; padding: 13px 0; border-bottom: 1px solid var(--sp-line); min-width: 0; }
+      .row:last-child { border-bottom: 0; }
+      .row.clickable { cursor: pointer; }
+      .row.clickable:hover .title { color: var(--sp-accent); }
+      .row.disabled { opacity: .5; pointer-events: none; }
+      .row .ico { width: 24px; height: 24px; flex: none; color: var(--sp-accent); }
+      .row .body { flex: 1; min-width: 0; }
+      .row .title { font-weight: 600; font-size: 1.03em; overflow-wrap: anywhere; }
+      .row .sub { font-size: .84em; color: var(--sp-muted); margin-top: 2px; display: flex; align-items: baseline; gap: 6px; }
+      .row .sub .dot { transform: translateY(-1px); }
+      .row .sub-text { min-width: 0; overflow-wrap: anywhere; }
+      .row .trail { color: var(--sp-muted); font-size: .92em; display: flex; align-items: center; gap: 6px; flex: none; }
+      .chev { width: 16px; height: 16px; color: var(--sp-chevron); flex: none; }
+      .tick { width: 22px; height: 22px; color: var(--sp-accent); flex: none; }
+      .empty { padding: 14px 0; color: var(--sp-muted); }
+
+      .avatar {
+        width: 42px; height: 42px; border-radius: 50%; flex: none; overflow: hidden;
+        display: flex; align-items: center; justify-content: center; font-weight: 700; color: #fff; font-size: 1.1em;
+      }
+      .avatar img { width: 100%; height: 100%; object-fit: cover; }
+      .dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; flex: none; background: var(--sp-muted); }
+      .dot.ok { background: var(--sp-ok); }
+      .dot.warn { background: var(--sp-warn); }
+      .dot.bad { background: var(--sp-bad); }
+
+      /* Detail sheets */
+      .sheet { background: var(--sp-card); border-radius: 22px; padding: 18px 20px 14px; }
+      .hero { display: flex; flex-direction: column; align-items: center; gap: 6px; margin: 4px 0 6px; text-align: center; }
+      .hero .avatar { width: 84px; height: 84px; font-size: 2.1em; }
+      .hero .name { font-size: 1.35em; font-weight: 650; }
+      .hero .state { font-size: .88em; color: var(--sp-muted); display: flex; align-items: center; gap: 7px; justify-content: center; flex-wrap: wrap; }
+      .subhead { font-size: .76em; font-weight: 700; color: var(--sp-muted); letter-spacing: .07em; text-transform: uppercase; margin: 16px 0 2px; }
+      .field { display: flex; align-items: baseline; gap: 16px; padding: 10px 0; }
+      .field .label { width: 42%; max-width: 160px; color: var(--sp-muted); font-size: .88em; flex: none; }
+      .field .value { flex: 1; min-width: 0; border-bottom: 1px solid var(--sp-line); padding-bottom: 7px; font-weight: 500; overflow-wrap: anywhere; }
+      .field input, .field .value.static { font: inherit; color: inherit; }
+      .field input {
+        flex: 1; min-width: 0; width: 100%; border: 0; border-bottom: 1px solid var(--sp-line); background: transparent;
+        padding: 0 0 7px; font-weight: 500; border-radius: 0; outline: none;
+      }
+      .field input:focus { border-bottom-color: var(--sp-accent); }
+      .bar { height: 7px; border-radius: 99px; background: var(--sp-line); overflow: hidden; margin-top: 9px; }
+      .bar > div { height: 100%; border-radius: inherit; transition: width .25s ease; }
+      .battery-row { padding: 14px 16px; }
+      .battery-row + .sheet { margin-top: 14px; }
+      .battery-row .line { display: flex; justify-content: space-between; font-size: .95em; }
+      .battery-row .line span:first-child { color: var(--sp-muted); }
+      .btn {
+        display: block; margin: 18px auto 8px; min-width: 170px; padding: 12px 22px; border: 0; border-radius: 14px;
+        background: var(--sp-accent); color: #fff; font: inherit; font-weight: 650; cursor: pointer;
+        box-shadow: 0 6px 14px rgba(27, 130, 184, .25); transition: opacity .15s ease, transform .1s ease;
+      }
+      .btn:active { transform: scale(.98); }
+      .btn:disabled { opacity: .5; cursor: default; }
+      .hint { font-size: .85em; color: var(--sp-muted); margin: 8px 6px 0; }
+      #message { min-height: 0; margin: 0 4px; font-size: .92em; }
+      #message:not(:empty) { margin-bottom: 12px; }
+      #message.error { color: var(--sp-bad); }
+      #message.ok { color: var(--sp-ok); }
+      .error-text { color: var(--sp-bad); font-size: .88em; margin-top: 6px; }
+    </style>
+  </head>
+  <body>
+    <div class="app">
+      <div class="nav">
+        <button class="back" id="back" type="button" hidden></button>
+        <h1 id="title"></h1>
+      </div>
+      <div id="message" role="status"></div>
+      <main id="view"></main>
+    </div>
+    <script type="text/javascript">
+      function onHomeyReady(Homey) {
+        var BATTERY_LOW = 20;
+        var INTERVALS = [60, 180, 300, 900];
+        var STATE_CLASS = {
+          connected: 'ok',
+          connecting: 'warn',
+          rate_limited: 'warn',
+          no_credentials: 'bad',
+          auth_error: 'bad',
+          network_error: 'bad'
+        };
+        var ERROR_KEYS = {
+          AUTH_FAILED: 'error.auth',
+          RATE_LIMITED: 'error.rate_limited',
+          NETWORK_ERROR: 'error.network',
+          MISSING_CREDENTIALS: 'error.missing',
+          INVALID_REQUEST: 'error.unknown',
+          UNKNOWN_ERROR: 'error.unknown'
+        };
+        var MODE_VALUES = { normal: 0, keep_in: 1, keep_out: 2, locked: 3, curfew: 4 };
+        var AVATAR_COLORS = ['#e8934a', '#7bb6d6', '#8a8fa8', '#6dbb8d', '#c985b8', '#d9a441'];
+        var ICONS = {
+          chevron: '<path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>',
+          back: '<path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>',
+          tick: '<path d="M5 12l5 5 9-10" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>',
+          flap: '<path d="M6 3h12v18H6zM4 21h16M14 12v.1" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>',
+          feeder: '<path d="M3 12h18a9 7 0 0 1-9 7 9 7 0 0 1-9-7zM7 10a5 4 0 0 1 10 0" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>',
+          felaqua: '<path d="M12 3s-6 6.5-6 11a6 6 0 0 0 12 0c0-4.5-6-11-6-11z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>',
+          sync: '<path d="M20 11a8 8 0 0 0-14-4M4 5v4h4M4 13a8 8 0 0 0 14 4M20 19v-4h-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>',
+          clock: '<circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 7v5l3 2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>',
+          logout: '<path d="M10 4H5v16h5M15 8l4 4-4 4M19 12H9" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>',
+          user: '<circle cx="12" cy="8" r="4" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M4 21c1-4.5 4-6 8-6s7 1.5 8 6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>'
+        };
+
+        var viewEl = document.getElementById('view');
+        var titleEl = document.getElementById('title');
+        var backButton = document.getElementById('back');
+        var messageEl = document.getElementById('message');
+        var language = 'en';
+        var lastLoaded = null;
+        var view = { name: 'overview' };
+        var builtKey = null;
+        var messageTimer = null;
+        var busy = {};
+
+        // ---------- helpers ----------
+        // Homey.__ does not always replace the {{token}} placeholders in settings pages,
+        // so any placeholder that is left over is filled in here.
+        function t(key, tokens) {
+          var text = String(Homey.__(key, tokens));
+          if (tokens) {
+            Object.keys(tokens).forEach(function (name) {
+              text = text.split('{{' + name + '}}').join(String(tokens[name]));
+            });
+          }
+          return text;
+        }
+        function api(method, path, body) {
+          return new Promise(function (resolve, reject) {
+            Homey.api(method, path, body, function (err, result) {
+              if (err) { reject(err); } else { resolve(result); }
+            });
+          });
+        }
+        function el(tag, className, text) {
+          var node = document.createElement(tag);
+          if (className) { node.className = className; }
+          if (text !== undefined && text !== null) { node.textContent = text; }
+          return node;
+        }
+        function clear(node) { while (node.firstChild) { node.removeChild(node.firstChild); } }
+        function icon(name, className) {
+          var svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+          svg.setAttribute('viewBox', '0 0 24 24');
+          if (className) { svg.setAttribute('class', className); }
+          svg.innerHTML = ICONS[name]; // static markup only
+          return svg;
+        }
+        function showMessage(text, kind) {
+          clearTimeout(messageTimer);
+          messageEl.textContent = text || '';
+          messageEl.className = kind || '';
+          if (text && kind === 'ok') {
+            messageTimer = setTimeout(function () { messageEl.textContent = ''; messageEl.className = ''; }, 4000);
+          }
+        }
+        function errorText(err) {
+          var key = ERROR_KEYS[err && err.message];
+          return key ? t(key) : t('error.unknown');
+        }
+        function formatDate(ts) {
+          if (!ts) { return t('health.never'); }
+          return new Date(ts).toLocaleString(language);
+        }
+        function formatAgo(ts) {
+          if (!ts) { return ''; }
+          var seconds = Math.round((ts - Date.now()) / 1000);
+          var abs = Math.abs(seconds);
+          var rtf = new Intl.RelativeTimeFormat(language, { numeric: 'auto' });
+          if (abs < 60) { return rtf.format(seconds, 'second'); }
+          if (abs < 3600) { return rtf.format(Math.round(seconds / 60), 'minute'); }
+          if (abs < 86400) { return rtf.format(Math.round(seconds / 3600), 'hour'); }
+          return rtf.format(Math.round(seconds / 86400), 'day');
+        }
+        function formatTime(iso) {
+          return iso ? new Date(iso).toLocaleTimeString(language, { hour: '2-digit', minute: '2-digit' }) : '-';
+        }
+        function formatMinutes(total) {
+          var hours = Math.floor(total / 60);
+          var minutes = total % 60;
+          return hours > 0 ? t('pets.hours_minutes', { hours: hours, minutes: minutes }) : t('pets.minutes', { minutes: minutes });
+        }
+        function formatInterval(seconds) {
+          return seconds % 60 === 0 ? t('account.minutes', { count: seconds / 60 }) : t('account.seconds', { count: seconds });
+        }
+        function formatAge(birthDate) {
+          var born = new Date(birthDate);
+          if (isNaN(born.getTime())) { return null; }
+          var now = new Date();
+          var months = (now.getFullYear() - born.getFullYear()) * 12 + now.getMonth() - born.getMonth();
+          if (now.getDate() < born.getDate()) { months -= 1; }
+          if (months < 0) { return null; }
+          return months >= 12
+            ? t('pets.age_years', { years: Math.floor(months / 12), months: months % 12 })
+            : t('pets.age_months', { months: months });
+        }
+        // Only the profile fields that are known are shown.
+        function profileRows(profile) {
+          var rows = [];
+          if (!profile) { return rows; }
+          if (profile.species) { rows.push([t('pets.species'), t('pets.species_' + profile.species)]); }
+          if (profile.gender) { rows.push([t('pets.gender'), t('pets.gender_' + profile.gender)]); }
+          if (profile.birthDate) {
+            rows.push([t('pets.age'), formatAge(profile.birthDate) || new Date(profile.birthDate).toLocaleDateString(language)]);
+          }
+          if (profile.weightKg !== null) { rows.push([t('pets.weight'), profile.weightKg + ' kg']); }
+          if (profile.foodType) { rows.push([t('pets.food_type'), t('pets.food_' + profile.foodType)]); }
+          if (profile.spayed !== null) { rows.push([t('pets.spayed'), t(profile.spayed ? 'pets.yes' : 'pets.no')]); }
+          if (profile.chip) { rows.push([t('pets.chip'), profile.chip]); }
+          return rows;
+        }
+        function positionClass(position) {
+          if (position === 'inside') { return 'ok'; }
+          if (position === 'outside') { return 'warn'; }
+          return '';
+        }
+        function batteryClass(percent) {
+          if (percent === null || percent === undefined) { return ''; }
+          if (percent <= BATTERY_LOW) { return 'bad'; }
+          return '';
+        }
+        function avatarFor(name, id, photoUrl) {
+          var avatar = el('div', 'avatar');
+          avatar.style.background = AVATAR_COLORS[Math.abs(Number(id) || 0) % AVATAR_COLORS.length];
+          var letter = (name || '?').trim().charAt(0).toUpperCase();
+          if (photoUrl) {
+            var img = document.createElement('img');
+            img.referrerPolicy = 'no-referrer';
+            img.alt = name;
+            img.onerror = function () { clear(avatar); avatar.textContent = letter; };
+            img.src = photoUrl;
+            avatar.appendChild(img);
+          } else {
+            avatar.textContent = letter;
+          }
+          return avatar;
+        }
+        function snapshotOf(household) { return household && household.snapshot ? household.snapshot : null; }
+        function findPet(id) {
+          var snap = snapshotOf(lastLoaded);
+          return snap ? snap.pets.filter(function (p) { return p.id === id; })[0] : null;
+        }
+        function findDevice(kind, id) {
+          var snap = snapshotOf(lastLoaded);
+          if (!snap) { return null; }
+          var list = kind === 'flap' ? snap.flaps : kind === 'feeder' ? snap.feeders : snap.felaquas;
+          return list.filter(function (d) { return d.id === id; })[0];
+        }
+        function modeLabelOf(device) {
+          if (device.lockMode === null || device.lockMode === undefined) { return null; }
+          var id = Object.keys(MODE_VALUES).filter(function (key) { return MODE_VALUES[key] === device.lockMode; })[0];
+          return id ? t('mode.' + id) : null;
+        }
+
+        // ---------- row builders ----------
+        function makeRow(options) {
+          var row = el('div', 'row' + (options.onClick ? ' clickable' : ''));
+          if (options.onClick) {
+            row.setAttribute('role', 'button');
+            row.tabIndex = 0;
+            row.addEventListener('click', options.onClick);
+            row.addEventListener('keydown', function (event) {
+              if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); options.onClick(); }
+            });
+          }
+          if (options.leading) { row.appendChild(options.leading); }
+          var body = el('div', 'body');
+          var title = el('div', 'title', options.title);
+          body.appendChild(title);
+          if (options.sub) {
+            var sub = el('div', 'sub');
+            if (options.dot !== undefined) { sub.appendChild(el('span', 'dot ' + options.dot)); }
+            sub.appendChild(el('span', 'sub-text', options.sub));
+            body.appendChild(sub);
+          }
+          row.appendChild(body);
+          if (options.trailing) { row.appendChild(el('div', 'trail', options.trailing)); }
+          if (options.tick) { row.appendChild(icon('tick', 'tick')); }
+          if (options.chevron) { row.appendChild(icon('chevron', 'chev')); }
+          row.titleEl = title;
+          return row;
+        }
+        function group(rows) {
+          var box = el('div', 'group');
+          rows.forEach(function (row) { box.appendChild(row); });
+          return box;
+        }
+        function field(label, value) {
+          var box = el('div', 'field');
+          box.appendChild(el('span', 'label', label));
+          box.appendChild(el('span', 'value', value));
+          return box;
+        }
+        function batteryCard(percent) {
+          var card = el('div', 'group battery-row');
+          var line = el('div', 'line');
+          line.appendChild(el('span', null, t('devices.battery')));
+          line.appendChild(el('b', null, percent === null ? '-' : percent + '%'));
+          card.appendChild(line);
+          var bar = el('div', 'bar');
+          var fill = el('div');
+          var value = percent === null ? 0 : percent;
+          fill.style.width = value + '%';
+          fill.style.background = value <= BATTERY_LOW ? 'var(--sp-bad)' : value <= 50 ? 'var(--sp-warn)' : 'var(--sp-ok)';
+          bar.appendChild(fill);
+          card.appendChild(bar);
+          return card;
+        }
+
+        // ---------- navigation ----------
+        function viewKey(v) { return [v.name, v.kind || '', v.id === undefined ? '' : v.id].join(':'); }
+        function go(next) {
+          view = next;
+          builtKey = null;
+          window.scrollTo(0, 0);
+          draw();
+        }
+        function goBack() {
+          go({ name: 'overview' });
+        }
+        backButton.addEventListener('click', goBack);
+
+        // ---------- views ----------
+        function buildOverview(household) {
+          var status = household.status;
+          var snap = snapshotOf(household);
+          titleEl.textContent = t('settings.title');
+
+          // Account
+          viewEl.appendChild(el('h2', null, t('account.section')));
+          var accountSub = t('state.' + status.state);
+          if (status.state === 'connected' && status.lastUpdate) {
+            accountSub += ' \u00b7 ' + t('overview.synced', { ago: formatAgo(status.lastUpdate) });
+          }
+          viewEl.appendChild(group([makeRow({
+            leading: avatarFor(status.email || '?', 3, null),
+            title: status.email || t('state.no_credentials'),
+            sub: accountSub,
+            dot: STATE_CLASS[status.state] || '',
+            chevron: true,
+            onClick: function () { go({ name: 'account' }); }
+          })]));
+
+          // Pets
+          viewEl.appendChild(el('h2', null, t('pets.title')));
+          var petRows = [];
+          (snap ? snap.pets : []).forEach(function (pet) {
+            var sub = t('pets.' + pet.position);
+            if (pet.since) { sub += ' \u00b7 ' + t('pets.since') + ' ' + formatTime(pet.since); }
+            petRows.push(makeRow({
+              leading: avatarFor(pet.name, pet.id, pet.photoUrl),
+              title: pet.name,
+              sub: sub,
+              dot: positionClass(pet.position),
+              chevron: true,
+              onClick: function () { go({ name: 'pet', id: pet.id }); }
+            }));
+          });
+          viewEl.appendChild(petRows.length ? group(petRows) : group([el('div', 'empty', t('pets.empty'))]));
+
+          // Devices
+          viewEl.appendChild(el('h2', null, t('devices.section')));
+          var deviceRows = [];
+          if (snap) {
+            snap.flaps.forEach(function (flap) {
+              var parts = [];
+              if (modeLabelOf(flap)) { parts.push(modeLabelOf(flap)); }
+              parts.push(t('devices.battery') + ' ' + (flap.batteryPercent === null ? '-' : flap.batteryPercent + '%'));
+              deviceRows.push(deviceRow('flap', flap, parts));
+            });
+            snap.feeders.forEach(function (feeder) {
+              deviceRows.push(deviceRow('feeder', feeder, [
+                t('devices.battery') + ' ' + (feeder.batteryPercent === null ? '-' : feeder.batteryPercent + '%')
+              ]));
+            });
+            snap.felaquas.forEach(function (felaqua) {
+              var parts = [];
+              if (felaqua.fillPercent !== null) { parts.push(t('devices.water_level') + ' ' + felaqua.fillPercent + '%'); }
+              parts.push(t('devices.battery') + ' ' + (felaqua.batteryPercent === null ? '-' : felaqua.batteryPercent + '%'));
+              deviceRows.push(deviceRow('felaqua', felaqua, parts));
+            });
+          }
+          viewEl.appendChild(deviceRows.length ? group(deviceRows) : group([el('div', 'empty', t('devices.empty'))]));
+
+          // System
+          viewEl.appendChild(el('h2', null, t('system.title')));
+          var loggedOut = status.state === 'no_credentials';
+          var syncRow = makeRow({
+            leading: icon('sync', 'ico'),
+            title: busy.sync ? t('health.syncing') : t('health.sync'),
+            chevron: true,
+            onClick: loggedOut ? null : forceSync
+          });
+          if (loggedOut || busy.sync) { syncRow.className += ' disabled'; }
+          var intervalRow = makeRow({
+            leading: icon('clock', 'ico'),
+            title: t('account.interval'),
+            trailing: formatInterval(status.pollIntervalSeconds),
+            chevron: true,
+            onClick: function () { go({ name: 'interval' }); }
+          });
+          var logoutRow = makeRow({
+            leading: icon('logout', 'ico'),
+            title: t('account.logout'),
+            chevron: true,
+            onClick: loggedOut ? null : logout
+          });
+          if (loggedOut) { logoutRow.className += ' disabled'; }
+          viewEl.appendChild(group([syncRow, intervalRow, logoutRow]));
+          if (status.lastError && status.state !== 'connected') {
+            viewEl.appendChild(el('div', 'error-text', status.lastError));
+          }
+        }
+        function deviceRow(kind, device, parts) {
+          var offline = device.online === false;
+          var sub = (offline ? t('devices.offline') + ' \u00b7 ' : '') + parts.join(' \u00b7 ');
+          return makeRow({
+            leading: icon(kind, 'ico'),
+            title: device.name,
+            sub: sub,
+            dot: offline ? 'bad' : (batteryClass(device.batteryPercent) || undefined),
+            chevron: true,
+            onClick: function () { go({ name: 'device', kind: kind, id: device.id }); }
+          });
+        }
+
+        function buildPet(pet) {
+          titleEl.textContent = pet.name;
+          var sheet = el('div', 'sheet');
+          var hero = el('div', 'hero');
+          hero.appendChild(avatarFor(pet.name, pet.id, pet.photoUrl));
+          hero.appendChild(el('div', 'name', pet.name));
+          var state = el('div', 'state');
+          state.appendChild(el('span', 'dot ' + positionClass(pet.position)));
+          var stateText = t('pets.' + pet.position);
+          if (pet.since) { stateText += ' \u00b7 ' + t('pets.since') + ' ' + formatTime(pet.since); }
+          state.appendChild(document.createTextNode(stateText));
+          hero.appendChild(state);
+          sheet.appendChild(hero);
+
+          var lastSeen = pet.lastSeen ? new Date(pet.lastSeen).getTime() : null;
+          sheet.appendChild(el('div', 'subhead', t('pets.today')));
+          sheet.appendChild(field(t('pets.last_seen'), lastSeen ? formatAgo(lastSeen) : '-'));
+          sheet.appendChild(field(t('pets.food_today'), pet.today ? pet.today.foodGrams + ' g' : '-'));
+          sheet.appendChild(field(t('pets.water_today'), pet.today ? pet.today.waterMl + ' ml' : '-'));
+          sheet.appendChild(field(t('pets.meals_today'), pet.today ? String(pet.today.mealCount) : '-'));
+          sheet.appendChild(field(t('pets.drinks_today'), pet.today ? String(pet.today.drinkCount) : '-'));
+          sheet.appendChild(field(t('pets.trips_today'), pet.today && pet.today.tripCount !== null ? String(pet.today.tripCount) : '-'));
+          sheet.appendChild(field(t('pets.outside_today'), pet.today && pet.today.outsideMinutes !== null ? formatMinutes(pet.today.outsideMinutes) : '-'));
+          sheet.appendChild(field(t('pets.last_door'), pet.lastDoor && pet.lastDoor.deviceName ? pet.lastDoor.deviceName : '-'));
+
+          var profile = profileRows(pet.profile);
+          if (profile.length) {
+            sheet.appendChild(el('div', 'subhead', t('pets.profile')));
+            profile.forEach(function (row) { sheet.appendChild(field(row[0], row[1])); });
+          }
+          viewEl.appendChild(sheet);
+        }
+
+        function buildDevice(kind, device) {
+          titleEl.textContent = device.name;
+          viewEl.appendChild(batteryCard(device.batteryPercent));
+
+          if (kind === 'flap') {
+            viewEl.appendChild(el('h2', null, t('devices.lock_mode')));
+            var rows = lastLoaded.lockModes.map(function (id) {
+              return makeRow({
+                title: t('mode.' + id),
+                sub: t('mode_hint.' + id),
+                tick: MODE_VALUES[id] === device.lockMode,
+                onClick: function () { setLockMode(device.id, id); }
+              });
+            });
+            viewEl.appendChild(group(rows));
+          } else if (kind === 'feeder') {
+            var left = device.bowls.filter(function (b) { return b.index === 0; })[0];
+            var right = device.bowls.filter(function (b) { return b.index === 1; })[0];
+            var sheet = el('div', 'sheet');
+            sheet.appendChild(field(t('devices.left_bowl'), left && left.weightGrams !== null ? left.weightGrams + ' g' : '-'));
+            if (!device.singleBowl) {
+              sheet.appendChild(field(t('devices.right_bowl'), right && right.weightGrams !== null ? right.weightGrams + ' g' : '-'));
+            }
+            viewEl.appendChild(sheet);
+          } else {
+            var water = el('div', 'sheet');
+            water.appendChild(field(t('devices.water_level'), device.fillPercent !== null ? device.fillPercent + '%' : '-'));
+            water.appendChild(field(t('devices.water_volume'), device.waterMl !== null ? device.waterMl + ' ml' : '-'));
+            viewEl.appendChild(water);
+          }
+        }
+
+        function buildInterval(household) {
+          titleEl.textContent = t('account.interval');
+          var current = household.status.pollIntervalSeconds;
+          var values = INTERVALS.slice();
+          if (values.indexOf(current) === -1) { values.push(current); values.sort(function (a, b) { return a - b; }); }
+          viewEl.appendChild(group(values.map(function (seconds) {
+            return makeRow({
+              title: formatInterval(seconds),
+              tick: seconds === current,
+              onClick: function () { saveInterval(seconds); }
+            });
+          })));
+        }
+
+        function buildAccount(household) {
+          titleEl.textContent = t('account.section');
+          var sheet = el('div', 'sheet');
+
+          var emailField = el('div', 'field');
+          emailField.appendChild(el('label', 'label', t('account.email')));
+          var email = document.createElement('input');
+          email.id = 'email';
+          email.type = 'email';
+          email.autocomplete = 'username';
+          email.value = household.status.email || '';
+          emailField.firstChild.setAttribute('for', 'email');
+          emailField.appendChild(email);
+          sheet.appendChild(emailField);
+
+          var passwordField = el('div', 'field');
+          passwordField.appendChild(el('label', 'label', t('account.password')));
+          var password = document.createElement('input');
+          password.id = 'password';
+          password.type = 'password';
+          password.autocomplete = 'current-password';
+          passwordField.firstChild.setAttribute('for', 'password');
+          passwordField.appendChild(password);
+          sheet.appendChild(passwordField);
+
+          var statusField = el('div', 'field');
+          statusField.appendChild(el('span', 'label', t('health.status')));
+          var statusValue = el('span', 'value');
+          statusValue.id = 'accState';
+          statusField.appendChild(statusValue);
+          sheet.appendChild(statusField);
+
+          var syncField = el('div', 'field');
+          syncField.appendChild(el('span', 'label', t('health.last_sync')));
+          var syncValue = el('span', 'value');
+          syncValue.id = 'accSync';
+          syncField.appendChild(syncValue);
+          sheet.appendChild(syncField);
+
+          var errorLine = el('div', 'error-text');
+          errorLine.id = 'accError';
+          sheet.appendChild(errorLine);
+
+          var login = el('button', 'btn');
+          login.id = 'login';
+          login.type = 'button';
+          login.addEventListener('click', doLogin);
+          sheet.appendChild(login);
+          viewEl.appendChild(sheet);
+
+          updateAccount();
+        }
+        // Updates only the status texts so typed input is never lost.
+        function updateAccount() {
+          if (!lastLoaded) { return; }
+          var status = lastLoaded.status;
+          var stateEl = document.getElementById('accState');
+          if (!stateEl) { return; }
+          clear(stateEl);
+          stateEl.appendChild(el('span', 'dot ' + (STATE_CLASS[status.state] || '')));
+          stateEl.appendChild(document.createTextNode(' ' + t('state.' + status.state)));
+          var ago = status.lastUpdate ? ' (' + formatAgo(status.lastUpdate) + ')' : '';
+          document.getElementById('accSync').textContent = formatDate(status.lastUpdate) + ago;
+          document.getElementById('accError').textContent =
+            status.lastError && status.state !== 'connected' ? status.lastError : '';
+          var login = document.getElementById('login');
+          login.textContent = t(status.state === 'no_credentials' ? 'account.login' : 'account.update');
+          var password = document.getElementById('password');
+          password.placeholder = status.state === 'no_credentials' ? '' : '\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022';
+        }
+
+        // ---------- drawing ----------
+        function draw() {
+          if (!lastLoaded) { return; }
+          var key = viewKey(view);
+          if (view.name === 'account' && builtKey === key) {
+            updateAccount();
+            return;
+          }
+
+          var scroll = window.pageYOffset;
+          var sameView = builtKey === key;
+          clear(viewEl);
+
+          var target = null;
+          if (view.name === 'pet') { target = findPet(view.id); }
+          if (view.name === 'device') { target = findDevice(view.kind, view.id); }
+          if ((view.name === 'pet' || view.name === 'device') && !target) {
+            // The pet or device no longer exists: return to the overview.
+            view = { name: 'overview' };
+            key = viewKey(view);
+            sameView = false;
+          }
+
+          backButton.hidden = view.name === 'overview';
+          backButton.setAttribute('aria-label', t('settings.back'));
+          clear(backButton);
+          backButton.appendChild(icon('back'));
+
+          if (view.name === 'overview') { buildOverview(lastLoaded); }
+          else if (view.name === 'pet') { buildPet(target); }
+          else if (view.name === 'device') { buildDevice(view.kind, target); }
+          else if (view.name === 'interval') { buildInterval(lastLoaded); }
+          else if (view.name === 'account') { buildAccount(lastLoaded); }
+
+          builtKey = key;
+          if (sameView) { window.scrollTo(0, scroll); }
+        }
+        function render(household) {
+          lastLoaded = household;
+          draw();
+        }
+
+        // ---------- actions ----------
+        function load() {
+          return api('GET', '/household').then(render).catch(function () { /* keep showing the last data */ });
+        }
+        function setLockMode(deviceId, mode) {
+          if (busy.mode) { return; }
+          busy.mode = true;
+          api('POST', '/lock-mode', { deviceId: deviceId, mode: mode })
+            .then(function (household) {
+              showMessage(t('msg.mode_set', { mode: t('mode.' + mode) }), 'ok');
+              render(household);
+            })
+            .catch(function (err) { showMessage(errorText(err), 'error'); })
+            .then(function () { busy.mode = false; });
+        }
+        function forceSync() {
+          if (busy.sync) { return; }
+          busy.sync = true;
+          draw();
+          api('POST', '/sync')
+            .then(function (household) { showMessage(''); render(household); })
+            .catch(function (err) { showMessage(errorText(err), 'error'); })
+            .then(function () { busy.sync = false; draw(); });
+        }
+        function logout() {
+          api('POST', '/logout')
+            .then(function () { showMessage(''); return load(); })
+            .catch(function (err) { showMessage(errorText(err), 'error'); });
+        }
+        function saveInterval(seconds) {
+          api('POST', '/settings', { pollInterval: seconds })
+            .then(function () { showMessage(t('msg.saved'), 'ok'); return load(); })
+            .then(function () { go({ name: 'overview' }); })
+            .catch(function (err) { showMessage(errorText(err), 'error'); });
+        }
+        function doLogin() {
+          var loginButton = document.getElementById('login');
+          var email = document.getElementById('email');
+          var password = document.getElementById('password');
+          loginButton.disabled = true;
+          showMessage(t('msg.logging_in'));
+          api('POST', '/login', { email: email.value, password: password.value })
+            .then(function () {
+              password.value = '';
+              showMessage(t('msg.logged_in'), 'ok');
+              return load();
+            })
+            .catch(function (err) { showMessage(errorText(err), 'error'); })
+            .then(function () { loginButton.disabled = false; });
+        }
+
+        // ---------- start ----------
+        Homey.getLanguage(function (err, lang) {
+          language = !err && lang ? lang : 'en';
+          load().then(function () { Homey.ready(); });
+          // Reads the cache of the app only (no Sure Petcare request), so a short interval is safe.
+          setInterval(load, 15000);
+        });
+      }
+    </script>
+  </body>
+</html>

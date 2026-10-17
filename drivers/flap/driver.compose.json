@@ -1,0 +1,35 @@
+{
+  "name": { "en": "Pet door", "nl": "Huisdierdeur", "no": "Kjæledyrdør" },
+  "class": "other",
+  "platforms": ["local"],
+  "connectivity": ["cloud"],
+  "capabilities": [
+    "flap_lock_mode",
+    "locked",
+    "last_used_by",
+    "last_used_at",
+    "measure_signal_strength",
+    "alarm_offline",
+    "measure_battery",
+    "alarm_battery"
+  ],
+  "energy": {
+    "batteries": ["AA", "AA", "AA", "AA"]
+  },
+  "images": {
+    "small": "{{driverAssetsPath}}/images/small.png",
+    "large": "{{driverAssetsPath}}/images/large.png",
+    "xlarge": "{{driverAssetsPath}}/images/xlarge.png"
+  },
+  "pair": [
+    {
+      "id": "list_devices",
+      "template": "list_devices",
+      "navigation": { "next": "add_devices" }
+    },
+    {
+      "id": "add_devices",
+      "template": "add_devices"
+    }
+  ]
+}

@@ -1,0 +1,48 @@
+{
+  "title": {
+    "en": "Reached daily food goal",
+    "nl": "Heeft het dagelijkse voerdoel bereikt",
+    "no": "Har nådd det daglige matmålet"
+  },
+  "hint": {
+    "en": "Triggers once a day when the pet has eaten at least the \"Daily food goal\" from the pet device settings.",
+    "nl": "Wordt één keer per dag geactiveerd als het huisdier minstens het \"Dagelijks voerdoel\" uit de apparaatinstellingen van het huisdier heeft gegeten.",
+    "no": "Utløses én gang om dagen når kjæledyret har spist minst «Daglig matmål» fra enhetsinnstillingene for kjæledyret."
+  },
+  "args": [
+    {
+      "type": "device",
+      "name": "pet",
+      "filter": "driver_id=pet",
+      "placeholder": {
+        "en": "Pet",
+        "nl": "Huisdier",
+        "no": "Kjæledyr"
+      }
+    }
+  ],
+  "tokens": [
+    {
+      "name": "name",
+      "type": "string",
+      "title": {
+        "en": "Name",
+        "nl": "Naam",
+        "no": "Navn"
+      },
+      "example": {
+        "en": "Whiskers"
+      }
+    },
+    {
+      "name": "amount",
+      "type": "number",
+      "title": {
+        "en": "Eaten today in grams",
+        "nl": "Vandaag gegeten in gram",
+        "no": "Spist i dag i gram"
+      },
+      "example": 60
+    }
+  ]
+}

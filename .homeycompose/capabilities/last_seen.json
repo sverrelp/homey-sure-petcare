@@ -1,0 +1,12 @@
+{
+  "icon": "/assets/capabilities/last_seen.svg",
+  "type": "string",
+  "title": {
+    "en": "Last seen",
+    "nl": "Laatst gezien",
+    "no": "Sist sett"
+  },
+  "getable": true,
+  "setable": false,
+  "uiComponent": "sensor"
+}

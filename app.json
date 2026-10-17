@@ -1,0 +1,2407 @@
+{
+  "_comment": "This file is generated. Please edit .homeycompose/app.json instead.",
+  "id": "com.sverre.surepet",
+  "version": "1.0.6",
+  "compatibility": ">=12.3.0",
+  "sdk": 3,
+  "platforms": [
+    "local"
+  ],
+  "name": {
+    "en": "Sure Pet Flap & Feeder",
+    "nl": "Sure Pet Flap & Feeder",
+    "no": "Sure Pet Flap & Feeder"
+  },
+  "description": {
+    "en": "Know where your pets are, and keep them safe and fed",
+    "nl": "Weet waar je huisdieren zijn en houd ze veilig en goed gevoed",
+    "no": "Vit hvor kjæledyrene dine er, og hold dem trygge og mette"
+  },
+  "tags": {
+    "en": [
+      "pet",
+      "cat",
+      "dog",
+      "pet door",
+      "cat flap",
+      "feeder",
+      "water fountain"
+    ],
+    "nl": [
+      "huisdier",
+      "kat",
+      "hond",
+      "kattenluik",
+      "huisdierdeur",
+      "voerbak",
+      "drinkfontein"
+    ],
+    "no": [
+      "kjæledyr",
+      "katt",
+      "hund",
+      "kattelem",
+      "kjæledyrdør",
+      "foringsautomat",
+      "drikkefontene"
+    ]
+  },
+  "category": [
+    "appliances"
+  ],
+  "permissions": [],
+  "brandColor": "#E4003A",
+  "images": {
+    "small": "/assets/images/small.png",
+    "large": "/assets/images/large.png",
+    "xlarge": "/assets/images/xlarge.png"
+  },
+  "author": {
+    "name": "Sverre"
+  },
+  "api": {
+    "login": {
+      "method": "POST",
+      "path": "/login"
+    },
+    "getStatus": {
+      "method": "GET",
+      "path": "/status"
+    },
+    "logout": {
+      "method": "POST",
+      "path": "/logout"
+    },
+    "getHousehold": {
+      "method": "GET",
+      "path": "/household"
+    },
+    "sync": {
+      "method": "POST",
+      "path": "/sync"
+    },
+    "setLockMode": {
+      "method": "POST",
+      "path": "/lock-mode"
+    },
+    "saveSettings": {
+      "method": "POST",
+      "path": "/settings"
+    }
+  },
+  "flow": {
+    "triggers": [
+      {
+        "title": {
+          "en": "Battery level is low",
+          "nl": "Batterijniveau is laag",
+          "no": "Batterinivået er lavt"
+        },
+        "hint": {
+          "en": "Triggers when the battery of a pet door, feeder or water fountain drops to 20% or lower.",
+          "nl": "Wordt geactiveerd als de batterij van een huisdierdeur, voerbak of drinkfontein onder de 20% komt.",
+          "no": "Utløses når batteriet i en kjæledyrdør, foringsautomat eller drikkefontene faller til 20 % eller lavere."
+        },
+        "tokens": [
+          {
+            "name": "name",
+            "type": "string",
+            "title": {
+              "en": "Device",
+              "nl": "Apparaat",
+              "no": "Enhet"
+            },
+            "example": {
+              "en": "Back door"
+            }
+          },
+          {
+            "name": "level",
+            "type": "number",
+            "title": {
+              "en": "Battery level in percent",
+              "nl": "Batterijniveau in procent",
+              "no": "Batterinivå i prosent"
+            },
+            "example": 15
+          },
+          {
+            "name": "type",
+            "type": "string",
+            "title": {
+              "en": "Device type",
+              "nl": "Apparaattype",
+              "no": "Enhetstype"
+            },
+            "example": {
+              "en": "flap"
+            }
+          }
+        ],
+        "id": "battery_low"
+      },
+      {
+        "title": {
+          "en": "Connection problem",
+          "nl": "Verbindingsprobleem",
+          "no": "Tilkoblingsproblem"
+        },
+        "hint": {
+          "en": "Triggers when logging in fails or Sure Petcare cannot be reached.",
+          "nl": "Wordt geactiveerd als inloggen mislukt of Sure Petcare niet bereikbaar is.",
+          "no": "Utløses når innlogging mislykkes eller Sure Petcare ikke kan nås."
+        },
+        "tokens": [
+          {
+            "name": "reason",
+            "type": "string",
+            "title": {
+              "en": "Reason",
+              "nl": "Reden",
+              "no": "Årsak"
+            },
+            "example": {
+              "en": "Error: cannot reach Sure Petcare"
+            }
+          }
+        ],
+        "id": "connection_problem"
+      },
+      {
+        "title": {
+          "en": "Door came back online",
+          "nl": "Deur is weer online",
+          "no": "Døren er online igjen"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "door",
+            "filter": "driver_id=flap",
+            "placeholder": {
+              "en": "Door",
+              "nl": "Deur",
+              "no": "Dør"
+            }
+          }
+        ],
+        "tokens": [
+          {
+            "name": "door",
+            "type": "string",
+            "title": {
+              "en": "Door",
+              "nl": "Deur",
+              "no": "Dør"
+            },
+            "example": {
+              "en": "Back door"
+            }
+          }
+        ],
+        "id": "door_came_online"
+      },
+      {
+        "title": {
+          "en": "Lock mode changed",
+          "nl": "Vergrendelmodus gewijzigd",
+          "no": "Låsemodus endret"
+        },
+        "titleFormatted": {
+          "en": "Lock mode changed to [[mode]]",
+          "nl": "Vergrendelmodus gewijzigd naar [[mode]]",
+          "no": "Låsemodus endret til [[mode]]"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "door",
+            "filter": "driver_id=flap",
+            "placeholder": {
+              "en": "Door",
+              "nl": "Deur",
+              "no": "Dør"
+            }
+          },
+          {
+            "type": "dropdown",
+            "name": "mode",
+            "values": [
+              {
+                "id": "any",
+                "title": {
+                  "en": "Any mode",
+                  "nl": "Elke modus",
+                  "no": "Hvilken som helst modus"
+                },
+                "label": {
+                  "en": "Any mode",
+                  "nl": "Elke modus",
+                  "no": "Hvilken som helst modus"
+                }
+              },
+              {
+                "id": "normal",
+                "title": {
+                  "en": "Normal",
+                  "nl": "Normaal",
+                  "no": "Normal"
+                },
+                "label": {
+                  "en": "Normal",
+                  "nl": "Normaal",
+                  "no": "Normal"
+                }
+              },
+              {
+                "id": "keep_in",
+                "title": {
+                  "en": "Keep in",
+                  "nl": "Binnen houden",
+                  "no": "Hold inne"
+                },
+                "label": {
+                  "en": "Keep in",
+                  "nl": "Binnen houden",
+                  "no": "Hold inne"
+                }
+              },
+              {
+                "id": "keep_out",
+                "title": {
+                  "en": "Keep out",
+                  "nl": "Buiten houden",
+                  "no": "Hold ute"
+                },
+                "label": {
+                  "en": "Keep out",
+                  "nl": "Buiten houden",
+                  "no": "Hold ute"
+                }
+              },
+              {
+                "id": "locked",
+                "title": {
+                  "en": "Locked",
+                  "nl": "Vergrendeld",
+                  "no": "Låst"
+                },
+                "label": {
+                  "en": "Locked",
+                  "nl": "Vergrendeld",
+                  "no": "Låst"
+                }
+              },
+              {
+                "id": "curfew",
+                "title": {
+                  "en": "Curfew",
+                  "nl": "Avondklok",
+                  "no": "Utegangsforbud"
+                },
+                "label": {
+                  "en": "Curfew",
+                  "nl": "Avondklok",
+                  "no": "Utegangsforbud"
+                }
+              }
+            ]
+          }
+        ],
+        "tokens": [
+          {
+            "name": "door",
+            "type": "string",
+            "title": {
+              "en": "Door",
+              "nl": "Deur",
+              "no": "Dør"
+            },
+            "example": {
+              "en": "Back door"
+            }
+          },
+          {
+            "name": "mode",
+            "type": "string",
+            "title": {
+              "en": "New mode",
+              "nl": "Nieuwe modus",
+              "no": "Ny modus"
+            },
+            "example": {
+              "en": "locked"
+            }
+          }
+        ],
+        "id": "door_mode_changed"
+      },
+      {
+        "title": {
+          "en": "A pet used the door",
+          "nl": "Een huisdier gebruikte de deur",
+          "no": "Et kjæledyr brukte døren"
+        },
+        "hint": {
+          "en": "Triggers when the pet door registers a pet moving through. The pet name is empty when the pet is not known.",
+          "nl": "Wordt geactiveerd als de huisdierdeur een huisdier registreert dat erdoorheen gaat. De naam is leeg als het huisdier niet bekend is.",
+          "no": "Utløses når kjæledyrdøren registrerer at et kjæledyr går gjennom. Navnet er tomt hvis kjæledyret ikke er kjent."
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "door",
+            "filter": "driver_id=flap",
+            "placeholder": {
+              "en": "Door",
+              "nl": "Deur",
+              "no": "Dør"
+            }
+          }
+        ],
+        "tokens": [
+          {
+            "name": "name",
+            "type": "string",
+            "title": {
+              "en": "Pet",
+              "nl": "Huisdier",
+              "no": "Kjæledyr"
+            },
+            "example": {
+              "en": "Whiskers"
+            }
+          },
+          {
+            "name": "door",
+            "type": "string",
+            "title": {
+              "en": "Door",
+              "nl": "Deur",
+              "no": "Dør"
+            },
+            "example": {
+              "en": "Back door"
+            }
+          },
+          {
+            "name": "time",
+            "type": "string",
+            "title": {
+              "en": "Time",
+              "nl": "Tijd",
+              "no": "Tidspunkt"
+            },
+            "example": {
+              "en": "2026-10-11T08:15:00Z"
+            }
+          }
+        ],
+        "id": "door_used"
+      },
+      {
+        "title": {
+          "en": "Door went offline",
+          "nl": "Deur is offline gegaan",
+          "no": "Døren gikk offline"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "door",
+            "filter": "driver_id=flap",
+            "placeholder": {
+              "en": "Door",
+              "nl": "Deur",
+              "no": "Dør"
+            }
+          }
+        ],
+        "tokens": [
+          {
+            "name": "door",
+            "type": "string",
+            "title": {
+              "en": "Door",
+              "nl": "Deur",
+              "no": "Dør"
+            },
+            "example": {
+              "en": "Back door"
+            }
+          }
+        ],
+        "id": "door_went_offline"
+      },
+      {
+        "title": {
+          "en": "A bowl drops below",
+          "nl": "Een bak komt onder",
+          "no": "En skål faller under"
+        },
+        "titleFormatted": {
+          "en": "A bowl drops below [[grams]] g",
+          "nl": "Een bak komt onder [[grams]] g",
+          "no": "En skål faller under [[grams]] g"
+        },
+        "hint": {
+          "en": "Triggers once when a bowl passes the limit on its way down, for example to warn that it is nearly empty.",
+          "nl": "Wordt één keer geactiveerd als een bak de grens passeert op weg naar beneden, bijvoorbeeld als waarschuwing dat hij bijna leeg is.",
+          "no": "Utløses én gang når en skål passerer grensen på vei nedover, for eksempel som varsel om at den nesten er tom."
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=feeder",
+            "placeholder": {
+              "en": "Feeder",
+              "nl": "Voerbak",
+              "no": "Foringsautomat"
+            }
+          },
+          {
+            "type": "number",
+            "name": "grams",
+            "min": 1,
+            "max": 1000,
+            "step": 1,
+            "placeholder": {
+              "en": "20",
+              "nl": "20",
+              "no": "20"
+            }
+          }
+        ],
+        "tokens": [
+          {
+            "name": "name",
+            "type": "string",
+            "title": {
+              "en": "Feeder",
+              "nl": "Voerbak",
+              "no": "Foringsautomat"
+            },
+            "example": {
+              "en": "Kitchen"
+            }
+          },
+          {
+            "name": "bowl",
+            "type": "string",
+            "title": {
+              "en": "Bowl",
+              "nl": "Bak",
+              "no": "Skål"
+            },
+            "example": {
+              "en": "Left bowl"
+            }
+          },
+          {
+            "name": "amount",
+            "type": "number",
+            "title": {
+              "en": "Weight in grams",
+              "nl": "Gewicht in gram",
+              "no": "Vekt i gram"
+            },
+            "example": 15
+          }
+        ],
+        "id": "feeder_bowl_below"
+      },
+      {
+        "title": {
+          "en": "A bowl was refilled",
+          "nl": "Een bak is bijgevuld",
+          "no": "En skål ble fylt på"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=feeder",
+            "placeholder": {
+              "en": "Feeder",
+              "nl": "Voerbak",
+              "no": "Foringsautomat"
+            }
+          }
+        ],
+        "tokens": [
+          {
+            "name": "name",
+            "type": "string",
+            "title": {
+              "en": "Feeder",
+              "nl": "Voerbak",
+              "no": "Foringsautomat"
+            },
+            "example": {
+              "en": "Kitchen"
+            }
+          },
+          {
+            "name": "bowl",
+            "type": "string",
+            "title": {
+              "en": "Bowl",
+              "nl": "Bak",
+              "no": "Skål"
+            },
+            "example": {
+              "en": "Left bowl"
+            }
+          },
+          {
+            "name": "amount",
+            "type": "number",
+            "title": {
+              "en": "Added in grams",
+              "nl": "Toegevoegd in gram",
+              "no": "Tilført i gram"
+            },
+            "example": 50
+          }
+        ],
+        "id": "feeder_bowl_refilled"
+      },
+      {
+        "title": {
+          "en": "A pet ate from the feeder",
+          "nl": "Een huisdier at van de voerbak",
+          "no": "Et kjæledyr spiste fra foringsautomaten"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=feeder",
+            "placeholder": {
+              "en": "Feeder",
+              "nl": "Voerbak",
+              "no": "Foringsautomat"
+            }
+          }
+        ],
+        "tokens": [
+          {
+            "name": "name",
+            "type": "string",
+            "title": {
+              "en": "Pet",
+              "nl": "Huisdier",
+              "no": "Kjæledyr"
+            },
+            "example": {
+              "en": "Whiskers"
+            }
+          },
+          {
+            "name": "amount",
+            "type": "number",
+            "title": {
+              "en": "Total in grams",
+              "nl": "Totaal in gram",
+              "no": "Totalt i gram"
+            },
+            "example": 30
+          },
+          {
+            "name": "left",
+            "type": "number",
+            "title": {
+              "en": "Left bowl in grams",
+              "nl": "Linkerbak in gram",
+              "no": "Venstre skål i gram"
+            },
+            "example": 30
+          },
+          {
+            "name": "right",
+            "type": "number",
+            "title": {
+              "en": "Right bowl in grams",
+              "nl": "Rechterbak in gram",
+              "no": "Høyre skål i gram"
+            },
+            "example": 0
+          }
+        ],
+        "id": "feeder_pet_ate"
+      },
+      {
+        "title": {
+          "en": "A pet drank from the fountain",
+          "nl": "Een huisdier dronk van de fontein",
+          "no": "Et kjæledyr drakk fra fontenen"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=felaqua",
+            "placeholder": {
+              "en": "Water fountain",
+              "nl": "Drinkfontein",
+              "no": "Drikkefontene"
+            }
+          }
+        ],
+        "tokens": [
+          {
+            "name": "name",
+            "type": "string",
+            "title": {
+              "en": "Pet",
+              "nl": "Huisdier",
+              "no": "Kjæledyr"
+            },
+            "example": {
+              "en": "Whiskers"
+            }
+          },
+          {
+            "name": "amount",
+            "type": "number",
+            "title": {
+              "en": "Amount in ml",
+              "nl": "Hoeveelheid in ml",
+              "no": "Mengde i ml"
+            },
+            "example": 40
+          }
+        ],
+        "id": "felaqua_drank"
+      },
+      {
+        "title": {
+          "en": "Fill level drops below",
+          "nl": "Vulniveau komt onder",
+          "no": "Fyllnivået faller under"
+        },
+        "titleFormatted": {
+          "en": "Fill level drops below [[level]]%",
+          "nl": "Vulniveau komt onder [[level]]%",
+          "no": "Fyllnivået faller under [[level]] %"
+        },
+        "hint": {
+          "en": "Triggers once when the water level passes the limit on its way down.",
+          "nl": "Wordt één keer geactiveerd als het waterniveau de grens passeert op weg naar beneden.",
+          "no": "Utløses én gang når vannivået passerer grensen på vei nedover."
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=felaqua",
+            "placeholder": {
+              "en": "Water fountain",
+              "nl": "Drinkfontein",
+              "no": "Drikkefontene"
+            }
+          },
+          {
+            "type": "number",
+            "name": "level",
+            "min": 1,
+            "max": 100,
+            "step": 1,
+            "placeholder": {
+              "en": "20",
+              "nl": "20",
+              "no": "20"
+            }
+          }
+        ],
+        "tokens": [
+          {
+            "name": "name",
+            "type": "string",
+            "title": {
+              "en": "Water fountain",
+              "nl": "Drinkfontein",
+              "no": "Drikkefontene"
+            },
+            "example": {
+              "en": "Kitchen"
+            }
+          },
+          {
+            "name": "level",
+            "type": "number",
+            "title": {
+              "en": "Fill level in percent",
+              "nl": "Vulniveau in procent",
+              "no": "Fyllnivå i prosent"
+            },
+            "example": 18
+          }
+        ],
+        "id": "felaqua_level_below"
+      },
+      {
+        "title": {
+          "en": "Reservoir was refilled",
+          "nl": "Reservoir is bijgevuld",
+          "no": "Reservoaret ble fylt på"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=felaqua",
+            "placeholder": {
+              "en": "Water fountain",
+              "nl": "Drinkfontein",
+              "no": "Drikkefontene"
+            }
+          }
+        ],
+        "tokens": [
+          {
+            "name": "name",
+            "type": "string",
+            "title": {
+              "en": "Water fountain",
+              "nl": "Drinkfontein",
+              "no": "Drikkefontene"
+            },
+            "example": {
+              "en": "Kitchen"
+            }
+          },
+          {
+            "name": "level",
+            "type": "number",
+            "title": {
+              "en": "Fill level in percent",
+              "nl": "Vulniveau in procent",
+              "no": "Fyllnivå i prosent"
+            },
+            "example": 100
+          }
+        ],
+        "id": "felaqua_refilled"
+      },
+      {
+        "title": {
+          "en": "Intruder attempt",
+          "nl": "Indringer gedetecteerd",
+          "no": "Inntrengerforsøk"
+        },
+        "hint": {
+          "en": "Triggers when a microchip that is not registered in your household is detected at a pet door.",
+          "nl": "Wordt geactiveerd als een microchip die niet in je huishouden is geregistreerd bij een huisdierdeur wordt gedetecteerd.",
+          "no": "Utløses når en mikrochip som ikke er registrert i husholdningen din oppdages ved en kjæledyrdør."
+        },
+        "tokens": [
+          {
+            "name": "door",
+            "type": "string",
+            "title": {
+              "en": "Door",
+              "nl": "Deur",
+              "no": "Dør"
+            },
+            "example": {
+              "en": "Back door"
+            }
+          },
+          {
+            "name": "time",
+            "type": "string",
+            "title": {
+              "en": "Time",
+              "nl": "Tijd",
+              "no": "Tid"
+            },
+            "example": {
+              "en": "2026-10-10T17:30:00Z"
+            }
+          }
+        ],
+        "id": "intruder_attempt"
+      },
+      {
+        "title": {
+          "en": "Ate food",
+          "nl": "Heeft gegeten",
+          "no": "Har spist"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "pet",
+            "filter": "driver_id=pet",
+            "placeholder": {
+              "en": "Pet",
+              "nl": "Huisdier",
+              "no": "Kjæledyr"
+            }
+          }
+        ],
+        "tokens": [
+          {
+            "name": "name",
+            "type": "string",
+            "title": {
+              "en": "Name",
+              "nl": "Naam",
+              "no": "Navn"
+            },
+            "example": {
+              "en": "Whiskers"
+            }
+          },
+          {
+            "name": "amount",
+            "type": "number",
+            "title": {
+              "en": "Amount in grams",
+              "nl": "Hoeveelheid in gram",
+              "no": "Mengde i gram"
+            },
+            "example": 25
+          }
+        ],
+        "id": "pet_ate_food"
+      },
+      {
+        "title": {
+          "en": "Came inside",
+          "nl": "Kwam binnen",
+          "no": "Kom inn"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "pet",
+            "filter": "driver_id=pet",
+            "placeholder": {
+              "en": "Pet",
+              "nl": "Huisdier",
+              "no": "Kjæledyr"
+            }
+          }
+        ],
+        "tokens": [
+          {
+            "name": "name",
+            "type": "string",
+            "title": {
+              "en": "Name",
+              "nl": "Naam",
+              "no": "Navn"
+            },
+            "example": {
+              "en": "Whiskers"
+            }
+          }
+        ],
+        "id": "pet_came_inside"
+      },
+      {
+        "title": {
+          "en": "Drank water",
+          "nl": "Heeft gedronken",
+          "no": "Har drukket"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "pet",
+            "filter": "driver_id=pet",
+            "placeholder": {
+              "en": "Pet",
+              "nl": "Huisdier",
+              "no": "Kjæledyr"
+            }
+          }
+        ],
+        "tokens": [
+          {
+            "name": "name",
+            "type": "string",
+            "title": {
+              "en": "Name",
+              "nl": "Naam",
+              "no": "Navn"
+            },
+            "example": {
+              "en": "Whiskers"
+            }
+          },
+          {
+            "name": "amount",
+            "type": "number",
+            "title": {
+              "en": "Amount in ml",
+              "nl": "Hoeveelheid in ml",
+              "no": "Mengde i ml"
+            },
+            "example": 30
+          }
+        ],
+        "id": "pet_drank_water"
+      },
+      {
+        "title": {
+          "en": "Reached daily food goal",
+          "nl": "Heeft het dagelijkse voerdoel bereikt",
+          "no": "Har nådd det daglige matmålet"
+        },
+        "hint": {
+          "en": "Triggers once a day when the pet has eaten at least the \"Daily food goal\" from the pet device settings.",
+          "nl": "Wordt één keer per dag geactiveerd als het huisdier minstens het \"Dagelijks voerdoel\" uit de apparaatinstellingen van het huisdier heeft gegeten.",
+          "no": "Utløses én gang om dagen når kjæledyret har spist minst «Daglig matmål» fra enhetsinnstillingene for kjæledyret."
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "pet",
+            "filter": "driver_id=pet",
+            "placeholder": {
+              "en": "Pet",
+              "nl": "Huisdier",
+              "no": "Kjæledyr"
+            }
+          }
+        ],
+        "tokens": [
+          {
+            "name": "name",
+            "type": "string",
+            "title": {
+              "en": "Name",
+              "nl": "Naam",
+              "no": "Navn"
+            },
+            "example": {
+              "en": "Whiskers"
+            }
+          },
+          {
+            "name": "amount",
+            "type": "number",
+            "title": {
+              "en": "Eaten today in grams",
+              "nl": "Vandaag gegeten in gram",
+              "no": "Spist i dag i gram"
+            },
+            "example": 60
+          }
+        ],
+        "id": "pet_food_goal_reached"
+      },
+      {
+        "title": {
+          "en": "Has been outside too long",
+          "nl": "Is te lang buiten",
+          "no": "Har vært ute for lenge"
+        },
+        "hint": {
+          "en": "Triggers once per stay outside when the pet has been outside longer than the \"Maximum hours outside\" in the pet device settings.",
+          "nl": "Wordt één keer per buitenverblijf geactiveerd als het huisdier langer buiten is dan de \"Maximaal aantal uren buiten\" in de apparaatinstellingen van het huisdier.",
+          "no": "Utløses én gang per opphold ute når kjæledyret har vært ute lenger enn «Maksimalt antall timer ute» i enhetsinnstillingene for kjæledyret."
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "pet",
+            "filter": "driver_id=pet",
+            "placeholder": {
+              "en": "Pet",
+              "nl": "Huisdier",
+              "no": "Kjæledyr"
+            }
+          }
+        ],
+        "tokens": [
+          {
+            "name": "name",
+            "type": "string",
+            "title": {
+              "en": "Name",
+              "nl": "Naam",
+              "no": "Navn"
+            },
+            "example": {
+              "en": "Whiskers"
+            }
+          },
+          {
+            "name": "hours",
+            "type": "number",
+            "title": {
+              "en": "Hours outside",
+              "nl": "Uren buiten",
+              "no": "Timer ute"
+            },
+            "example": 6
+          }
+        ],
+        "id": "pet_outside_too_long"
+      },
+      {
+        "title": {
+          "en": "Reached daily water goal",
+          "nl": "Heeft het dagelijkse waterdoel bereikt",
+          "no": "Har nådd det daglige vannmålet"
+        },
+        "hint": {
+          "en": "Triggers once a day when the pet has drunk at least the \"Daily water goal\" from the pet device settings.",
+          "nl": "Wordt één keer per dag geactiveerd als het huisdier minstens het \"Dagelijks waterdoel\" uit de apparaatinstellingen van het huisdier heeft gedronken.",
+          "no": "Utløses én gang om dagen når kjæledyret har drukket minst «Daglig vannmål» fra enhetsinnstillingene for kjæledyret."
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "pet",
+            "filter": "driver_id=pet",
+            "placeholder": {
+              "en": "Pet",
+              "nl": "Huisdier",
+              "no": "Kjæledyr"
+            }
+          }
+        ],
+        "tokens": [
+          {
+            "name": "name",
+            "type": "string",
+            "title": {
+              "en": "Name",
+              "nl": "Naam",
+              "no": "Navn"
+            },
+            "example": {
+              "en": "Whiskers"
+            }
+          },
+          {
+            "name": "amount",
+            "type": "number",
+            "title": {
+              "en": "Drunk today in ml",
+              "nl": "Vandaag gedronken in ml",
+              "no": "Drukket i dag i ml"
+            },
+            "example": 150
+          }
+        ],
+        "id": "pet_water_goal_reached"
+      },
+      {
+        "title": {
+          "en": "Went outside",
+          "nl": "Ging naar buiten",
+          "no": "Gikk ut"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "pet",
+            "filter": "driver_id=pet",
+            "placeholder": {
+              "en": "Pet",
+              "nl": "Huisdier",
+              "no": "Kjæledyr"
+            }
+          }
+        ],
+        "tokens": [
+          {
+            "name": "name",
+            "type": "string",
+            "title": {
+              "en": "Name",
+              "nl": "Naam",
+              "no": "Navn"
+            },
+            "example": {
+              "en": "Whiskers"
+            }
+          }
+        ],
+        "id": "pet_went_outside"
+      }
+    ],
+    "conditions": [
+      {
+        "title": {
+          "en": "Mode !{{is|isn't}} set to",
+          "nl": "Modus staat !{{wel|niet}} op",
+          "no": "Modus !{{er|er ikke}} satt til"
+        },
+        "titleFormatted": {
+          "en": "Mode !{{is|isn't}} set to [[mode]]",
+          "nl": "Modus staat !{{wel|niet}} op [[mode]]",
+          "no": "Modus !{{er|er ikke}} satt til [[mode]]"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "door",
+            "filter": "driver_id=flap",
+            "placeholder": {
+              "en": "Door",
+              "nl": "Deur",
+              "no": "Dør"
+            }
+          },
+          {
+            "type": "dropdown",
+            "name": "mode",
+            "values": [
+              {
+                "id": "normal",
+                "title": {
+                  "en": "Normal",
+                  "nl": "Normaal",
+                  "no": "Normal"
+                },
+                "label": {
+                  "en": "Normal",
+                  "nl": "Normaal",
+                  "no": "Normal"
+                }
+              },
+              {
+                "id": "keep_in",
+                "title": {
+                  "en": "Keep in",
+                  "nl": "Binnen houden",
+                  "no": "Hold inne"
+                },
+                "label": {
+                  "en": "Keep in",
+                  "nl": "Binnen houden",
+                  "no": "Hold inne"
+                }
+              },
+              {
+                "id": "keep_out",
+                "title": {
+                  "en": "Keep out",
+                  "nl": "Buiten houden",
+                  "no": "Hold ute"
+                },
+                "label": {
+                  "en": "Keep out",
+                  "nl": "Buiten houden",
+                  "no": "Hold ute"
+                }
+              },
+              {
+                "id": "locked",
+                "title": {
+                  "en": "Locked",
+                  "nl": "Vergrendeld",
+                  "no": "Låst"
+                },
+                "label": {
+                  "en": "Locked",
+                  "nl": "Vergrendeld",
+                  "no": "Låst"
+                }
+              },
+              {
+                "id": "curfew",
+                "title": {
+                  "en": "Curfew",
+                  "nl": "Avondklok",
+                  "no": "Utegangsforbud"
+                },
+                "label": {
+                  "en": "Curfew",
+                  "nl": "Avondklok",
+                  "no": "Utegangsforbud"
+                }
+              }
+            ]
+          }
+        ],
+        "id": "door_mode_is"
+      },
+      {
+        "title": {
+          "en": "!{{Is|Isn't}} inside",
+          "nl": "!{{Is|Is niet}} binnen",
+          "no": "!{{Er|Er ikke}} inne"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "pet",
+            "filter": "driver_id=pet",
+            "placeholder": {
+              "en": "Pet",
+              "nl": "Huisdier",
+              "no": "Kjæledyr"
+            }
+          }
+        ],
+        "id": "pet_is_inside"
+      }
+    ],
+    "actions": [
+      {
+        "title": {
+          "en": "Set lock mode",
+          "nl": "Stel vergrendelmodus in",
+          "no": "Sett låsemodus"
+        },
+        "titleFormatted": {
+          "en": "Set lock mode to [[mode]]",
+          "nl": "Stel vergrendelmodus in op [[mode]]",
+          "no": "Sett låsemodus til [[mode]]"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "door",
+            "filter": "driver_id=flap",
+            "placeholder": {
+              "en": "Door",
+              "nl": "Deur",
+              "no": "Dør"
+            }
+          },
+          {
+            "type": "dropdown",
+            "name": "mode",
+            "values": [
+              {
+                "id": "normal",
+                "title": {
+                  "en": "Normal",
+                  "nl": "Normaal",
+                  "no": "Normal"
+                },
+                "label": {
+                  "en": "Normal",
+                  "nl": "Normaal",
+                  "no": "Normal"
+                }
+              },
+              {
+                "id": "keep_in",
+                "title": {
+                  "en": "Keep in",
+                  "nl": "Binnen houden",
+                  "no": "Hold inne"
+                },
+                "label": {
+                  "en": "Keep in",
+                  "nl": "Binnen houden",
+                  "no": "Hold inne"
+                }
+              },
+              {
+                "id": "keep_out",
+                "title": {
+                  "en": "Keep out",
+                  "nl": "Buiten houden",
+                  "no": "Hold ute"
+                },
+                "label": {
+                  "en": "Keep out",
+                  "nl": "Buiten houden",
+                  "no": "Hold ute"
+                }
+              },
+              {
+                "id": "locked",
+                "title": {
+                  "en": "Locked",
+                  "nl": "Vergrendeld",
+                  "no": "Låst"
+                },
+                "label": {
+                  "en": "Locked",
+                  "nl": "Vergrendeld",
+                  "no": "Låst"
+                }
+              },
+              {
+                "id": "curfew",
+                "title": {
+                  "en": "Curfew",
+                  "nl": "Avondklok",
+                  "no": "Utegangsforbud"
+                },
+                "label": {
+                  "en": "Curfew",
+                  "nl": "Avondklok",
+                  "no": "Utegangsforbud"
+                }
+              }
+            ]
+          }
+        ],
+        "id": "set_lock_mode"
+      },
+      {
+        "title": {
+          "en": "Set lock mode for a while",
+          "nl": "Stel vergrendelmodus tijdelijk in",
+          "no": "Sett låsemodus midlertidig"
+        },
+        "titleFormatted": {
+          "en": "Set lock mode to [[mode]] for [[minutes]] minutes",
+          "nl": "Stel vergrendelmodus in op [[mode]] gedurende [[minutes]] minuten",
+          "no": "Sett låsemodus til [[mode]] i [[minutes]] minutter"
+        },
+        "hint": {
+          "en": "After this time the door goes back to the mode it had before, unless the mode was changed in the meantime.",
+          "nl": "Na deze tijd gaat de deur terug naar de modus die het daarvoor had, tenzij de modus tussentijds is gewijzigd.",
+          "no": "Etter dette går døren tilbake til modusen den hadde før, med mindre modusen ble endret i mellomtiden."
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "door",
+            "filter": "driver_id=flap",
+            "placeholder": {
+              "en": "Door",
+              "nl": "Deur",
+              "no": "Dør"
+            }
+          },
+          {
+            "type": "dropdown",
+            "name": "mode",
+            "values": [
+              {
+                "id": "normal",
+                "title": {
+                  "en": "Normal",
+                  "nl": "Normaal",
+                  "no": "Normal"
+                },
+                "label": {
+                  "en": "Normal",
+                  "nl": "Normaal",
+                  "no": "Normal"
+                }
+              },
+              {
+                "id": "keep_in",
+                "title": {
+                  "en": "Keep in",
+                  "nl": "Binnen houden",
+                  "no": "Hold inne"
+                },
+                "label": {
+                  "en": "Keep in",
+                  "nl": "Binnen houden",
+                  "no": "Hold inne"
+                }
+              },
+              {
+                "id": "keep_out",
+                "title": {
+                  "en": "Keep out",
+                  "nl": "Buiten houden",
+                  "no": "Hold ute"
+                },
+                "label": {
+                  "en": "Keep out",
+                  "nl": "Buiten houden",
+                  "no": "Hold ute"
+                }
+              },
+              {
+                "id": "locked",
+                "title": {
+                  "en": "Locked",
+                  "nl": "Vergrendeld",
+                  "no": "Låst"
+                },
+                "label": {
+                  "en": "Locked",
+                  "nl": "Vergrendeld",
+                  "no": "Låst"
+                }
+              },
+              {
+                "id": "curfew",
+                "title": {
+                  "en": "Curfew",
+                  "nl": "Avondklok",
+                  "no": "Utegangsforbud"
+                },
+                "label": {
+                  "en": "Curfew",
+                  "nl": "Avondklok",
+                  "no": "Utegangsforbud"
+                }
+              }
+            ]
+          },
+          {
+            "type": "number",
+            "name": "minutes",
+            "min": 1,
+            "max": 1440,
+            "step": 1,
+            "placeholder": {
+              "en": "30",
+              "nl": "30",
+              "no": "30"
+            }
+          }
+        ],
+        "id": "set_lock_mode_for"
+      },
+      {
+        "title": {
+          "en": "Set pet access on a door",
+          "nl": "Stel toegang van huisdier op een deur in",
+          "no": "Sett kjæledyrets tilgang på en dør"
+        },
+        "titleFormatted": {
+          "en": "Set access on [[door]] to [[access]]",
+          "nl": "Stel toegang op [[door]] in op [[access]]",
+          "no": "Sett tilgang på [[door]] til [[access]]"
+        },
+        "hint": {
+          "en": "Changes whether this pet may use the door or must stay inside. Other pets are not affected. The door updates within a short time.",
+          "nl": "Bepaalt of dit huisdier de deur mag gebruiken of binnen moet blijven. Andere huisdieren worden niet beïnvloed. De deur wordt binnen korte tijd bijgewerkt.",
+          "no": "Bestemmer om dette kjæledyret kan bruke døren eller må holde seg inne. Andre kjæledyr påvirkes ikke. Døren oppdateres etter kort tid."
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "pet",
+            "filter": "driver_id=pet",
+            "placeholder": {
+              "en": "Pet",
+              "nl": "Huisdier",
+              "no": "Kjæledyr"
+            }
+          },
+          {
+            "type": "device",
+            "name": "door",
+            "filter": "driver_id=flap",
+            "placeholder": {
+              "en": "Door",
+              "nl": "Deur",
+              "no": "Dør"
+            }
+          },
+          {
+            "type": "dropdown",
+            "name": "access",
+            "values": [
+              {
+                "id": "free",
+                "title": {
+                  "en": "Free in and out",
+                  "nl": "Vrij in en uit",
+                  "no": "Fri inn og ut"
+                },
+                "label": {
+                  "en": "Free in and out",
+                  "nl": "Vrij in en uit",
+                  "no": "Fri inn og ut"
+                }
+              },
+              {
+                "id": "indoor_only",
+                "title": {
+                  "en": "Stay inside",
+                  "nl": "Binnen blijven",
+                  "no": "Hold inne"
+                },
+                "label": {
+                  "en": "Stay inside",
+                  "nl": "Binnen blijven",
+                  "no": "Hold inne"
+                }
+              }
+            ]
+          }
+        ],
+        "id": "set_pet_access"
+      },
+      {
+        "title": {
+          "en": "Set pet position",
+          "nl": "Stel positie van huisdier in",
+          "no": "Sett kjæledyrets posisjon"
+        },
+        "titleFormatted": {
+          "en": "Set position to [[position]]",
+          "nl": "Stel positie in op [[position]]",
+          "no": "Sett posisjon til [[position]]"
+        },
+        "hint": {
+          "en": "Tells Sure Petcare that the pet is inside or outside, for example when it came in through a door without a chip reader.",
+          "nl": "Geeft aan Sure Petcare door dat het huisdier binnen of buiten is, bijvoorbeeld als het via een deur zonder chiplezer binnenkwam.",
+          "no": "Forteller Sure Petcare at kjæledyret er inne eller ute, for eksempel når det kom inn gjennom en dør uten brikkeleser."
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "pet",
+            "filter": "driver_id=pet",
+            "placeholder": {
+              "en": "Pet",
+              "nl": "Huisdier",
+              "no": "Kjæledyr"
+            }
+          },
+          {
+            "type": "dropdown",
+            "name": "position",
+            "values": [
+              {
+                "id": "inside",
+                "title": {
+                  "en": "Inside",
+                  "nl": "Binnen",
+                  "no": "Inne"
+                },
+                "label": {
+                  "en": "Inside",
+                  "nl": "Binnen",
+                  "no": "Inne"
+                }
+              },
+              {
+                "id": "outside",
+                "title": {
+                  "en": "Outside",
+                  "nl": "Buiten",
+                  "no": "Ute"
+                },
+                "label": {
+                  "en": "Outside",
+                  "nl": "Buiten",
+                  "no": "Ute"
+                }
+              }
+            ]
+          }
+        ],
+        "id": "set_pet_position"
+      }
+    ]
+  },
+  "drivers": [
+    {
+      "name": {
+        "en": "Feeder",
+        "nl": "Voerbak",
+        "no": "Foringsautomat"
+      },
+      "class": "petfeeder",
+      "platforms": [
+        "local"
+      ],
+      "connectivity": [
+        "cloud"
+      ],
+      "capabilities": [
+        "measure_food_left",
+        "measure_food_right",
+        "last_used_by",
+        "last_used_at",
+        "measure_signal_strength",
+        "alarm_offline",
+        "measure_battery",
+        "alarm_battery"
+      ],
+      "energy": {
+        "batteries": [
+          "C",
+          "C",
+          "C",
+          "C"
+        ]
+      },
+      "images": {
+        "small": "/drivers/feeder/assets/images/small.png",
+        "large": "/drivers/feeder/assets/images/large.png",
+        "xlarge": "/drivers/feeder/assets/images/xlarge.png"
+      },
+      "pair": [
+        {
+          "id": "list_devices",
+          "template": "list_devices",
+          "navigation": {
+            "next": "add_devices"
+          }
+        },
+        {
+          "id": "add_devices",
+          "template": "add_devices"
+        }
+      ],
+      "id": "feeder"
+    },
+    {
+      "name": {
+        "en": "Water fountain",
+        "nl": "Drinkfontein",
+        "no": "Drikkefontene"
+      },
+      "class": "other",
+      "platforms": [
+        "local"
+      ],
+      "connectivity": [
+        "cloud"
+      ],
+      "capabilities": [
+        "measure_water_level",
+        "measure_water_volume",
+        "last_used_by",
+        "last_used_at",
+        "measure_signal_strength",
+        "alarm_offline",
+        "measure_battery",
+        "alarm_battery"
+      ],
+      "energy": {
+        "batteries": [
+          "OTHER"
+        ]
+      },
+      "images": {
+        "small": "/drivers/felaqua/assets/images/small.png",
+        "large": "/drivers/felaqua/assets/images/large.png",
+        "xlarge": "/drivers/felaqua/assets/images/xlarge.png"
+      },
+      "pair": [
+        {
+          "id": "list_devices",
+          "template": "list_devices",
+          "navigation": {
+            "next": "add_devices"
+          }
+        },
+        {
+          "id": "add_devices",
+          "template": "add_devices"
+        }
+      ],
+      "id": "felaqua"
+    },
+    {
+      "name": {
+        "en": "Pet door",
+        "nl": "Huisdierdeur",
+        "no": "Kjæledyrdør"
+      },
+      "class": "other",
+      "platforms": [
+        "local"
+      ],
+      "connectivity": [
+        "cloud"
+      ],
+      "capabilities": [
+        "flap_lock_mode",
+        "locked",
+        "last_used_by",
+        "last_used_at",
+        "measure_signal_strength",
+        "alarm_offline",
+        "measure_battery",
+        "alarm_battery"
+      ],
+      "energy": {
+        "batteries": [
+          "AA",
+          "AA",
+          "AA",
+          "AA"
+        ]
+      },
+      "images": {
+        "small": "/drivers/flap/assets/images/small.png",
+        "large": "/drivers/flap/assets/images/large.png",
+        "xlarge": "/drivers/flap/assets/images/xlarge.png"
+      },
+      "pair": [
+        {
+          "id": "list_devices",
+          "template": "list_devices",
+          "navigation": {
+            "next": "add_devices"
+          }
+        },
+        {
+          "id": "add_devices",
+          "template": "add_devices"
+        }
+      ],
+      "id": "flap"
+    },
+    {
+      "name": {
+        "en": "Pet",
+        "nl": "Huisdier",
+        "no": "Kjæledyr"
+      },
+      "class": "sensor",
+      "platforms": [
+        "local"
+      ],
+      "connectivity": [
+        "cloud"
+      ],
+      "capabilities": [
+        "pet_presence",
+        "last_seen",
+        "last_door",
+        "measure_food_eaten_today",
+        "measure_meals_today",
+        "measure_water_drunk_today",
+        "measure_drinks_today",
+        "measure_trips_today",
+        "measure_outside_minutes_today"
+      ],
+      "images": {
+        "small": "/drivers/pet/assets/images/small.png",
+        "large": "/drivers/pet/assets/images/large.png",
+        "xlarge": "/drivers/pet/assets/images/xlarge.png"
+      },
+      "settings": [
+        {
+          "type": "group",
+          "label": {
+            "en": "Profile",
+            "nl": "Profiel",
+            "no": "Profil"
+          },
+          "children": [
+            {
+              "id": "species",
+              "type": "label",
+              "label": {
+                "en": "Species",
+                "nl": "Soort",
+                "no": "Art"
+              },
+              "value": "-"
+            },
+            {
+              "id": "gender",
+              "type": "label",
+              "label": {
+                "en": "Gender",
+                "nl": "Geslacht",
+                "no": "Kjønn"
+              },
+              "value": "-"
+            },
+            {
+              "id": "weight_kg",
+              "type": "number",
+              "label": {
+                "en": "Weight (kg)",
+                "nl": "Gewicht (kg)",
+                "no": "Vekt (kg)"
+              },
+              "hint": {
+                "en": "Saved to Sure Petcare. Shows 0 while no weight is set.",
+                "nl": "Wordt opgeslagen in Sure Petcare. Toont 0 zolang er geen gewicht is ingesteld.",
+                "no": "Lagres i Sure Petcare. Viser 0 så lenge vekt ikke er satt."
+              },
+              "value": 0,
+              "min": 0,
+              "max": 100,
+              "step": 0.1
+            },
+            {
+              "id": "birth_date",
+              "type": "text",
+              "label": {
+                "en": "Date of birth (YYYY-MM-DD)",
+                "nl": "Geboortedatum (JJJJ-MM-DD)",
+                "no": "Fødselsdato (ÅÅÅÅ-MM-DD)"
+              },
+              "hint": {
+                "en": "Saved to Sure Petcare. Leave empty if unknown.",
+                "nl": "Wordt opgeslagen in Sure Petcare. Laat leeg als onbekend.",
+                "no": "Lagres i Sure Petcare. La stå tom hvis ukjent."
+              },
+              "value": ""
+            },
+            {
+              "id": "age",
+              "type": "label",
+              "label": {
+                "en": "Age",
+                "nl": "Leeftijd",
+                "no": "Alder"
+              },
+              "value": "-"
+            },
+            {
+              "id": "food_type",
+              "type": "dropdown",
+              "label": {
+                "en": "Food type",
+                "nl": "Voedingstype",
+                "no": "Fôrtype"
+              },
+              "value": "0",
+              "values": [
+                {
+                  "id": "0",
+                  "label": {
+                    "en": "Not set",
+                    "nl": "Niet ingesteld",
+                    "no": "Ikke satt"
+                  }
+                },
+                {
+                  "id": "wet",
+                  "label": {
+                    "en": "Wet food",
+                    "nl": "Natvoer",
+                    "no": "Våtfôr"
+                  }
+                },
+                {
+                  "id": "dry",
+                  "label": {
+                    "en": "Dry food",
+                    "nl": "Droogvoer",
+                    "no": "Tørrfôr"
+                  }
+                },
+                {
+                  "id": "both",
+                  "label": {
+                    "en": "Wet and dry",
+                    "nl": "Nat en droog",
+                    "no": "Våt og tørr"
+                  }
+                }
+              ]
+            },
+            {
+              "id": "spayed",
+              "type": "checkbox",
+              "label": {
+                "en": "Neutered",
+                "nl": "Gesteriliseerd",
+                "no": "Kastrert eller sterilisert"
+              },
+              "value": false
+            },
+            {
+              "id": "chip",
+              "type": "label",
+              "label": {
+                "en": "Microchip",
+                "nl": "Microchip",
+                "no": "Mikrochip"
+              },
+              "value": "-"
+            }
+          ]
+        },
+        {
+          "type": "group",
+          "label": {
+            "en": "Alerts and goals",
+            "nl": "Meldingen en doelen",
+            "no": "Varsler og mål"
+          },
+          "children": [
+            {
+              "id": "max_outside_hours",
+              "type": "number",
+              "label": {
+                "en": "Maximum hours outside",
+                "nl": "Maximaal aantal uren buiten",
+                "no": "Maksimalt antall timer ute"
+              },
+              "hint": {
+                "en": "Use this in a Flow with the trigger \"Has been outside too long\". 0 turns it off.",
+                "nl": "Gebruik dit in een Flow met de trigger \"Is te lang buiten\". 0 schakelt het uit.",
+                "no": "Bruk dette i en Flow med utløseren «Har vært ute for lenge». 0 slår det av."
+              },
+              "value": 0,
+              "min": 0,
+              "max": 72,
+              "step": 0.5
+            },
+            {
+              "id": "food_goal",
+              "type": "number",
+              "label": {
+                "en": "Daily food goal (g)",
+                "nl": "Dagelijks voerdoel (g)",
+                "no": "Daglig matmål (g)"
+              },
+              "hint": {
+                "en": "Triggers \"Reached daily food goal\" once a day. 0 turns it off.",
+                "nl": "Activeert \"Heeft het dagelijkse voerdoel bereikt\" één keer per dag. 0 schakelt het uit.",
+                "no": "Utløser «Har nådd det daglige matmålet» én gang om dagen. 0 slår det av."
+              },
+              "value": 0,
+              "min": 0,
+              "max": 2000,
+              "step": 5
+            },
+            {
+              "id": "water_goal",
+              "type": "number",
+              "label": {
+                "en": "Daily water goal (ml)",
+                "nl": "Dagelijks waterdoel (ml)",
+                "no": "Daglig vannmål (ml)"
+              },
+              "hint": {
+                "en": "Triggers \"Reached daily water goal\" once a day. 0 turns it off.",
+                "nl": "Activeert \"Heeft het dagelijkse waterdoel bereikt\" één keer per dag. 0 schakelt het uit.",
+                "no": "Utløser «Har nådd det daglige vannmålet» én gang om dagen. 0 slår det av."
+              },
+              "value": 0,
+              "min": 0,
+              "max": 3000,
+              "step": 5
+            }
+          ]
+        }
+      ],
+      "pair": [
+        {
+          "id": "list_devices",
+          "template": "list_devices",
+          "navigation": {
+            "next": "add_devices"
+          }
+        },
+        {
+          "id": "add_devices",
+          "template": "add_devices"
+        }
+      ],
+      "id": "pet"
+    }
+  ],
+  "widgets": {
+    "household": {
+      "name": {
+        "en": "Household",
+        "nl": "Huishouden",
+        "no": "Husholdning"
+      },
+      "transparent": false,
+      "settings": [
+        {
+          "id": "showPets",
+          "type": "checkbox",
+          "value": true,
+          "title": {
+            "en": "Show pets",
+            "nl": "Toon huisdieren",
+            "no": "Vis kjæledyr"
+          },
+          "hint": {
+            "en": "Who is inside or outside.",
+            "nl": "Wie er binnen of buiten is.",
+            "no": "Hvem som er inne eller ute."
+          }
+        },
+        {
+          "id": "showDoors",
+          "type": "checkbox",
+          "value": true,
+          "title": {
+            "en": "Show pet doors",
+            "nl": "Toon huisdierdeuren",
+            "no": "Vis kjæledyrdører"
+          },
+          "hint": {
+            "en": "Lock mode and quick controls for each pet door.",
+            "nl": "Vergrendelmodus en snelle bediening voor elke huisdierdeur.",
+            "no": "Låsemodus og hurtigkontroller for hver kjæledyrdør."
+          }
+        },
+        {
+          "id": "showDevices",
+          "type": "checkbox",
+          "value": true,
+          "title": {
+            "en": "Show feeders and water",
+            "nl": "Toon voerbakken en water",
+            "no": "Vis foringsautomater og vann"
+          },
+          "hint": {
+            "en": "Food in the bowls and the water level.",
+            "nl": "Voer in de bakken en het waterniveau.",
+            "no": "Fôr i skålene og vannivået."
+          }
+        }
+      ],
+      "api": {
+        "getOverview": {
+          "method": "GET",
+          "path": "/overview"
+        },
+        "setLockMode": {
+          "method": "POST",
+          "path": "/lock-mode"
+        },
+        "getPetPhoto": {
+          "method": "POST",
+          "path": "/pet-photo"
+        },
+        "setPetPosition": {
+          "method": "POST",
+          "path": "/pet-position"
+        }
+      },
+      "id": "household"
+    }
+  },
+  "capabilities": {
+    "alarm_offline": {
+      "icon": "/assets/capabilities/alarm_offline.svg",
+      "type": "boolean",
+      "title": {
+        "en": "Offline",
+        "nl": "Offline",
+        "no": "Frakoblet"
+      },
+      "titleTrue": {
+        "en": "Offline",
+        "nl": "Offline",
+        "no": "Frakoblet"
+      },
+      "titleFalse": {
+        "en": "Online",
+        "nl": "Online",
+        "no": "Tilkoblet"
+      },
+      "insightsTitleTrue": {
+        "en": "Device went offline",
+        "nl": "Apparaat is offline gegaan",
+        "no": "Enheten gikk offline"
+      },
+      "insightsTitleFalse": {
+        "en": "Device came online",
+        "nl": "Apparaat is online gekomen",
+        "no": "Enheten kom online"
+      },
+      "getable": true,
+      "setable": false,
+      "uiComponent": "sensor"
+    },
+    "flap_lock_mode": {
+      "icon": "/assets/capabilities/flap_lock_mode.svg",
+      "type": "enum",
+      "title": {
+        "en": "Lock mode",
+        "nl": "Vergrendelmodus",
+        "no": "Låsemodus"
+      },
+      "getable": true,
+      "setable": true,
+      "uiComponent": "picker",
+      "values": [
+        {
+          "id": "normal",
+          "title": {
+            "en": "Normal",
+            "nl": "Normaal",
+            "no": "Normal"
+          }
+        },
+        {
+          "id": "keep_in",
+          "title": {
+            "en": "Keep in",
+            "nl": "Binnen houden",
+            "no": "Hold inne"
+          }
+        },
+        {
+          "id": "keep_out",
+          "title": {
+            "en": "Keep out",
+            "nl": "Buiten houden",
+            "no": "Hold ute"
+          }
+        },
+        {
+          "id": "locked",
+          "title": {
+            "en": "Locked",
+            "nl": "Vergrendeld",
+            "no": "Låst"
+          }
+        },
+        {
+          "id": "curfew",
+          "title": {
+            "en": "Curfew",
+            "nl": "Avondklok",
+            "no": "Utegangsforbud"
+          }
+        }
+      ]
+    },
+    "last_door": {
+      "icon": "/assets/capabilities/last_door.svg",
+      "type": "string",
+      "title": {
+        "en": "Last door",
+        "nl": "Laatste deur",
+        "no": "Siste dør"
+      },
+      "getable": true,
+      "setable": false,
+      "uiComponent": "sensor"
+    },
+    "last_seen": {
+      "icon": "/assets/capabilities/last_seen.svg",
+      "type": "string",
+      "title": {
+        "en": "Last seen",
+        "nl": "Laatst gezien",
+        "no": "Sist sett"
+      },
+      "getable": true,
+      "setable": false,
+      "uiComponent": "sensor"
+    },
+    "last_used_at": {
+      "icon": "/assets/capabilities/last_used_at.svg",
+      "type": "string",
+      "title": {
+        "en": "Last used",
+        "nl": "Laatst gebruikt",
+        "no": "Sist brukt"
+      },
+      "getable": true,
+      "setable": false,
+      "uiComponent": "sensor"
+    },
+    "last_used_by": {
+      "icon": "/assets/capabilities/last_used_by.svg",
+      "type": "string",
+      "title": {
+        "en": "Last used by",
+        "nl": "Laatst gebruikt door",
+        "no": "Sist brukt av"
+      },
+      "getable": true,
+      "setable": false,
+      "uiComponent": "sensor"
+    },
+    "measure_drinks_today": {
+      "icon": "/assets/capabilities/measure_drinks_today.svg",
+      "type": "number",
+      "title": {
+        "en": "Drinks today",
+        "nl": "Keer gedronken vandaag",
+        "no": "Drikkerunder i dag"
+      },
+      "decimals": 0,
+      "insights": true,
+      "getable": true,
+      "setable": false,
+      "uiComponent": "sensor"
+    },
+    "measure_food_eaten_today": {
+      "icon": "/assets/capabilities/measure_food_eaten_today.svg",
+      "type": "number",
+      "title": {
+        "en": "Food eaten today",
+        "nl": "Vandaag gegeten",
+        "no": "Spist i dag"
+      },
+      "units": {
+        "en": "g"
+      },
+      "decimals": 0,
+      "insights": true,
+      "getable": true,
+      "setable": false,
+      "uiComponent": "sensor"
+    },
+    "measure_food_left": {
+      "icon": "/assets/capabilities/measure_food_left.svg",
+      "type": "number",
+      "title": {
+        "en": "Food in left bowl",
+        "nl": "Voer in linker bak",
+        "no": "Mat i venstre skål"
+      },
+      "units": {
+        "en": "g"
+      },
+      "decimals": 0,
+      "insights": true,
+      "getable": true,
+      "setable": false,
+      "uiComponent": "sensor"
+    },
+    "measure_food_right": {
+      "icon": "/assets/capabilities/measure_food_right.svg",
+      "type": "number",
+      "title": {
+        "en": "Food in right bowl",
+        "nl": "Voer in rechter bak",
+        "no": "Mat i høyre skål"
+      },
+      "units": {
+        "en": "g"
+      },
+      "decimals": 0,
+      "insights": true,
+      "getable": true,
+      "setable": false,
+      "uiComponent": "sensor"
+    },
+    "measure_meals_today": {
+      "icon": "/assets/capabilities/measure_meals_today.svg",
+      "type": "number",
+      "title": {
+        "en": "Meals today",
+        "nl": "Maaltijden vandaag",
+        "no": "Måltider i dag"
+      },
+      "decimals": 0,
+      "insights": true,
+      "getable": true,
+      "setable": false,
+      "uiComponent": "sensor"
+    },
+    "measure_outside_minutes_today": {
+      "icon": "/assets/capabilities/measure_outside_minutes_today.svg",
+      "type": "number",
+      "title": {
+        "en": "Time outside today",
+        "nl": "Tijd buiten vandaag",
+        "no": "Tid ute i dag"
+      },
+      "units": {
+        "en": "min"
+      },
+      "decimals": 0,
+      "insights": true,
+      "getable": true,
+      "setable": false,
+      "uiComponent": "sensor"
+    },
+    "measure_trips_today": {
+      "icon": "/assets/capabilities/measure_trips_today.svg",
+      "type": "number",
+      "title": {
+        "en": "Trips outside today",
+        "nl": "Keer buiten vandaag",
+        "no": "Turer ut i dag"
+      },
+      "decimals": 0,
+      "insights": true,
+      "getable": true,
+      "setable": false,
+      "uiComponent": "sensor"
+    },
+    "measure_water_drunk_today": {
+      "icon": "/assets/capabilities/measure_water_drunk_today.svg",
+      "type": "number",
+      "title": {
+        "en": "Water drunk today",
+        "nl": "Vandaag gedronken",
+        "no": "Drukket i dag"
+      },
+      "units": {
+        "en": "ml"
+      },
+      "decimals": 0,
+      "insights": true,
+      "getable": true,
+      "setable": false,
+      "uiComponent": "sensor"
+    },
+    "measure_water_level": {
+      "icon": "/assets/capabilities/measure_water_level.svg",
+      "type": "number",
+      "title": {
+        "en": "Water level",
+        "nl": "Waterniveau",
+        "no": "Vannivå"
+      },
+      "units": {
+        "en": "%"
+      },
+      "min": 0,
+      "max": 100,
+      "decimals": 0,
+      "insights": true,
+      "getable": true,
+      "setable": false,
+      "uiComponent": "sensor"
+    },
+    "measure_water_volume": {
+      "icon": "/assets/capabilities/measure_water_volume.svg",
+      "type": "number",
+      "title": {
+        "en": "Water in reservoir",
+        "nl": "Water in reservoir",
+        "no": "Vann i beholderen"
+      },
+      "units": {
+        "en": "ml"
+      },
+      "decimals": 0,
+      "insights": true,
+      "getable": true,
+      "setable": false,
+      "uiComponent": "sensor"
+    },
+    "pet_presence": {
+      "icon": "/assets/capabilities/pet_presence.svg",
+      "type": "enum",
+      "title": {
+        "en": "Presence",
+        "nl": "Aanwezigheid",
+        "no": "Tilstedeværelse"
+      },
+      "getable": true,
+      "setable": false,
+      "uiComponent": "sensor",
+      "values": [
+        {
+          "id": "inside",
+          "title": {
+            "en": "Inside",
+            "nl": "Binnen",
+            "no": "Inne"
+          }
+        },
+        {
+          "id": "outside",
+          "title": {
+            "en": "Outside",
+            "nl": "Buiten",
+            "no": "Ute"
+          }
+        },
+        {
+          "id": "unknown",
+          "title": {
+            "en": "Unknown",
+            "nl": "Onbekend",
+            "no": "Ukjent"
+          }
+        }
+      ]
+    }
+  }
+}

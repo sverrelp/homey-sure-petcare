@@ -1,0 +1,10 @@
+{
+  "title": { "en": "A pet ate from the feeder", "nl": "Een huisdier at van de voerbak", "no": "Et kjæledyr spiste fra foringsautomaten" },
+  "args": [ { "type": "device", "name": "device", "filter": "driver_id=feeder", "placeholder": { "en": "Feeder", "nl": "Voerbak", "no": "Foringsautomat" } } ],
+  "tokens": [
+    { "name": "name", "type": "string", "title": { "en": "Pet", "nl": "Huisdier", "no": "Kjæledyr" }, "example": { "en": "Whiskers" } },
+    { "name": "amount", "type": "number", "title": { "en": "Total in grams", "nl": "Totaal in gram", "no": "Totalt i gram" }, "example": 30 },
+    { "name": "left", "type": "number", "title": { "en": "Left bowl in grams", "nl": "Linkerbak in gram", "no": "Venstre skål i gram" }, "example": 30 },
+    { "name": "right", "type": "number", "title": { "en": "Right bowl in grams", "nl": "Rechterbak in gram", "no": "Høyre skål i gram" }, "example": 0 }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "icon": "/assets/capabilities/measure_water_volume.svg",
+  "type": "number",
+  "title": {
+    "en": "Water in reservoir",
+    "nl": "Water in reservoir",
+    "no": "Vann i beholderen"
+  },
+  "units": { "en": "ml" },
+  "decimals": 0,
+  "insights": true,
+  "getable": true,
+  "setable": false,
+  "uiComponent": "sensor"
+}

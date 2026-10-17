@@ -1,0 +1,202 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<style>
+  :root {
+    --bg: #f2f3f5;
+    --card: #ffffff;
+    --text: #15171a;
+    --muted: #8b9098;
+    --line: #ececef;
+    --accent: #5cc6f2;
+    --accent-dark: #1b82b8;
+    --ok: #159b61;
+    --warn: #d99a00;
+    --bad: #d64545;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; width: 1480px; height: 1130px; padding: 50px 60px;
+    background: linear-gradient(135deg, #c9e9f7 0%, #e9f6fc 45%, #bfe3f4 100%);
+    font-family: "Segoe UI", system-ui, sans-serif; color: var(--text);
+    display: flex; gap: 56px; justify-content: center; align-items: flex-start;
+  }
+  .phone {
+    width: 400px; height: 980px; background: var(--bg); border-radius: 52px; padding: 18px 20px;
+    box-shadow: 0 20px 50px rgba(30, 90, 130, .25); position: relative; overflow: hidden;
+    border: 6px solid #fff;
+  }
+  .status { display: flex; justify-content: space-between; font-size: 14px; font-weight: 600; padding: 4px 14px 0; }
+  .nav { display: flex; align-items: center; justify-content: center; position: relative; margin: 26px 0 24px; }
+  .nav .back { position: absolute; left: 4px; width: 26px; height: 26px; }
+  .nav h1 { font-size: 21px; font-weight: 650; margin: 0; }
+  h2 { font-size: 22px; font-weight: 650; margin: 22px 4px 10px; letter-spacing: -.01em; }
+  .group { background: var(--card); border-radius: 18px; padding: 4px 16px; }
+  .row { display: flex; align-items: center; gap: 14px; padding: 12px 0; border-bottom: 1px solid var(--line); }
+  .row:last-child { border-bottom: 0; }
+  .row .ico { width: 24px; height: 24px; flex: none; color: var(--accent-dark); }
+  .row .body { flex: 1; min-width: 0; }
+  .row .title { font-size: 16px; font-weight: 600; }
+  .row .sub { font-size: 12.5px; color: var(--muted); margin-top: 2px; display: flex; align-items: center; gap: 6px; }
+  .row .trail { color: var(--muted); font-size: 14px; display: flex; align-items: center; gap: 8px; }
+  .chev { width: 16px; height: 16px; color: #b5b9c0; flex: none; }
+  .avatar {
+    width: 42px; height: 42px; border-radius: 50%; flex: none; display: flex; align-items: center; justify-content: center;
+    font-weight: 700; color: #fff; font-size: 17px;
+  }
+  .dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+  .ok { background: var(--ok); } .warn { background: var(--warn); } .bad { background: var(--bad); }
+
+  /* detail sheets */
+  .sheet { background: var(--card); border-radius: 22px; padding: 20px 22px 24px; margin-top: 6px; }
+  .hero { display: flex; flex-direction: column; align-items: center; gap: 8px; margin: 6px 0 8px; }
+  .hero .avatar { width: 84px; height: 84px; font-size: 34px; }
+  .hero .name { font-size: 22px; font-weight: 650; }
+  .hero .state { font-size: 13.5px; color: var(--muted); display: flex; align-items: center; gap: 7px; }
+  .field { display: flex; align-items: baseline; gap: 18px; padding: 11px 0; }
+  .field .label { width: 118px; color: var(--muted); font-size: 13.5px; flex: none; }
+  .field .value { flex: 1; border-bottom: 1px solid var(--line); padding-bottom: 7px; font-size: 14.5px; font-weight: 500; }
+  .subhead { font-size: 13px; font-weight: 700; color: var(--muted); letter-spacing: .06em; text-transform: uppercase; margin: 14px 0 2px; }
+  .bar { height: 7px; border-radius: 99px; background: var(--line); overflow: hidden; margin-top: 8px; }
+  .bar > div { height: 100%; border-radius: inherit; }
+  .btn {
+    display: block; margin: 16px auto 0; width: 160px; text-align: center; padding: 12px 0;
+    background: var(--accent-dark); color: #fff; font-weight: 650; border-radius: 14px; font-size: 15px;
+    box-shadow: 0 6px 14px rgba(27, 130, 184, .3);
+  }
+  .check { color: var(--accent-dark); width: 22px; height: 22px; }
+  .caption { text-align: center; margin-top: 10px; font-size: 13px; color: #4b6a7b; }
+  .col { display: flex; flex-direction: column; align-items: center; }
+</style>
+</head>
+<body>
+
+<!-- Icons -->
+<svg width="0" height="0" style="position:absolute">
+  <symbol id="chev" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="back" viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="door" viewBox="0 0 24 24"><path d="M6 3h12v18H6zM4 21h16M14 12v.1" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="bowl" viewBox="0 0 24 24"><path d="M3 12h18a9 7 0 0 1-9 7 9 7 0 0 1-9-7zM7 10a5 4 0 0 1 10 0" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></symbol>
+  <symbol id="drop" viewBox="0 0 24 24"><path d="M12 3s-6 6.5-6 11a6 6 0 0 0 12 0c0-4.500-6-11-6-11z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></symbol>
+  <symbol id="sync" viewBox="0 0 24 24"><path d="M20 11a8 8 0 0 0-14-4M4 5v4h4M4 13a8 8 0 0 0 14 4M20 19v-4h-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 7v5l3 2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+  <symbol id="out" viewBox="0 0 24 24"><path d="M10 4H5v16h5M15 8l4 4-4 4M19 12H9" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="tick" viewBox="0 0 24 24"><path d="M5 12l5 5 9-10" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+</svg>
+
+<!-- 1. Overview -->
+<div class="col">
+<div class="phone">
+  <div class="status"><span>9:41</span><span>● ▮▮▮</span></div>
+  <div class="nav"><svg class="back"><use href="#back"/></svg><h1>Sure Petcare</h1></div>
+
+  <h2 style="margin-top:0">Account</h2>
+  <div class="group">
+    <div class="row">
+      <div class="avatar" style="background:#7bb6d6">S</div>
+      <div class="body">
+        <div class="title">sverre@example.com</div>
+        <div class="sub"><span class="dot ok"></span>Connected · synced 2 min ago</div>
+      </div>
+      <svg class="chev"><use href="#chev"/></svg>
+    </div>
+  </div>
+
+  <h2>Pets</h2>
+  <div class="group">
+    <div class="row">
+      <div class="avatar" style="background:#e8934a">T</div>
+      <div class="body"><div class="title">Tom</div><div class="sub"><span class="dot ok"></span>Inside · since 18:30</div></div>
+      <svg class="chev"><use href="#chev"/></svg>
+    </div>
+    <div class="row">
+      <div class="avatar" style="background:#8a8fa8">L</div>
+      <div class="body"><div class="title">Luna</div><div class="sub"><span class="dot warn"></span>Outside · 3 h</div></div>
+      <svg class="chev"><use href="#chev"/></svg>
+    </div>
+  </div>
+
+  <h2>Devices</h2>
+  <div class="group">
+    <div class="row">
+      <svg class="ico"><use href="#door"/></svg>
+      <div class="body"><div class="title">Back door</div><div class="sub">Keep in · battery 72%</div></div>
+      <svg class="chev"><use href="#chev"/></svg>
+    </div>
+    <div class="row">
+      <svg class="ico"><use href="#bowl"/></svg>
+      <div class="body"><div class="title">Kitchen feeder</div><div class="sub"><span class="dot bad"></span>Battery 15%</div></div>
+      <svg class="chev"><use href="#chev"/></svg>
+    </div>
+    <div class="row">
+      <svg class="ico"><use href="#drop"/></svg>
+      <div class="body"><div class="title">Water fountain</div><div class="sub">Water 70% · battery 88%</div></div>
+      <svg class="chev"><use href="#chev"/></svg>
+    </div>
+  </div>
+
+  <h2>System</h2>
+  <div class="group">
+    <div class="row"><svg class="ico"><use href="#sync"/></svg><div class="body"><div class="title">Force sync</div></div><svg class="chev"><use href="#chev"/></svg></div>
+    <div class="row"><svg class="ico"><use href="#clock"/></svg><div class="body"><div class="title">Polling interval</div></div><div class="trail">3 min <svg class="chev"><use href="#chev"/></svg></div></div>
+    <div class="row"><svg class="ico"><use href="#out"/></svg><div class="body"><div class="title">Log out</div></div><svg class="chev"><use href="#chev"/></svg></div>
+  </div>
+</div>
+<div class="caption">1. Overview</div>
+</div>
+
+<!-- 2. Pet detail -->
+<div class="col">
+<div class="phone">
+  <div class="status"><span>9:41</span><span>● ▮▮▮</span></div>
+  <div class="nav"><svg class="back"><use href="#back"/></svg><h1>Tom</h1></div>
+  <div class="sheet">
+    <div class="hero">
+      <div class="avatar" style="background:#e8934a">T</div>
+      <div class="name">Tom</div>
+      <div class="state"><span class="dot ok"></span>Inside since 18:30 · last door: Back door</div>
+    </div>
+
+    <div class="subhead">Today</div>
+    <div class="field"><span class="label">Food</span><span class="value">42 g · 3 meals</span></div>
+    <div class="field"><span class="label">Water</span><span class="value">80 ml · 5 drinks</span></div>
+    <div class="field"><span class="label">Trips outside</span><span class="value">2</span></div>
+    <div class="field"><span class="label">Outside today</span><span class="value">2 h 15 min</span></div>
+
+    <div class="subhead">Profile</div>
+    <div class="field"><span class="label">Species</span><span class="value">Cat · Male</span></div>
+    <div class="field"><span class="label">Age</span><span class="value">6 yr 7 mo</span></div>
+    <div class="field"><span class="label">Weight</span><span class="value">4.3 kg</span></div>
+    <div class="field"><span class="label">Microchip</span><span class="value">985112345678</span></div>
+  </div>
+</div>
+<div class="caption">2. Pet detail (read only)</div>
+</div>
+
+<!-- 3. Door detail -->
+<div class="col">
+<div class="phone">
+  <div class="status"><span>9:41</span><span>● ▮▮▮</span></div>
+  <div class="nav"><svg class="back"><use href="#back"/></svg><h1>Back door</h1></div>
+
+  <div class="group" style="padding:14px 16px">
+    <div style="display:flex;justify-content:space-between;font-size:14px"><span style="color:var(--muted)">Battery</span><b>72%</b></div>
+    <div class="bar"><div style="width:72%;background:var(--ok)"></div></div>
+  </div>
+
+  <h2>Lock mode</h2>
+  <div class="group">
+    <div class="row"><div class="body"><div class="title">Normal</div><div class="sub">Pets can go in and out</div></div></div>
+    <div class="row"><div class="body"><div class="title">Keep in</div><div class="sub">Pets can come in, not go out</div></div><svg class="check"><use href="#tick"/></svg></div>
+    <div class="row"><div class="body"><div class="title">Keep out</div><div class="sub">Pets can go out, not come in</div></div></div>
+    <div class="row"><div class="body"><div class="title">Locked</div><div class="sub">Nobody gets through</div></div></div>
+    <div class="row"><div class="body"><div class="title">Curfew</div><div class="sub">Follows the schedule in the Sure Petcare app</div></div></div>
+  </div>
+</div>
+<div class="caption">3. Door detail with lock modes</div>
+</div>
+
+</body>
+</html>
+

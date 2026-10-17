@@ -1,0 +1,4 @@
+{
+  "title": { "en": "!{{Is|Isn't}} inside", "nl": "!{{Is|Is niet}} binnen", "no": "!{{Er|Er ikke}} inne" },
+  "args": [ { "type": "device", "name": "pet", "filter": "driver_id=pet", "placeholder": { "en": "Pet", "nl": "Huisdier", "no": "Kjæledyr" } } ]
+}
