@@ -163,5 +163,26 @@
     "keep_out": "Kun ut",
     "locked": "Låst",
     "curfew": "Utegang"
+  },
+  "timeline": {
+    "came_inside": "**{{pet}}** kom inn.",
+    "came_inside_after": "**{{pet}}** kom inn etter **{{duration}}** ute.",
+    "came_inside_stats": "**{{pet}}** kom inn etter **{{duration}}** ute. Turer ut i dag: **{{trips}}**, totalt **{{total}}**.",
+    "went_outside": "**{{pet}}** gikk ut.",
+    "door_used": "**{{pet}}** brukte **{{door}}**.",
+    "door_used_unknown": "Et kjæledyr brukte **{{door}}**.",
+    "lock_mode": "**{{door}}** står nå i modus **{{mode}}**."
+  },
+  "timeline_settings": {
+    "title": "Tidslinje",
+    "intro": "Velg hvilken aktivitet appen legger til i Homey-tidslinjen.",
+    "pets": "Kjæledyr som kommer og går",
+    "pets_hint": "Når et kjæledyr kommer inn eller går ut, med hvor lenge det var ute og hvor mange ganger i dag.",
+    "door_use": "Kjæledyrdør brukt",
+    "door_use_hint": "Hvilket kjæledyr som brukte hvilken dør.",
+    "lock_mode": "Endringer i låsemodus",
+    "lock_mode_hint": "Når en kjæledyrdør bytter til en annen modus.",
+    "off": "Av",
+    "summary": "{{count}} på"
   }
 }

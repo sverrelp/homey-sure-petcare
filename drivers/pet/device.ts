@@ -12,11 +12,25 @@ const EXTRA_CAPABILITIES = [
   'measure_outside_minutes_today',
 ];
 
+/** The stay outside as one poll saw it. */
+interface OutsideStay {
+  since: string | null;
+  trips: number | null;
+  minutes: number | null;
+  /** When the poll that produced these numbers fetched its data. */
+  dataAt: number;
+}
+
 class PetDevice extends SureDevice {
   /** Last editable profile values received from Sure Petcare. */
   private profileSignature: string | null = null;
   /** Last position applied to this device. Undefined until the first snapshot. */
   private lastPresence: string | null | undefined;
+  /**
+   * The current stay outside as the last poll saw it: when it began, and the trips and minutes outside today
+   * (the minutes include this stay). Used for the timeline line when the pet comes back. Null while inside.
+   */
+  private stayOutside: OutsideStay | null = null;
   /** Moment of our last successful profile write, until the result has been confirmed by fresh data. */
   private writtenAt: number | null = null;
 
@@ -42,8 +56,16 @@ class PetDevice extends SureDevice {
       ? this.getCapabilityValue('pet_presence') as string | null
       : this.lastPresence;
     this.lastPresence = pet.position;
+    // The stay outside as seen by the last poll, taken now for the same reason.
+    const stayOutside = this.stayOutside;
+    this.stayOutside = pet.position === 'outside' ? {
+      since: pet.since,
+      trips: pet.today?.tripCount ?? null,
+      minutes: pet.today?.outsideMinutes ?? null,
+      dataAt: snapshot.fetchedAt,
+    } : null;
     await this.setCap('pet_presence', pet.position);
-    await this.checkPresenceChange(pet, previousPresence);
+    await this.checkPresenceChange(pet, previousPresence, stayOutside);
     await this.setCap('last_seen', this.formatTimestamp(pet.lastSeen));
     await this.setCap('last_door', pet.lastDoor?.deviceName ?? null);
 
@@ -189,19 +211,67 @@ class PetDevice extends SureDevice {
    * a pet passing the door, a change in the Sure Petcare app and "Mark as inside/outside".
    * The first value of a new device is not a change.
    */
-  private async checkPresenceChange(pet: SurePet, previous: string | null): Promise<void> {
+  private async checkPresenceChange(
+    pet: SurePet,
+    previous: string | null,
+    stay: OutsideStay | null,
+  ): Promise<void> {
     if (previous === null || previous === undefined || previous === pet.position) {
       return;
     }
 
     if (pet.position === 'inside') {
       this.log(`${pet.name} came inside`);
+      const entry = this.cameInsideText(pet, stay);
+      this.sureApp.logTimeline('pets', entry.key, entry.tokens);
       // Not awaited: Homey can take several seconds to answer, and the other values must not wait for it.
       this.fireTrigger('pet_came_inside', pet, {}).catch(() => undefined);
     } else if (pet.position === 'outside') {
       this.log(`${pet.name} went outside`);
+      this.sureApp.logTimeline('pets', 'went_outside', { pet: pet.name });
       this.fireTrigger('pet_went_outside', pet, {}).catch(() => undefined);
     }
+  }
+
+  /**
+   * The timeline line for a pet that came inside. It tells how long the stay outside lasted and, when the data is
+   * known, how many trips outside there were today and the total time outside today.
+   * The numbers come from the last poll while the pet was outside, because the day report may not have
+   * caught up yet at the moment the pet comes back.
+   */
+  private cameInsideText(
+    pet: SurePet,
+    stay: OutsideStay | null,
+  ): { key: string; tokens: Record<string, string | number> } {
+    const now = Date.now();
+    const startedAt = stay?.since ? new Date(stay.since).getTime() : NaN;
+    if (!stay || !Number.isFinite(startedAt) || startedAt > now) {
+      return { key: 'came_inside', tokens: { pet: pet.name } };
+    }
+
+    const duration = this.formatDuration(Math.max(1, Math.round((now - startedAt) / 60_000)));
+    if (stay.trips === null || stay.minutes === null) {
+      return { key: 'came_inside_after', tokens: { pet: pet.name, duration } };
+    }
+
+    const sincePoll = Math.max(0, Math.round((now - stay.dataAt) / 60_000));
+    return {
+      key: 'came_inside_stats',
+      tokens: {
+        pet: pet.name,
+        duration,
+        trips: stay.trips,
+        total: this.formatDuration(stay.minutes + sincePoll),
+      },
+    };
+  }
+
+  /** "25 min" or "2 h 10 min", in the language of the Homey. */
+  private formatDuration(totalMinutes: number): string {
+    const minutes = Math.max(0, Math.round(totalMinutes));
+    return minutes >= 60
+      ? this.homey.__('pets.hours_minutes', { hours: Math.floor(minutes / 60), minutes: minutes % 60 })
+      : this.homey.__('pets.minutes', { minutes });
   }
 
   /** Fire "has been outside too long" once per stay outside. */

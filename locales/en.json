@@ -163,5 +163,26 @@
     "keep_out": "Out only",
     "locked": "Locked",
     "curfew": "Curfew"
+  },
+  "timeline": {
+    "came_inside": "**{{pet}}** came inside.",
+    "came_inside_after": "**{{pet}}** came inside after **{{duration}}**.",
+    "came_inside_stats": "**{{pet}}** came inside after **{{duration}}**. Trips outside today: **{{trips}}**, **{{total}}** in total.",
+    "went_outside": "**{{pet}}** went outside.",
+    "door_used": "**{{pet}}** used **{{door}}**.",
+    "door_used_unknown": "A pet used **{{door}}**.",
+    "lock_mode": "**{{door}}** is now in mode **{{mode}}**."
+  },
+  "timeline_settings": {
+    "title": "Timeline",
+    "intro": "Choose which activity the app adds to the Homey timeline.",
+    "pets": "Pets coming and going",
+    "pets_hint": "When a pet comes inside or goes outside, with how long it was outside and how often today.",
+    "door_use": "Pet door used",
+    "door_use_hint": "Which pet used which door.",
+    "lock_mode": "Lock mode changes",
+    "lock_mode_hint": "When a pet door changes to another mode.",
+    "off": "Off",
+    "summary": "{{count}} on"
   }
 }

@@ -211,7 +211,16 @@ export type ConnectionState =
   | 'network_error';
 
 /** Status information exposed to the settings page. Never contains secrets. */
+/** Kinds of activity the app can write to the Homey timeline. Each one has its own switch. */
+export type TimelineKind = 'pets' | 'doorUse' | 'lockMode';
+
+export type TimelineSettings = Record<TimelineKind, boolean>;
+
+/** Pet movements are on by default. Door use is noisy, so it is off until the user wants it. */
+export const DEFAULT_TIMELINE_SETTINGS: TimelineSettings = { pets: true, doorUse: false, lockMode: false };
+
 export interface AppStatus {
+  timeline: TimelineSettings;
   state: ConnectionState;
   email: string | null;
   lastUpdate: number | null;

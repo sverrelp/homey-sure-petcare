@@ -69,6 +69,7 @@
       .chev { width: 16px; height: 16px; color: var(--sp-chevron); flex: none; }
       .tick { width: 22px; height: 22px; color: var(--sp-accent); flex: none; }
       .empty { padding: 14px 0; color: var(--sp-muted); }
+      .intro { color: var(--sp-muted); font-size: .92em; margin: 2px 4px 14px; }
 
       .avatar {
         width: 42px; height: 42px; border-radius: 50%; flex: none; overflow: hidden;
@@ -158,8 +159,13 @@
           sync: '<path d="M20 11a8 8 0 0 0-14-4M4 5v4h4M4 13a8 8 0 0 0 14 4M20 19v-4h-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>',
           clock: '<circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 7v5l3 2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>',
           logout: '<path d="M10 4H5v16h5M15 8l4 4-4 4M19 12H9" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>',
+          timeline: '<path d="M8 6h12M8 12h12M8 18h8M4 6h.01M4 12h.01M4 18h.01" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>',
           user: '<circle cx="12" cy="8" r="4" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M4 21c1-4.5 4-6 8-6s7 1.5 8 6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>'
         };
+
+        // The timeline switches: key in the app settings, and the text name in the locale files.
+        var TIMELINE_KINDS = ['pets', 'doorUse', 'lockMode'];
+        var TIMELINE_TEXT = { pets: 'pets', doorUse: 'door_use', lockMode: 'lock_mode' };
 
         var viewEl = document.getElementById('view');
         var titleEl = document.getElementById('title');
@@ -451,6 +457,14 @@
             onClick: loggedOut ? null : forceSync
           });
           if (loggedOut || busy.sync) { syncRow.className += ' disabled'; }
+          var timelineOn = TIMELINE_KINDS.filter(function (kind) { return status.timeline && status.timeline[kind]; }).length;
+          var timelineRow = makeRow({
+            leading: icon('timeline', 'ico'),
+            title: t('timeline_settings.title'),
+            trailing: timelineOn ? t('timeline_settings.summary', { count: timelineOn }) : t('timeline_settings.off'),
+            chevron: true,
+            onClick: function () { go({ name: 'timeline' }); }
+          });
           var intervalRow = makeRow({
             leading: icon('clock', 'ico'),
             title: t('account.interval'),
@@ -465,7 +479,7 @@
             onClick: loggedOut ? null : logout
           });
           if (loggedOut) { logoutRow.className += ' disabled'; }
-          viewEl.appendChild(group([syncRow, intervalRow, logoutRow]));
+          viewEl.appendChild(group([syncRow, timelineRow, intervalRow, logoutRow]));
           if (status.lastError && status.state !== 'connected') {
             viewEl.appendChild(el('div', 'error-text', status.lastError));
           }
@@ -546,6 +560,20 @@
             water.appendChild(field(t('devices.water_volume'), device.waterMl !== null ? device.waterMl + ' ml' : '-'));
             viewEl.appendChild(water);
           }
+        }
+
+        function buildTimeline(household) {
+          titleEl.textContent = t('timeline_settings.title');
+          var current = household.status.timeline || {};
+          viewEl.appendChild(el('div', 'intro', t('timeline_settings.intro')));
+          viewEl.appendChild(group(TIMELINE_KINDS.map(function (kind) {
+            return makeRow({
+              title: t('timeline_settings.' + TIMELINE_TEXT[kind]),
+              sub: t('timeline_settings.' + TIMELINE_TEXT[kind] + '_hint'),
+              tick: current[kind] === true,
+              onClick: function () { saveTimeline(kind, current[kind] !== true); }
+            });
+          })));
         }
 
         function buildInterval(household) {
@@ -665,6 +693,7 @@
           else if (view.name === 'pet') { buildPet(target); }
           else if (view.name === 'device') { buildDevice(view.kind, target); }
           else if (view.name === 'interval') { buildInterval(lastLoaded); }
+          else if (view.name === 'timeline') { buildTimeline(lastLoaded); }
           else if (view.name === 'account') { buildAccount(lastLoaded); }
 
           builtKey = key;
@@ -702,6 +731,13 @@
         function logout() {
           api('POST', '/logout')
             .then(function () { showMessage(''); return load(); })
+            .catch(function (err) { showMessage(errorText(err), 'error'); });
+        }
+        function saveTimeline(kind, enabled) {
+          var change = {};
+          change[kind] = enabled;
+          api('POST', '/settings', { timeline: change })
+            .then(function () { showMessage(t('msg.saved'), 'ok'); return load(); })
             .catch(function (err) { showMessage(errorText(err), 'error'); });
         }
         function saveInterval(seconds) {

@@ -12,6 +12,7 @@ A [Homey](https://homey.app) app for **Sure Petcare** (Sure Petcare / SureFlap) 
 - [Devices and capabilities](#devices-and-capabilities)
 - [Lock modes](#lock-modes)
 - [Pet settings](#pet-settings)
+- [Timeline](#timeline)
 - [Flow cards](#flow-cards)
 - [Install from source](#install-from-source)
 - [Development](#development)
@@ -25,7 +26,8 @@ A [Homey](https://homey.app) app for **Sure Petcare** (Sure Petcare / SureFlap) 
 - **Water fountains** (Felaqua): water level and volume, battery level.
 - **Household widget** for the Homey dashboard: pet cards with photos and status, a one-tap lock-mode bar per pet door, and feeder and fountain overview. Pets can be marked inside or outside from the widget.
 - **Flows**: 20 triggers, 2 conditions and 4 actions (see [Flow cards](#flow-cards)).
-- **Settings page** with the account, a pet and device overview, a force-sync button and the polling interval.
+- **Homey timeline**: the app can add pets coming and going, pet door use and lock mode changes to the timeline by itself, without a Flow (see [Timeline](#timeline)).
+- **Settings page** with the account, a pet and device overview, a force-sync button, the timeline switches and the polling interval.
 - Languages: English, Dutch, Norwegian.
 
 ## Requirements
@@ -128,6 +130,21 @@ Open the pet device and its *Advanced settings*.
 | Maximum hours outside | *Has been outside too long* |
 | Daily food goal (g) | *Reached daily food goal* |
 | Daily water goal (ml) | *Reached daily water goal* |
+
+## Timeline
+
+The app can write activity to the Homey timeline by itself. Open the app settings, then **Timeline**, and switch on what you want. You don't need a Flow with "Write to timeline" for these.
+
+| Switch | Default | Entry |
+| --- | --- | --- |
+| Pets coming and going | On | **Linus** went outside. / **Linus** came inside after **25 min**. Trips outside today: **3**, **2 h 7 min** in total. |
+| Pet door used | Off | **Linus** used **Back door**. |
+| Lock mode changes | Off | **Back door** is now in mode **Locked**. |
+
+- The "came inside" entry shows how long the stay outside lasted, how many trips outside there were today and the total time outside today. The numbers come from the last poll while the pet was still outside, because Sure Petcare's day report can lag behind when a pet comes back. If the data is not known (for example right after an app restart), the entry is shorter.
+- Pet entries follow the presence you see in Homey, so they are also written when you mark a pet inside or outside yourself, or change it in the Sure Petcare app.
+- If you also use a Flow with "Write to timeline" for the same event, you will get it twice.
+- Entries are written in the language of your Homey (English, Dutch or Norwegian).
 
 ## Flow cards
 

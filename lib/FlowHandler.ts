@@ -2,7 +2,7 @@ import type Homey from 'homey';
 
 import { HouseholdEvent } from './events';
 import {
-  LockMode, lockModeFromId, lockModeToId, PetAccess,
+  LockMode, lockModeFromId, lockModeToId, PetAccess, TimelineKind,
 } from './types';
 
 type HomeyInstance = Homey.App['homey'];
@@ -21,6 +21,7 @@ interface FlowDependencies {
   setLockModeFor: (deviceId: number, mode: LockMode, minutes: number) => Promise<void>;
   setPetPosition: (petId: number, position: 'inside' | 'outside') => Promise<void>;
   setPetAccess: (petId: number, deviceId: number, access: PetAccess) => Promise<void>;
+  timeline: (kind: TimelineKind, key: string, tokens?: Record<string, string | number>) => void;
   log: (...args: unknown[]) => void;
   error: (...args: unknown[]) => void;
 }
@@ -39,6 +40,7 @@ export class FlowHandler {
   private readonly setLockModeFor: FlowDependencies['setLockModeFor'];
   private readonly setPetPosition: FlowDependencies['setPetPosition'];
   private readonly setPetAccess: FlowDependencies['setPetAccess'];
+  private readonly timeline: FlowDependencies['timeline'];
   private readonly logFn: (...args: unknown[]) => void;
   private readonly errorFn: (...args: unknown[]) => void;
 
@@ -48,6 +50,7 @@ export class FlowHandler {
     this.setLockModeFor = deps.setLockModeFor;
     this.setPetPosition = deps.setPetPosition;
     this.setPetAccess = deps.setPetAccess;
+    this.timeline = deps.timeline;
     this.logFn = deps.log;
     this.errorFn = deps.error;
   }
@@ -241,6 +244,10 @@ export class FlowHandler {
         break;
       case 'door_used':
         this.logFn(`${event.petName || 'A pet'} used ${event.deviceName}`);
+        this.timeline('doorUse', event.petName ? 'door_used' : 'door_used_unknown', {
+          pet: event.petName,
+          door: event.deviceName,
+        });
         await this.triggerDevices('door_used', 'flap', event.deviceId, {
           name: event.petName,
           door: event.deviceName,
@@ -249,6 +256,10 @@ export class FlowHandler {
         break;
       case 'door_mode_changed':
         this.logFn(`${event.deviceName} is now in mode ${event.mode}`);
+        this.timeline('lockMode', 'lock_mode', {
+          door: event.deviceName,
+          mode: this.homey.__(`mode.${event.mode}`),
+        });
         await this.triggerDevices(
           'door_mode_changed',
           'flap',

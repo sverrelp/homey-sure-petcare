@@ -11,7 +11,7 @@ import {
 } from './lib/errors';
 import {
   AppStatus, ConnectionListener, ConnectionState, Credentials, LOCK_MODE_IDS, LockMode, LockModeId, lockModeFromId,
-  PetAccess, PetUpdate, SnapshotListener, SureSnapshot,
+  DEFAULT_TIMELINE_SETTINGS, PetAccess, PetUpdate, SnapshotListener, SureSnapshot, TimelineKind, TimelineSettings,
 } from './lib/types';
 
 // Settings keys
@@ -21,6 +21,7 @@ const SETTING_TOKEN = 'token';
 const SETTING_DEVICE_ID = 'deviceId';
 const SETTING_POLL_INTERVAL = 'pollInterval';
 const SETTING_TEMP_LOCKS = 'tempLocks';
+const SETTING_TIMELINE = 'timeline';
 
 /** A lock mode that is active for a limited time and then goes back to the previous mode. */
 interface TempLock {
@@ -92,6 +93,7 @@ class SurePetApp extends Homey.App {
       setLockModeFor: (deviceId, mode, minutes) => this.setLockModeFor(deviceId, mode, minutes),
       setPetPosition: (petId, position) => this.setPetPosition(petId, position),
       setPetAccess: (petId, deviceId, access) => this.setPetAccess(petId, deviceId, access),
+      timeline: (kind, key, tokens) => this.logTimeline(kind, key, tokens),
       log: (...args) => this.log(...args),
       error: (...args) => this.error(...args),
     });
@@ -405,10 +407,53 @@ class SurePetApp extends Homey.App {
     this.setState('no_credentials');
   }
 
+  /** Which kinds of activity are written to the Homey timeline. Unset switches use their default. */
+  public getTimelineSettings(): TimelineSettings {
+    const stored = this.homey.settings.get(SETTING_TIMELINE) as Partial<TimelineSettings> | null;
+    const result = { ...DEFAULT_TIMELINE_SETTINGS };
+    for (const kind of Object.keys(result) as TimelineKind[]) {
+      if (stored && typeof stored === 'object' && typeof stored[kind] === 'boolean') {
+        result[kind] = stored[kind] as boolean;
+      }
+    }
+    return result;
+  }
+
+  /** Change one or more timeline switches. Other keys and non-boolean values are ignored. */
+  public setTimelineSettings(changes: Partial<Record<TimelineKind, unknown>>): void {
+    const next = this.getTimelineSettings();
+    for (const kind of Object.keys(next) as TimelineKind[]) {
+      if (typeof changes[kind] === 'boolean') {
+        next[kind] = changes[kind] as boolean;
+      }
+    }
+    this.homey.settings.set(SETTING_TIMELINE, next);
+  }
+
+  /**
+   * Add a line to the Homey timeline when the switch for this kind of activity is on.
+   * `key` is a text in the `timeline` section of the locale files. Never waits and never throws,
+   * so a slow or failing timeline cannot hold back devices or flows.
+   */
+  public logTimeline(kind: TimelineKind, key: string, tokens: Record<string, string | number> = {}): void {
+    if (!this.getTimelineSettings()[kind]) {
+      return;
+    }
+
+    try {
+      const excerpt = this.homey.__(`timeline.${key}`, tokens);
+      this.homey.notifications.createNotification({ excerpt })
+        .catch((err: unknown) => this.error('Failed to write to the timeline:', (err as Error)?.message ?? err));
+    } catch (err) {
+      this.error('Failed to write to the timeline:', (err as Error)?.message ?? err);
+    }
+  }
+
   /** Status information for the settings page. Never contains the password or token. */
   public getStatus(): AppStatus {
     const email = this.homey.settings.get(SETTING_EMAIL);
     return {
+      timeline: this.getTimelineSettings(),
       state: this.state,
       email: typeof email === 'string' ? email : null,
       lastUpdate: this.snapshot?.fetchedAt ?? null,

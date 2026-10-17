@@ -163,5 +163,26 @@
     "keep_out": "Alleen uit",
     "locked": "Dicht",
     "curfew": "Avondklok"
+  },
+  "timeline": {
+    "came_inside": "**{{pet}}** is binnengekomen.",
+    "came_inside_after": "**{{pet}}** is binnengekomen na **{{duration}}** buiten.",
+    "came_inside_stats": "**{{pet}}** is binnengekomen na **{{duration}}** buiten. Keren buiten vandaag: **{{trips}}**, in totaal **{{total}}**.",
+    "went_outside": "**{{pet}}** is naar buiten gegaan.",
+    "door_used": "**{{pet}}** gebruikte **{{door}}**.",
+    "door_used_unknown": "Een huisdier gebruikte **{{door}}**.",
+    "lock_mode": "**{{door}}** staat nu op **{{mode}}**."
+  },
+  "timeline_settings": {
+    "title": "Tijdlijn",
+    "intro": "Kies welke activiteit de app aan de Homey-tijdlijn toevoegt.",
+    "pets": "Huisdieren die komen en gaan",
+    "pets_hint": "Als een huisdier binnenkomt of naar buiten gaat, met hoe lang het buiten was en hoe vaak vandaag.",
+    "door_use": "Huisdierdeur gebruikt",
+    "door_use_hint": "Welk huisdier welke deur gebruikte.",
+    "lock_mode": "Wijzigingen van de vergrendelmodus",
+    "lock_mode_hint": "Als een huisdierdeur naar een andere modus gaat.",
+    "off": "Uit",
+    "summary": "{{count}} aan"
   }
 }

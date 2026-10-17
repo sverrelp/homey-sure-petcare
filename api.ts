@@ -24,6 +24,8 @@ interface LockModeBody {
 
 interface SettingsBody {
   pollInterval?: unknown;
+  /** Timeline switches by kind, for example `{ pets: true }`. Only the given switches change. */
+  timeline?: unknown;
 }
 
 function getApp(homey: HomeyInstance): SurePetApp {
@@ -103,13 +105,20 @@ export = {
   },
 
   async saveSettings({ homey, body }: ApiContext<SettingsBody>) {
+    const hasInterval = body?.pollInterval !== undefined;
+    const hasTimeline = typeof body?.timeline === 'object' && body.timeline !== null;
     const seconds = Number(body?.pollInterval);
-    if (!Number.isFinite(seconds) || seconds <= 0) {
+    if ((!hasInterval && !hasTimeline) || (hasInterval && (!Number.isFinite(seconds) || seconds <= 0))) {
       throw new Error('INVALID_REQUEST');
     }
 
     const app = getApp(homey);
-    app.setPollInterval(seconds);
+    if (hasInterval) {
+      app.setPollInterval(seconds);
+    }
+    if (hasTimeline) {
+      app.setTimelineSettings(body.timeline as Record<string, unknown>);
+    }
     return app.getStatus();
   },
 };
