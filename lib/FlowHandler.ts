@@ -254,20 +254,20 @@ export class FlowHandler {
           time: event.at,
         });
         break;
-      case 'door_mode_changed':
+      case 'door_mode_changed': {
         this.logFn(`${event.deviceName} is now in mode ${event.mode}`);
-        this.timeline('lockMode', 'lock_mode', {
-          door: event.deviceName,
-          mode: this.homey.__(`mode.${event.mode}`),
-        });
+        // The tokens and the timeline show the readable name; the state keeps the id for the dropdown match.
+        const modeName = this.homey.__(`mode.${event.mode}`);
+        this.timeline('lockMode', 'lock_mode', { door: event.deviceName, mode: modeName });
         await this.triggerDevices(
           'door_mode_changed',
           'flap',
           event.deviceId,
-          { door: event.deviceName, mode: event.mode },
+          { door: event.deviceName, mode: modeName },
           { mode: event.mode },
         );
         break;
+      }
       case 'door_offline':
         this.logFn(`${event.deviceName} went offline`);
         await this.triggerDevices('door_went_offline', 'flap', event.deviceId, { door: event.deviceName });

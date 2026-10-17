@@ -18,6 +18,6 @@
   ],
   "tokens": [
     { "name": "door", "type": "string", "title": { "en": "Door", "nl": "Deur", "no": "Dør" }, "example": { "en": "Back door" } },
-    { "name": "mode", "type": "string", "title": { "en": "New mode", "nl": "Nieuwe modus", "no": "Ny modus" }, "example": { "en": "locked" } }
+    { "name": "mode", "type": "string", "title": { "en": "New mode", "nl": "Nieuwe modus", "no": "Ny modus" }, "example": { "en": "Keep in", "nl": "Binnen houden", "no": "Hold inne" } }
   ]
 }

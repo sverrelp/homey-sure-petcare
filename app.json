@@ -330,7 +330,9 @@
               "no": "Ny modus"
             },
             "example": {
-              "en": "locked"
+              "en": "Keep in",
+              "nl": "Binnen houden",
+              "no": "Hold inne"
             }
           }
         ],
