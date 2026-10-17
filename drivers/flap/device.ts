@@ -1,4 +1,5 @@
 import SureDevice from '../../lib/SureDevice';
+import { translate } from '../../lib/i18n';
 import {
   LockMode, SureSnapshot, lockModeFromId, lockModeToId,
 } from '../../lib/types';
@@ -32,7 +33,7 @@ class FlapDevice extends SureDevice {
     try {
       await this.sureApp.setLockMode(this.sureId, mode);
     } catch (err) {
-      throw new Error(this.homey.__('device.command_failed', { reason: (err as Error)?.message ?? '' }));
+      throw new Error(translate(this.homey, 'device.command_failed', { reason: (err as Error)?.message ?? '' }));
     }
   }
 

@@ -5,6 +5,7 @@ import { EventEmitter } from 'events';
 import { SureHubClient } from './lib/SureHubClient';
 import { FlowHandler } from './lib/FlowHandler';
 import { diffSnapshots } from './lib/events';
+import { translate } from './lib/i18n';
 import { buildWidgetOverview, WidgetOverview } from './lib/widgetData';
 import {
   ApiError, AuthError, NetworkError, RateLimitError,
@@ -441,7 +442,7 @@ class SurePetApp extends Homey.App {
     }
 
     try {
-      const excerpt = this.homey.__(`timeline.${key}`, tokens);
+      const excerpt = translate(this.homey, `timeline.${key}`, tokens);
       this.homey.notifications.createNotification({ excerpt })
         .catch((err: unknown) => this.error('Failed to write to the timeline:', (err as Error)?.message ?? err));
     } catch (err) {

@@ -1,4 +1,5 @@
 import SureDevice from '../../lib/SureDevice';
+import { translate } from '../../lib/i18n';
 import {
   PetProfile, PetUpdate, SurePet, SureSnapshot,
 } from '../../lib/types';
@@ -188,7 +189,7 @@ class PetDevice extends SureDevice {
     try {
       await this.sureApp.updatePet(this.sureId, changes);
     } catch (err) {
-      throw new Error(this.homey.__('pets.save_failed', { reason: (err as Error)?.message ?? String(err) }));
+      throw new Error(translate(this.homey, 'pets.save_failed', { reason: (err as Error)?.message ?? String(err) }));
     }
     this.writtenAt = Date.now();
   }
@@ -270,8 +271,8 @@ class PetDevice extends SureDevice {
   private formatDuration(totalMinutes: number): string {
     const minutes = Math.max(0, Math.round(totalMinutes));
     return minutes >= 60
-      ? this.homey.__('pets.hours_minutes', { hours: Math.floor(minutes / 60), minutes: minutes % 60 })
-      : this.homey.__('pets.minutes', { minutes });
+      ? translate(this.homey, 'pets.hours_minutes', { hours: Math.floor(minutes / 60), minutes: minutes % 60 })
+      : translate(this.homey, 'pets.minutes', { minutes });
   }
 
   /** Fire "has been outside too long" once per stay outside. */
@@ -346,8 +347,8 @@ class PetDevice extends SureDevice {
       return null;
     }
     return months >= 12
-      ? this.homey.__('pets.age_years', { years: Math.floor(months / 12), months: months % 12 })
-      : this.homey.__('pets.age_months', { months });
+      ? translate(this.homey, 'pets.age_years', { years: Math.floor(months / 12), months: months % 12 })
+      : translate(this.homey, 'pets.age_months', { months });
   }
 }
 
